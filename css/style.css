@@ -113,7 +113,8 @@ p{
 .header-project{
 	text-align:center;
 	background:url(../img/dataBackground_3.png);
-	padding:130px 0;
+	padding-top: 160px;
+	padding-bottom: 100px;
 }
 
 .logo{
