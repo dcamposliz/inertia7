@@ -110,13 +110,6 @@ p{
 	padding:320px 0;
 }
 
-.header-project{
-	text-align:center;
-	background:url(../img/dataBackground_3.png);
-	padding-top: 160px;
-	padding-bottom: 100px;
-}
-
 .logo{
 	width:130px;
 	margin:0 auto 35px;
@@ -757,7 +750,7 @@ border: 2px solid #fff;
 ---------------------------------*/
 
 .footer{
-	background:url(../img/pw_maze_black_2X.png) left top repeat;
+	background-color:#171717;
 	padding:35px 0 35px;
 }
 .footer-logo{
@@ -860,4 +853,25 @@ border: 2px solid #fff;
 
 .large-paragraph {
 	font-size: 14px;
+}
+
+
+/*
+	PROJECT ATTRIBUTES
+*/
+
+#timeSeries_stockMarket{
+	text-align:center;
+	background:url(../img/wallStreet_2.png);
+	padding-top: 320px;
+	padding-bottom: 320px;
+	color:white;
+}
+
+#timeSeries_stockMarket h1{
+	font-size:72px;
+}
+
+#timeSeries_stockMarket p{
+	font-size:30px;
 }

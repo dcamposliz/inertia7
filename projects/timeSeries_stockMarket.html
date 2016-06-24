@@ -50,10 +50,12 @@
 </nav><!--main-nav-end-->
 
 
-<section class="header-project large-paragraph">
+<section id="timeSeries_stockMarket" class="header-project large-paragraph">
     <div class="container">
         <h1><strong>PROJECT</strong>: PREDICTING THE STOCK MARKET</h1>
+        <br/>
         <hr/>
+        <br/>
         <p><strong>TIME-SERIES ANALYSIS OF THE S&amp;P 500 STOCK INDEX WITH R</strong></p>
     </div>
 </section>
@@ -62,23 +64,12 @@
 <!-- PROJECT SUMMARY -->
     <section class="main-section xlarge-paragraph">
         <div class="container">
-            <h3>
-                Contributors: <strong>David A. Campos, Raul Eulogio, Kim Specht, Nathan Fritter</strong>.
-            </h3>
-            <br/>
-            <h3>
-                Languages: <strong>R, JavaScript</strong>.
-            </h3>
-            <br/>
-            <h3>
-                Published on: <strong>June 2016</strong>.
-            </h3>
-        </div>
-    </section>
-    <section class="main-section xlarge-paragraph">
-        <div class="container">
             <h2>Project Summary</h2>
             <hr/>
+            <h3>
+                Abstract
+            </h3>
+            <br/>
             <p>
                 This project focuses on finding the best statistical-learning model to predict future values for the <strong>S&amp;P 500 Stock Index</strong>.
             </p>
@@ -101,11 +92,27 @@
         </div>
         <br/>
         <br/>
+        <div class="container xlarge-paragraph">
+            <h3>
+                Requirements:
+            </h3>
+            <br/>
+            <ul>
+                <li>
+                    Basic working knowledge of the R programming language, statistics, and economics.
+                </li>
+                <li>
+                    R software environment.
+                </li>
+            </ul>
+        </div>
+        <br/>
         <br/>
         <div class="container xlarge-paragraph">
             <h3>
                 Steps:
             </h3>
+            <br/>
             <ul>
                 <li>
                     <a href="#step1">1. Load packages</a>
@@ -125,18 +132,31 @@
             </ul>
         </div>
         <br/>
+        <br/>
         <div class="container xlarge-paragraph">
             <h3>
-                Requirements:
+                Contributors:
             </h3>
+            <br/>
             <ul>
                 <li>
-                    Basic working knowledge of the R programming language, statistics (including time-series analysis), and economics (finance).
+                    David A. Campos
                 </li>
                 <li>
-                    R software environment.
+                    Raul Eulogio
+                </li>
+                <li>
+                    Kim Specht
+                </li>
+                <li>
+                    Nathan Fritter
                 </li>
             </ul>
+            <br/>
+            <br/>
+            <h3>
+                Published on: <strong>June 2016</strong>.
+            </h3>
         </div>
     </section>
 <!-- 1. LOAD PACKAGES-->
@@ -339,12 +359,78 @@
 <!-- BEGINNING OF SUBSECTION -->
         <!-- HEADING -->
             <h3>
+                DIAGNOSING SEASONALITY
+            </h3>
+            <br/>
+        <!-- PARAGRAPH -->            
+            <p>
+                This plot gives a more concise overview of the seasonality component of our time series. We can see the seasonal components in our case the years and we can look for patterns of seasonality and departures of seasonality.
+            </p>
+        <!-- CODE -->
+            <br/>
+            <code>
+                seasonplot(sp_500,ylab="S&amp;P Closing Values", xlab="Year", main="Seasonal plot: S&amp;P Monthly Closing Values",<br/>year.labels=TRUE, year.labels.left=TRUE, col=1:20, pch=19)
+            </code>
+            <br/>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/seasonalPlot.png" alt=""> 
+            </div>
+            <br/>
+        <!-- IMG INTERPRETATION -->
+            <p>
+                We can see where the seasonality changes in our case around 2013, but we also see a huge drop at the end of 2008 which is explained by the financial crisis. The years 2015 and 2014 are drastically different from the previous whereas the can see 2013 as being the bridge between the previous seasonal components to the new seasonal components. 
+            </p>
+<!-- END OF SUBSECTION -->
+            <br/>
+            <br/>
+            <br/>
+<!-- BEGINNING OF SUBSECTION -->
+        <!-- HEADING -->
+            <h3>
+                DIAGNOSING OUR TIME-SERIES DECOMPOSITION
+            </h3>
+            <br/>
+        <!-- PARAGRAPH -->            
+            <p>
+                Now we will decompose our time-series into its different components: seasonal component, the trend, and residuals.
+            </p>
+        <!-- CODE -->
+            <br/>
+            <code>
+                plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&P 500")
+            </code>
+            <br/>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/decomposition.png" alt=""> 
+            </div>
+            <br/>
+        <!-- IMG INTERPRETATION -->
+            <p>
+                Most of what we are seeing we had already identified but here we can see there are moments of decreasing trend but overall we can see that the time series is gradually increasing as time progresses. We can see there is seasonal components which is expected in financial and annual data. We will see later if they have a large influence in our model building.
+            </p>
+<!-- END OF SUBSECTION -->
+            <br/>
+            <br/>
+            <br/>
+<!-- BEGINNING OF SUBSECTION -->
+        <!-- HEADING -->
+            <h3>
                 DIAGNOSING THE ACF AND PACF OF OUR TIME-SERIES
             </h3>
             <br/>
         <!-- PARAGRAPH -->            
             <p>
-                RELEVANCE OF METHOD?
+                These models are used under the assumption of stationarity, we are not going to go into detail with respect to the theory since there already is a lot of documentation on that! But these models can be estimated with what are called autocorrelation and partial autocorrelation functions. 
+            </p>
+            <p>
+                The autocorrelation function and the partial autocorrelation function. The autocorrelation function tells you of the correlation of different data points at different time lags (lag is defined as an equal time interval h where we have a time t so the lagged value would be t-h). 
+            </p>
+            <p>
+                The next plots are in the <code>astsa</code> package, when wanting to deduce the orders of the models we will be using for the time series, the ACF and PACF plots are a helpful guide for this.
             </p>
         <!-- CODE -->
             <br/>
@@ -360,7 +446,7 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                IMG INTERPRETATION
+                These plots tell us that the model is not stationary and that we would should do a transformation to adjust this. We take a difference to get rid of the trend present in our data.
             </p>
 <!-- END OF SUBSECTION -->
             <br/>
@@ -372,7 +458,7 @@
             </h3>
             <br/>
             <p>
-                RELEVANCE OF METHOD?
+                Because our time series and ACF/PACF plots indicate non-stationarity we have to make the necessary transformation to achieve stationarity. A way to make a time series object stationary is to find the difference between consecutive values, this allows for the mean to stabilize thereby making the time series object stationary which we then could estimate the ARIMA model from.
             </p>
             <br/>
             <code>
@@ -395,7 +481,7 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                IMG INTERPRETATION
+                The plot of the first difference seems to suggest stationarity so the next step is to check the ACF/PACF plots to see if it is stationary and if we can estimate a model from them!
             </p>
 <!-- END OF SUBSECTION -->
             <br/>
@@ -409,7 +495,7 @@
             <br/>
         <!-- PARAGRAPH -->            
             <p>
-                RELEVANCE OF METHOD?
+                As previously stated once we have stationary we use the ACF/PACF plots to deduce what model we have but we come in this mode with a difference parameter equal to one (i.e. d = 1) since we are estimating using the differenced time series.
             </p>
         <!-- CODE -->
             <br/>
@@ -425,72 +511,9 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                IMG INTERPRETATION
+                From these plots we deduce that our model best fits an MA(1) since there is the ACF cuts off at one significant lag and the PACf shows geometric decay. Recall we are examining the differenced time series so we have to use the combined model ARIMA (autoregressive integrated moving average), thus our model is ARIMA(0, 1, 1) and we can continue forecasting.
             </p>
 <!-- END OF SUBSECTION -->
-            <br/>
-            <br/>
-            <br/>
-<!-- BEGINNING OF SUBSECTION -->
-        <!-- HEADING -->
-            <h3>
-                DIAGNOSING SEASONALITY
-            </h3>
-            <br/>
-        <!-- PARAGRAPH -->            
-            <p>
-                RELEVANCE OF METHOD?
-            </p>
-        <!-- CODE -->
-            <br/>
-            <code>
-                seasonplot(sp_500,ylab="S&amp;P Closing Values", xlab="Year", main="Seasonal plot: S&&amp;P Monthly Closing Values",<br/>year.labels=TRUE, year.labels.left=TRUE, col=1:20, pch=19)
-            </code>
-            <br/>
-        <!-- IMG -->
-            <br/>
-            <div align="center">
-                <img src="../img/timeSeries_stockMarket_img/seasonalPlot.png" alt=""> 
-            </div>
-            <br/>
-        <!-- IMG INTERPRETATION -->
-            <p>
-                IMG INTERPRETATION
-            </p>
-<!-- END OF SUBSECTION -->
-            <br/>
-            <br/>
-            <br/>
-<!-- BEGINNING OF SUBSECTION -->
-        <!-- HEADING -->
-            <h3>
-                DIAGNOSING OUR TIME-SERIES DECOMPOSITION
-            </h3>
-            <br/>
-        <!-- PARAGRAPH -->            
-            <p>
-                RELEVANCE OF METHOD?
-            </p>
-        <!-- CODE -->
-            <br/>
-            <code>
-                plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&P 500")
-            </code>
-            <br/>
-        <!-- IMG -->
-            <br/>
-            <div align="center">
-                <img src="../img/timeSeries_stockMarket_img/decomposition.png" alt=""> 
-            </div>
-            <br/>
-        <!-- IMG INTERPRETATION -->
-            <p>
-                IMG INTERPRETATION
-            </p>
-<!-- END OF SUBSECTION -->
-
-
-
         </div>
     </section>
 <!-- 4. BUILD MODELS -->
@@ -580,5 +603,16 @@
             <hr/>
         </div>
     </section>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo"><a href="#"><img src="../img/data_logo.png" alt=""></a></div>
+            <span class="copyright">Copyright © 2016 | <a href="#">INERTIA7</a></span>
+        </div>
+        <!-- 
+            All links in the footer should remain intact. 
+            Licenseing information is available at: http://bootstraptaste.com/license/
+            You can buy this theme without footer links online at: http://bootstraptaste.com/buy/?theme=Knight
+        -->
+    </footer>
 </body>
 </html>
