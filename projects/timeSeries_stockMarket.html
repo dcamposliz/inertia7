@@ -372,7 +372,9 @@
         <!-- CODE -->
             <br/>
             <code>
-                plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&P 500")
+                plot(stl(sp_500, s.window = "periodic"),
+                <br/>
+                main = "Decomposition for S&P 500")
             </code>
             <br/>
         <!-- IMG -->
@@ -444,7 +446,9 @@
             </p>
             <br/>
             <code>
-                plot.ts(diff1, main="Time Series Plot of First Diff")
+                plot.ts(diff1,
+                <br/>
+                main = "Time Series Plot of First Diff")
             </code>
             <br/>
             <br/>
@@ -517,7 +521,10 @@
             <br/>
                 dataMaster_2014df <- dataMaster[-c(241:252),]
             <br/>
-                dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
+                dataMaster_TR <- ts(dataMaster_2014df, 
+            <br/>
+                start = c(1995, 1), freq = 12)
+            <br/>
             <br/>
                 sp500_TR <- dataMaster_TR[, 'sp_500']
             <br/>
@@ -530,7 +537,9 @@
             </p>
             <br/>
             <code>
-                fit <- Arima(sp500_TR, order = c(0,1,1), include.drift=TRUE)
+                fit <- Arima(sp500_TR, order = c(0,1,1), 
+                <br/>
+                include.drift = TRUE)
             </code>
             <br/>
             <br/>
@@ -585,7 +594,10 @@
             </p>
             <br/>
             <code>
-                act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
+                act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, 
+            <br/>
+                start=c(2015, 1), freq=12)
+            <br/>
             <br/>
                 act_sp500_2015_ts
             </code>
@@ -596,7 +608,10 @@
             </p>
             <br/>
             <code>
-                plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
+                plot(forecast(fit, h = 12), xlab = “Years”, 
+            <br/>
+                ylab = “S&amp;P Values”)
+            <br/>
             <br/>
                 lines(act_sp500_2015_ts, col = “red”)
             </code>
@@ -614,7 +629,12 @@
             </p>
             <br/>
             <code>
-                plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
+                plot(forecast(fit, h = 12), xlim = c(2015, 2016), 
+            <br/>
+                ylim = c(1600, 2400), xlab = “Years”, 
+            <br/>
+                ylab = “S&amp;P Values”)
+            <br/>
             <br/>
                 lines(act_sp500_2015_ts, col = "red")
             </code>
