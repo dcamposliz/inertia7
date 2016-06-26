@@ -603,7 +603,8 @@ border: 2px solid #fff;
 .purpose{
 	background:url(../img/dataBackground_1.jpg) top center no-repeat;
 	background-size:cover;
-	padding:60px 0 10px;
+	padding-top: 300px;
+	padding-bottom: 300px;
 	text-align:center;
 }
 .purpose h2{
@@ -863,8 +864,8 @@ border: 2px solid #fff;
 #timeSeries_stockMarket{
 	text-align:center;
 	background:url(../img/wallStreet_2.png);
-	padding-top: 320px;
-	padding-bottom: 320px;
+	padding-top: 350px;
+	padding-bottom: 350px;
 	color:white;
 }
 

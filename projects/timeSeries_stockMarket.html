@@ -52,7 +52,7 @@
 
 <section id="timeSeries_stockMarket" class="header-project large-paragraph">
     <div class="container">
-        <h1><strong>PROJECT</strong>: PREDICTING THE STOCK MARKET</h1>
+        <h1>PROJECT: PREDICTING THE STOCK MARKET</h1>
         <br/>
         <hr/>
         <br/>
@@ -83,11 +83,11 @@
             </p>
             <br/>
             <p>
-                In this project, we carry out this statistical analysis with the power of R and deliver some browser-rich visualizations using with the elegance and flare of the JavaScript libraries d3.js, Plotly, and Shiny.
+                For this project we leverage the horse-power of R and deliver, where appropriate, gorgeous data visualizations using d3.js and plotly.js
             </p>
             <br/>
             <p>
-                We encourage you to try replicating this project and make your own contributions! You can fork this project on <a href="https://github.com/dcamposliz/dataScience_stockMarket">GitHub</a>.
+                We encourage you to try replicating this project and make your own contributions! You can fork this project on <a href="https://github.com/dcamposliz/timeSeries_sp500">GitHub</a>.
             </p>
         </div>
         <br/>
@@ -127,7 +127,10 @@
                     <a href="#step4">4. Build Models</a>
                 </li>
                 <li>
-                    <a href="#step5">5. Derive Conclusions</a>
+                    <a href="#step5">5. Forecast</a>
+                </li>
+                <li>
+                    <a href="#step6">6. Derive Conclusions</a>
                 </li>
             </ul>
         </div>
@@ -155,7 +158,7 @@
             <br/>
             <br/>
             <h3>
-                Published on: <strong>June 2016</strong>.
+                Published: <strong>June 2016</strong> in <strong>Santa Barbara, CA</strong>.
             </h3>
         </div>
     </section>
@@ -359,37 +362,7 @@
 <!-- BEGINNING OF SUBSECTION -->
         <!-- HEADING -->
             <h3>
-                DIAGNOSING SEASONALITY
-            </h3>
-            <br/>
-        <!-- PARAGRAPH -->            
-            <p>
-                This plot gives a more concise overview of the seasonality component of our time series. We can see the seasonal components in our case the years and we can look for patterns of seasonality and departures of seasonality.
-            </p>
-        <!-- CODE -->
-            <br/>
-            <code>
-                seasonplot(sp_500,ylab="S&amp;P Closing Values", xlab="Year", main="Seasonal plot: S&amp;P Monthly Closing Values",<br/>year.labels=TRUE, year.labels.left=TRUE, col=1:20, pch=19)
-            </code>
-            <br/>
-        <!-- IMG -->
-            <br/>
-            <div align="center">
-                <img src="../img/timeSeries_stockMarket_img/seasonalPlot.png" alt=""> 
-            </div>
-            <br/>
-        <!-- IMG INTERPRETATION -->
-            <p>
-                We can see where the seasonality changes in our case around 2013, but we also see a huge drop at the end of 2008 which is explained by the financial crisis. The years 2015 and 2014 are drastically different from the previous whereas the can see 2013 as being the bridge between the previous seasonal components to the new seasonal components. 
-            </p>
-<!-- END OF SUBSECTION -->
-            <br/>
-            <br/>
-            <br/>
-<!-- BEGINNING OF SUBSECTION -->
-        <!-- HEADING -->
-            <h3>
-                DIAGNOSING OUR TIME-SERIES DECOMPOSITION
+                Decomposing our time-series
             </h3>
             <br/>
         <!-- PARAGRAPH -->            
@@ -524,32 +497,145 @@
             <h2>Build models</h2>
             <hr/>
             <p>
-                !!!!! -----> HOW DO WE START OUR STATISTICAL MODELING FROM WHAT WE LEARNED IN THE EARLIER STAGE?
+                We decided to go with the Box-Jenkins approach and build an ARIMA model while also using other models to compare which produced the best outputs. WIthin the forecast package there is a function called auto.arima that yields the <em>best</em> model based on Akaike-Information-Criterion (AIC). The AIC is a measurement of quality for a model compared to others. So it one of many model selection in time series, although we do warn against just using this model without testing other models out since it has been known not to produce the best output.
             </p>
-            <hr/>
-        </div>
-        <br/>
-        <br/>
-        <div class="container">
+            <br/>
+            <p>
+                But the model we received from both the differenced data set and the original data set yielded the same result, and after testing we reached the same conclusion; that an ARIMA(0,1,1) model is our best fit. 
+            </p>
+            <br/>
+            <p>
+                So we created a data frame with out the year 2015 and fit our model on this data to see how well the model predicts compared to the real data.
+            </p>
+            <br/>
+            <p>
+                Here’s the code for removing and storing the actual values of 2015 in a separate data frame:
+            </p>
+            <br/>
             <code>
-                someCode() !!!!! -----> WHAT CODE DO WE USE TO RUN THIS MODEL?
+                dataMaster_TS <- dataMaster[-c(1:240),]
+            <br/>
+                dataMaster_2014df <- dataMaster[-c(241:252),]
+            <br/>
+                dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
+            <br/>
+                sp500_TR <- dataMaster_TR[, 'sp_500']
+            <br/>
+                sp500_TR
             </code>
-        </div>
-        <br/>
-        <br/>
-        <!-- ARIMA Model for 2015 -->
-        <div class="container">
-            <hr/>
-            <h3>
-                <strong>ARIMA Model</strong>: Checking residuals to be white noise using histogram (training set size: 240)
-            </h3>
-            <div>
-                <a href="https://plot.ly/~raviolli77/18/" target="_blank" title="Histogram of ARIMA Model Residuals" style="display: block; text-align: center;"><img src="https://plot.ly/~raviolli77/18.png" alt="HISTOGRAM OF ARIMA MODEL RESIDUALS" style="max-width: 100%;width: 1554px;"  width="1554" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-                <script data-plotly="raviolli77:18"  src="https://plot.ly/embed.js" async></script>
+            <br/>
+            <br/>
+            <p>
+                Due to the best model being ARIMA(0,1,1) we fitted the appropriate model using the Arima function in the forecast package:
+            </p>
+            <br/>
+            <code>
+                fit <- Arima(sp500_TR, order = c(0,1,1), include.drift=TRUE)
+            </code>
+            <br/>
+            <br/>
+            <p>
+                Our next step was running residual diagnostics to ensure our residuals were white noise under our initial assumptions! So we used the tsdisplay function to check our residuals:
+            </p>
+            <br/>
+            <code>
+                tsdisplay(residuals(fit))
+            </code>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/residual_Diagnostics.png" alt="RESIDUALS FIT"> 
             </div>
+            <br/>
+        <!-- END - IMG -->
+            <p>
+                We also decided to create a histogram of the residuals to give people another visualization of the normally distributed residuals!
+            </p>
+            <br/>
+            <code>
+                hist(residuals(fit), prob = TRUE)
+            <br/>
+                lines(density(residuals(fit))
+            </code>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/hist_Residuals.png" alt="RESIDUALS FIT"> 
+            </div>
+            <br/>
+        <!-- END - IMG -->
+            <p>
+                Although not perfect we can see that the residuals do display a normal distribution with outliers explained by the financial crisis of 2007-2008. We made a more in depth analysis of these assumptions on the 2nd iteration of this project if you would like to explore this version it is readily available!
+            </p>
+            <p>
+                Thus we believe we have found a model that follows all our assumptions, and we can continue to forecasting with this model!
+            </p>
+    </section>
+
+<!-- 5. FORECAST -->
+
+    <section id="step5" class="main-section xlarge-paragraph">
+        <div class="container">
+            <h1>5.</h1>
             <hr/>
+            <h2>Forecast</h2>
+            <hr/>
+            <p>
+                So with our model we proceeded to forecast using the forecast package (duh!).  We found our best model and we’ll forecast the values for the S&amp;P 500 for 2015. So we created a data frame where we removed the last 12 values from our sp_500 earlier, and created a separate data frame that contained these values. Again we would like to say that there is a more complex iteration of this with interactive plots using plotly, but the coding might be a bit complex for people doing any introductory time series project.
+            </p>
+            <br/>
+            <code>
+                act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
+            <br/>
+                act_sp500_2015_ts
+            </code>
+            <br/>
+            <br/>
+            <p>
+                This should have a time series object for S&amp;P 500 from 1995-2014 and another time series object with the values for 2015. Here we forecasted for these values then added the actual values to see how it compared.
+            </p>
+            <br/>
+            <code>
+                plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
+            <br/>
+                lines(act_sp500_2015_ts, col = “red”)
+            </code>
+            <br/>
+            <!-- IMG -->
+                <br/>
+                <div align="center">
+                    <img src="../img/timeSeries_stockMarket_img/forecast.png" alt="FORECAST FROM ARIMA(0,1,1) WITH DRIFT"> 
+                </div>
+                <br/>
+            <!-- END - IMG -->
+            <br/>
+            <p>
+                Although this plot does tell us a lot we can barely see the values so the beauty of R is that we can change our x and y limits to get a better view of the actual vs predicted values for 2015! We may be repeating ourselves but there is another version with ggplot on the second iteration of the project! Thus we input this to get a closer view.
+            </p>
+            <br/>
+            <code>
+                plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
+            <br/>
+                lines(act_sp500_2015_ts, col = "red")
+            </code>
+            <br/>
+            <!-- IMG -->
+                <br/>
+                <div align="center">
+                    <img src="../img/timeSeries_stockMarket_img/forecast_2.png" alt="forecast_2.pn"> 
+                </div>
+                <br/>
+            <!-- END - IMG -->
+            <br/>
+            <p>
+                Thus we can see the model gives a pretty good estimation for the forecast for the year 2015. It falls within the 95%/80% confidence intervals and follows the flow of the actual values, even though the actual values are really volatile!
+            </p>
+            <br/>
+            <p>
+                Below we include a plotly representation of the above forecast.
+            </p>
         </div>
-        <br/>
+
         <!-- Forecasted vs Actual plot -->
         <div class="container">            
             <hr/>
@@ -562,57 +648,86 @@
             </div>
             <hr/>
         </div>
+
     </section>
 
-<!-- 5. DERIVE CONCLUSIONS -->
 
-    <section id="step5" class="main-section xlarge-paragraph">
-        <div class="container">
-            <h1>5.</h1>
-            <hr/>
-            <h2>Derive Conclusions</h2>
-            <hr/>
-            <p>Our conclusion is that the ARIMA model is the best fit for our S&amp;P 500 data set, and yields the best prediction for future values.</p>
-        </div>
-        <br/>
-        <br/>
-        <!-- Forecasted vs Actual plot -->
-        <div class="container">            
-            <hr/>
-            <h3>
-                <strong>ARIMA Model</strong>: Checking residuals to be white noise using histogram (training set size: 228)
-            </h3>
-            <div>
-                <a href="https://plot.ly/~raviolli77/21/" target="_blank" title="Histogram of 2014-2015 Residuals for ARIMA Model" style="display: block; text-align: center;"><img src="https://plot.ly/~raviolli77/21.png" alt="Histogram of 2014-2015 Residuals for ARIMA Model" style="max-width: 100%;width: 1554px;"  width="1554" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-                <script data-plotly="raviolli77:21"  src="https://plot.ly/embed.js" async></script>
+    <!-- 6. DERIVE CONCLUSIONS -->
+
+        <section id="step6" class="main-section xlarge-paragraph">
+            <div class="container">
+                <h1>6.</h1>
+                <hr/>
+                <h2>Derive Conclusions</h2>
+                <hr/>
+                <p>
+                    Our final step was comparing our model to other models to see which has the lowest accuracy measurement criterion. As suggested by Rob J Hyndman, these tools are better at measuring which model is best fit, because different functions in R use different parameters to measure AIC. So AIC isn’t comparable for different models. 
+                </p>
+                <br/>
+                <p>
+                    “In general, be careful comparing the AIC value between software packages as they may treat the constant term differently, and then the AIC values are not comparable. This is the most likely explanation here.” – Rob Hyndman Apr 12 at 23:39
+                </p>
+                <br/>
+                <p>
+                    (Important to note this was him responding to my question on Cross Validated section of the Stack Exchange website, we can’t stress enough the amount of information you can get there especially from the people who created most of these r packages!!!! - Raul)
+                </p>
+                <br/>
+                <p>
+                    Thus with a lot of help from his Evaluating Forecast Accuracy lecture (found here https://www.otexts.org/fpp/2/5 ) we used other models to compare our own model to see how well it did compared to these simple methodologies:
+                </p>
+                <br/>
+                <!-- IMG -->
+                    <br/>
+                    <div align="center">
+                        <img src="../img/timeSeries_stockMarket_img/accuracy.png" alt="forecast_2.pn"> 
+                    </div>
+                    <br/>
+                <!-- END - IMG -->
+                <br/>
+                <p>
+                    Thus our conclusion is that the ARIMA(0,1,1) with drift model is the best fit for our S&amp;P 500 data set and yields the best prediction for future values!
+                </p>
+                <br/>
+                <p>
+                    There is much literature over the unreliability of using statistical tools to predict the stock market because of its uncertainty. We feel like with a time series analysis we can still gain an understanding of maybe how the U.S. economy can go. We have also provided another iteration of this project that goes into more detail and is catered to people who have more experience with R. 
+                </p>
+                <br/>
+                <p>
+                    The second iteration employs ggplot2 and other forecasting methods, but we felt this iteration was an appropriate project for people with some experience with R and time series.
+                </p>
             </div>
-            <hr/>
-        </div>
-        <br/>
-        <br/>
-        <!-- Forecasted vs Actual plot -->
-        <div class="container">            
-            <hr/>
-            <h3>
-                <strong>ARIMA Model</strong>: Two-year Forecast vs. Actual Values of S&amp;P 500 (Jan 2014 - Dec 2015)
-            </h3>
-            <div>
-                <a href="https://plot.ly/~raviolli77/11/" target="_blank" title="Forecasted Vs. Actual Values for 2014-2015" style="display: block; text-align: center;"><img src="https://plot.ly/~raviolli77/11.png" alt="Forecasted Vs. Actual Values for 2014-2015" style="max-width: 100%;width: 1554px;"  width="1554" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
-                <script data-plotly="raviolli77:11"  src="https://plot.ly/embed.js" async></script>
+            <br/>
+            <div class="container">
+                <p>
+                    Below we include a two-year forecast plotly.js visualization using our model.
+                </p>
             </div>
-            <hr/>
-        </div>
-    </section>
+            <!-- Forecasted vs Actual plot -->
+            <div class="container">            
+                <hr/>
+                <h3>
+                    <strong>ARIMA Model</strong>: Two-year Forecast vs. Actual Values of S&amp;P 500 (Jan 2014 - Dec 2015)
+                </h3>
+                <div>
+                    <a href="https://plot.ly/~raviolli77/11/" target="_blank" title="Forecasted Vs. Actual Values for 2014-2015" style="display: block; text-align: center;"><img src="https://plot.ly/~raviolli77/11.png" alt="Forecasted Vs. Actual Values for 2014-2015" style="max-width: 100%;width: 1554px;"  width="1554" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+                    <script data-plotly="raviolli77:11"  src="https://plot.ly/embed.js" async></script>
+                </div>
+                <hr/>
+            </div>
+        </section>
+        <section class="main-section xlarge-paragraph">
+            <div class="container">
+                <p>
+                    Congratulations for getting this far! We hope you enjoyed following this project! Please reach out to us if you have any feedback or would like to publish your own project!
+                </p>
+            </div>
+        </section>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-logo"><a href="#"><img src="../img/data_logo.png" alt=""></a></div>
             <span class="copyright">Copyright © 2016 | <a href="#">INERTIA7</a></span>
         </div>
-        <!-- 
-            All links in the footer should remain intact. 
-            Licenseing information is available at: http://bootstraptaste.com/license/
-            You can buy this theme without footer links online at: http://bootstraptaste.com/buy/?theme=Knight
-        -->
     </footer>
 </body>
 </html>
