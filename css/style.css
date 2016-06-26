@@ -876,3 +876,12 @@ border: 2px solid #fff;
 #timeSeries_stockMarket p{
 	font-size:30px;
 }
+
+
+/*
+	CODE
+*/
+
+code {
+	font-size: small;
+}
