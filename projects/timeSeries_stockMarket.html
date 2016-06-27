@@ -36,7 +36,8 @@
     <script src="js/html5element.js"></script>
 <![endif]-->
 
-</head>
+
+
 </head>
 <body>
 
@@ -741,6 +742,7 @@
                     Congratulations for getting this far! We hope you enjoyed following this project! Please reach out to us if you have any feedback or would like to publish your own project!
                 </p>
             </div>
+            <progress id="progressbar" value="0" max="100"></progress>
         </section>
 
     <footer class="footer">
@@ -761,6 +763,19 @@
   ga('send', 'pageview');
 </script>
 <!-- [END] GOOGLE ANALYTICS -->
+
+<script type="text/javascript">
+    $(window).scroll(function () {
+      var s = $(window).scrollTop(),
+            d = $(document).height(),
+            c = $(window).height();
+            scrollPercent = (s / (d-c)) * 100;
+            var position = scrollPercent;
+
+       $("#progressbar").attr('value', position);
+
+    });
+</script>
 
 </body>
 </html>
