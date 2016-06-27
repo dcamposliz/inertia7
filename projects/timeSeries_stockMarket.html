@@ -273,7 +273,7 @@
             </h2>
             <hr/>
             <p>
-                Now we want to get a feel for our data to be able to make inferences as to which models may be appropriate for our prediction. For this, we plot our data and diagnose for trend, seasonality, heteroskedasticity, and stationarity. We go over these concepts in further detail in this section.
+                Now we want to get a feel for our data to get an intuition about the models that may be appropriate for our forecast. For this, we plot our data and diagnose for trend, seasonality, heteroskedasticity, and stationarity. We go over these concepts in further detail in this section.
             </p>
             <br/>
             <br/>
@@ -309,7 +309,7 @@
             <br/>
             <br/>
             <h3>
-                PLOTTING OUR TIME SERIES
+                PLOTTING OUR TIME-SERIES
             </h3>
             <br/>
             <p>
@@ -347,7 +347,11 @@
             </div>
             <br/>
             <p>
-                With a little more 'wrangling' we can plot our data using <a href="https://plot.ly/javascript/">plotly.js</a>, a browser-based data-visualization library written in JavaScript.
+                We can quickly see that over the long-term our time-series has a positive trend.
+            </p>
+            <br/>
+            <p>
+                Using <a href="https://plot.ly/javascript/">plotly.js</a> and a bit of JavaScript knowledge we can produce a gorgeous data visualization onto our browser.
             </p>
             <br/>
             <div id="myDiv">
@@ -368,14 +372,12 @@
             <br/>
         <!-- PARAGRAPH -->            
             <p>
-                Now we will decompose our time-series into its different components: seasonal component, the trend, and residuals.
+                Beyond understanding the trend of our time-series, we want to further understand the anatomy of our data. For this reason we break-down our time-series into its seasonal component, trend, and residuals.
             </p>
         <!-- CODE -->
             <br/>
             <code>
-                plot(stl(sp_500, s.window = "periodic"),
-                <br/>
-                main = "Decomposition for S&P 500")
+                plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
             </code>
             <br/>
         <!-- IMG -->
@@ -386,7 +388,7 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                Most of what we are seeing we had already identified but here we can see there are moments of decreasing trend but overall we can see that the time series is gradually increasing as time progresses. We can see there is seasonal components which is expected in financial and annual data. We will see later if they have a large influence in our model building.
+                This data decomposition allows us to extract and better understand the seasonal component of our time-series, as well as realize its volatility over time.
             </p>
 <!-- END OF SUBSECTION -->
             <br/>
@@ -400,13 +402,15 @@
             <br/>
         <!-- PARAGRAPH -->            
             <p>
-                These models are used under the assumption of stationarity, we are not going to go into detail with respect to the theory since there already is a lot of documentation on that! But these models can be estimated with what are called autocorrelation and partial autocorrelation functions. 
+                The ACF and PACF diagnosis is employed over a time-series to determine whether it has statistical stationarity. Loosely speaking, a time-series is stationary when its mean, variance, and autocorrelation remain constant over time. ACF stands for "autocorrelation function" and PACF stands for "partial autocorrelation function".
             </p>
+            <br/>
             <p>
-                The autocorrelation function and the partial autocorrelation function. The autocorrelation function tells you of the correlation of different data points at different time lags (lag is defined as an equal time interval h where we have a time t so the lagged value would be t-h). 
+                These functions help us understand the correlation component of different data points at different time lags. Lag refers to the time difference between one observation and a previous observation in a dataset.
             </p>
+            <br/>
             <p>
-                The next plots are in the <code>astsa</code> package, when wanting to deduce the orders of the models we will be using for the time series, the ACF and PACF plots are a helpful guide for this.
+                To carry out our ACF and PACF diagnosis in R we use the <code>acf2()</code> method, which stems from the <code>astsa</code> package. We include our time-series object as the argument.
             </p>
         <!-- CODE -->
             <br/>
@@ -422,7 +426,7 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                These plots tell us that the model is not stationary and that we would should do a transformation to adjust this. We take a difference to get rid of the trend present in our data.
+                These plots tell us that the data is not stationary and that we would should do a transformation to adjust this. For this, we do difference transformation to get rid of the trend present in our data.
             </p>
 <!-- END OF SUBSECTION -->
             <br/>
@@ -434,7 +438,11 @@
             </h3>
             <br/>
             <p>
-                Because our time series and ACF/PACF plots indicate non-stationarity we have to make the necessary transformation to achieve stationarity. A way to make a time series object stationary is to find the difference between consecutive values, this allows for the mean to stabilize thereby making the time series object stationary which we then could estimate the ARIMA model from.
+                A way to make a time-series stationary is to find the difference across its consecutive values. This helps stabilize the mean, thereby making the time-series object stationary.
+            </p>
+            <br/>
+            <p>
+                For this we use the <code>diff()</code> method.
             </p>
             <br/>
             <code>
@@ -447,9 +455,7 @@
             </p>
             <br/>
             <code>
-                plot.ts(diff1,
-                <br/>
-                main = "Time Series Plot of First Diff")
+                plot.ts(diff1, main = "Time Series Plot of First Diff")
             </code>
             <br/>
             <br/>
@@ -459,7 +465,7 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                The plot of the first difference seems to suggest stationarity so the next step is to check the ACF/PACF plots to see if it is stationary and if we can estimate a model from them!
+                This plot suggests that our working data is stationary. We want to confirm this running an ACF and PACF diagnostics over this data to find our if we can proceed to estimating a model.
             </p>
 <!-- END OF SUBSECTION -->
             <br/>
@@ -473,7 +479,7 @@
             <br/>
         <!-- PARAGRAPH -->            
             <p>
-                As previously stated once we have stationary we use the ACF/PACF plots to deduce what model we have but we come in this mode with a difference parameter equal to one (i.e. d = 1) since we are estimating using the differenced time series.
+                The plot below helps us confirm that we have stationarity and also helps us deduce which model we will use. It is important to keep in mind that we have a difference parameter equal to one (i.e. <strong><em>d = 1</em></strong>) because of the previous transformation we carried out.
             </p>
         <!-- CODE -->
             <br/>
@@ -489,7 +495,11 @@
             <br/>
         <!-- IMG INTERPRETATION -->
             <p>
-                From these plots we deduce that our model best fits an MA(1) since there is the ACF cuts off at one significant lag and the PACf shows geometric decay. Recall we are examining the differenced time series so we have to use the combined model ARIMA (autoregressive integrated moving average), thus our model is ARIMA(0, 1, 1) and we can continue forecasting.
+                From the above plots we deduce that an <strong>MA(1)</strong> model (where MA stands for moving average) best fits our data because the ACF cuts off at one significant lag and the PACF shows geometric decay. 
+            </p>
+            <br/>
+            <p>
+                Recall that we are examining the differenced time-series so we have to use the combined model ARIMA (autoregressive integrated moving average), thus our model is <strong>ARIMA(0, 1, 1)</strong> and we can continue forecasting.
             </p>
 <!-- END OF SUBSECTION -->
         </div>
@@ -522,10 +532,7 @@
             <br/>
                 dataMaster_2014df <- dataMaster[-c(241:252),]
             <br/>
-                dataMaster_TR <- ts(dataMaster_2014df, 
-            <br/>
-                start = c(1995, 1), freq = 12)
-            <br/>
+                dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
             <br/>
                 sp500_TR <- dataMaster_TR[, 'sp_500']
             <br/>
@@ -538,9 +545,7 @@
             </p>
             <br/>
             <code>
-                fit <- Arima(sp500_TR, order = c(0,1,1), 
-                <br/>
-                include.drift = TRUE)
+                fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
             </code>
             <br/>
             <br/>
@@ -595,10 +600,7 @@
             </p>
             <br/>
             <code>
-                act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, 
-            <br/>
-                start=c(2015, 1), freq=12)
-            <br/>
+                act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
             <br/>
                 act_sp500_2015_ts
             </code>
@@ -609,10 +611,7 @@
             </p>
             <br/>
             <code>
-                plot(forecast(fit, h = 12), xlab = “Years”, 
-            <br/>
-                ylab = “S&amp;P Values”)
-            <br/>
+                plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
             <br/>
                 lines(act_sp500_2015_ts, col = “red”)
             </code>
@@ -630,12 +629,7 @@
             </p>
             <br/>
             <code>
-                plot(forecast(fit, h = 12), xlim = c(2015, 2016), 
-            <br/>
-                ylim = c(1600, 2400), xlab = “Years”, 
-            <br/>
-                ylab = “S&amp;P Values”)
-            <br/>
+                plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
             <br/>
                 lines(act_sp500_2015_ts, col = "red")
             </code>
