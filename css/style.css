@@ -880,12 +880,23 @@ border: 2px solid #fff;
 
 /*
 	CODE
+*/
 
-code {
-	font-size: small;
+code { 
 }
 
-*/
+pre {
+    width: 100%;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: black;
+    color: green;
+   	white-space: pre-wrap; //css3
+   	white-space: moz-pre-wrap; //firefox
+   	white-space: -pre-wrap; //opera 4-6
+   	white-space: -o-pre-wrap; //opera 7
+   	word-wrap: break-word; //internet explorer
+}
 
 progress {
     position:fixed;

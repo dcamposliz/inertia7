@@ -51,15 +51,17 @@
 </nav><!--main-nav-end-->
 
 
-<section id="timeSeries_stockMarket" class="header-project large-paragraph">
-    <div class="container">
-        <h1>PROJECT: PREDICTING THE STOCK MARKET</h1>
-        <br/>
-        <hr/>
-        <br/>
-        <p><strong>TIME-SERIES ANALYSIS OF THE S&amp;P 500 STOCK INDEX WITH R</strong></p>
+
+<div style="overflow:hidden;">
+<header class="header" id="timeSeries_stockMarket"><!--header-start-->
+    <div class="container"> 
+        <h1 class="animated fadeInDown delay-07s">PROJECT: FORECASTING THE STOCK MARKET</h1>
+        <ul class="we-create animated fadeInUp delay-1s">
+            <li><strong>Time-Series Analysis</strong> of the <strong>S&amp;P 500 Stock Index</strong> with <strong>R</strong></li>
+        </ul>
     </div>
-</section>
+</div>
+</header>
 
 
 <!-- PROJECT SUMMARY -->
@@ -175,36 +177,20 @@
                 </p>
                 <br/>
                 <p>
-                    For this we use the <code>required()</code> method and include the package names as arguments. Make sure to first install the packages using the <code>install.packages("")</code> method if you haven't done so already.
+                    For this we use the <code>library()</code> method and include the package names as arguments. Make sure to first install the packages using the <code>install.packages()</code> method if you haven't done so already.
                 </p>
                 <br/>
-                <code>
-                    require(data.table)
-                </code>
-                <br/>
-                <code>
-                    require(ggplot)
-                </code>
-                <br/>
-                <code>
-                    require(astsa)
-                </code>
-                <br/>
-                <code>
-                    require(car)
-                </code>
-                <br/>
-                <code>
-                    require(caret)
-                </code>
-                <br/>
-                <code>
-                    require(plotly)
-                </code>
-                <br/>
-                <code>
-                    require(forecast)
-                </code>
+                <pre>
+                    <code>
+                        library(data.table)
+                        library(ggplot)
+                        library(astsa)
+                        library(car)
+                        library(caret)
+                        library(plotly)
+                        library(forecast)
+                    </code>
+                </pre>
                 <br/>
                 <br/>
                 <p>
@@ -249,14 +235,12 @@
                 Then we must include our data set within our working R environment. For this we use:
             </p>
             <br/>
-            <code>
-                dataMaster <- read.csv(" ...{PATH_TO}... /data.csv")
-            </code>
-            <br/>
-            <code>
-                attach(dataMaster)
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    dataMaster <- read.csv(" PATH_TO_WORKING_DIRECTORY /data.csv")
+                    attach(dataMaster)
+                </code>
+            </pre>
             <br/>
             <p>
                 Now we can call our S&amp;P 500 Stock Index data by typing <code>dataMaster$sp_500</code> into our terminal.
@@ -287,20 +271,21 @@
                 Then we output the time-series data to the terminal by calling our newly-created time-series object.
             </p>
             <br/>
-            <code>
-                sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
+                </code>
+            </pre>
             <br/>
             <p>
                 Then we output the time-series data to the terminal by calling our newly-created time-series object. Notice the nicely formatted data broken down into years and their respective months.
             </p>
             <br/>
-            <code>
-                sp_500
-            </code>
-            <br/>
-            <br/>
+            <pre>
+                <code>
+                    sp_500
+                </code>
+            </pre>
             <br/>
             <div align="center">
                 <img src="../img/timeSeries_stockMarket_img/timSeriesobject.png" alt=""> 
@@ -338,9 +323,11 @@
                     We can plot our <code>sp_500</code> data object in R using the <code>plot()</code> method.
                 </p>
             <br/>
-            <code>
-                plot.ts(sp_500)
-            </code>
+            <pre>
+                <code>
+                    plot.ts(sp_500)
+                </code>
+            </pre>
             <br/>
             <div align="center">
                 <img src="../img/timeSeries_stockMarket_img/plot_1.png" alt=""> 
@@ -376,9 +363,11 @@
             </p>
         <!-- CODE -->
             <br/>
-            <code>
-                plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
-            </code>
+            <pre>
+                <code>
+                    plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
+                </code>
+            </pre>
             <br/>
         <!-- IMG -->
             <br/>
@@ -414,10 +403,11 @@
             </p>
         <!-- CODE -->
             <br/>
-            <code>
-                acf2(sp_500)
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    acf2(sp_500)
+                </code>
+            </pre>
         <!-- IMG -->
             <br/>
             <div align="center">
@@ -445,19 +435,21 @@
                 For this we use the <code>diff()</code> method.
             </p>
             <br/>
-            <code>
-                diff1 <- diff(sp_500)
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    diff1 <- diff(sp_500)
+                </code>
+            </pre>
             <br/>
             <p>
-                Next we plot our transformed time-series.
+                Next we plot our transformed time-series using the <code>plot.ts()</code> method.
             </p>
             <br/>
-            <code>
-                plot.ts(diff1, main = "Time Series Plot of First Diff")
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    plot.ts(diff1, main = "Time Series Plot of First Diff")
+                </code>
+            </pre>
             <br/>
             <div align="center">
                 <img src="../img/timeSeries_stockMarket_img/plot_diff.png" alt=""> 
@@ -483,9 +475,11 @@
             </p>
         <!-- CODE -->
             <br/>
-            <code>
-                acf2(diff1)
-            </code>
+            <pre>
+                <code>
+                    acf2(diff1)
+                </code>
+            </pre>
             <br/>
         <!-- IMG -->
             <br/>
@@ -527,35 +521,35 @@
                 Here’s the code for removing and storing the actual values of 2015 in a separate data frame:
             </p>
             <br/>
-            <code>
-                dataMaster_TS <- dataMaster[-c(1:240),]
-            <br/>
-                dataMaster_2014df <- dataMaster[-c(241:252),]
-            <br/>
-                dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
-            <br/>
-                sp500_TR <- dataMaster_TR[, 'sp_500']
-            <br/>
-                sp500_TR
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    dataMaster_TS <- dataMaster[-c(1:240),]
+                    dataMaster_2014df <- dataMaster[-c(241:252),]
+                    dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
+                    sp500_TR <- dataMaster_TR[, 'sp_500']
+                    sp500_TR
+                </code>
+            </pre>
             <br/>
             <p>
                 Due to the best model being ARIMA(0,1,1) we fitted the appropriate model using the Arima function in the forecast package:
             </p>
             <br/>
-            <code>
-                fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
+                </code>
+            </pre>
             <br/>
             <p>
                 Our next step was running residual diagnostics to ensure our residuals were white noise under our initial assumptions! So we used the tsdisplay function to check our residuals:
             </p>
             <br/>
-            <code>
-                tsdisplay(residuals(fit))
-            </code>
+            <pre>
+                <code>
+                    tsdisplay(residuals(fit))
+                </code>
+            </pre>
         <!-- IMG -->
             <br/>
             <div align="center">
@@ -567,11 +561,12 @@
                 We also decided to create a histogram of the residuals to give people another visualization of the normally distributed residuals!
             </p>
             <br/>
-            <code>
-                hist(residuals(fit), prob = TRUE)
-            <br/>
-                lines(density(residuals(fit))
-            </code>
+            <pre>
+                <code>
+                    hist(residuals(fit), prob = TRUE)
+                    lines(density(residuals(fit))
+                </code>
+            </pre>
         <!-- IMG -->
             <br/>
             <div align="center">
@@ -599,23 +594,23 @@
                 So with our model we proceeded to forecast using the forecast package (duh!).  We found our best model and we’ll forecast the values for the S&amp;P 500 for 2015. So we created a data frame where we removed the last 12 values from our sp_500 earlier, and created a separate data frame that contained these values. Again we would like to say that there is a more complex iteration of this with interactive plots using plotly, but the coding might be a bit complex for people doing any introductory time series project.
             </p>
             <br/>
-            <code>
-                act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
-            <br/>
-                act_sp500_2015_ts
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
+                    act_sp500_2015_ts
+                </code>
+            </pre>
             <br/>
             <p>
                 This should have a time series object for S&amp;P 500 from 1995-2014 and another time series object with the values for 2015. Here we forecasted for these values then added the actual values to see how it compared.
             </p>
             <br/>
-            <code>
-                plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
-            <br/>
-                lines(act_sp500_2015_ts, col = “red”)
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
+                    lines(act_sp500_2015_ts, col = “red”)
+                </code>
+            </pre>
             <!-- IMG -->
                 <br/>
                 <div align="center">
@@ -628,12 +623,13 @@
                 Although this plot does tell us a lot we can barely see the values so the beauty of R is that we can change our x and y limits to get a better view of the actual vs predicted values for 2015! We may be repeating ourselves but there is another version with ggplot on the second iteration of the project! Thus we input this to get a closer view.
             </p>
             <br/>
-            <code>
-                plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
-            <br/>
-                lines(act_sp500_2015_ts, col = "red")
-            </code>
-            <br/>
+            <pre>
+                <code>
+                    plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
+
+                    lines(act_sp500_2015_ts, col = "red")
+                </code>
+            </pre>
             <!-- IMG -->
                 <br/>
                 <div align="center">
