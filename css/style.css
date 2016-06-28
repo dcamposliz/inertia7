@@ -607,6 +607,7 @@ border: 2px solid #fff;
 	padding-bottom: 300px;
 	text-align:center;
 }
+
 .purpose h2{
 	font-family: 'Montserrat', sans-serif;
 	font-weight:700;
@@ -617,6 +618,14 @@ border: 2px solid #fff;
 	color:#fff;
 }
 
+
+#sb{
+	background:url(../img/sb.png) top center no-repeat;
+	background-size:cover;
+	padding-top: 300px;
+	padding-bottom: 300px;
+	text-align:center;
+}
 
 /* Contact
 ---------------------------------*/
