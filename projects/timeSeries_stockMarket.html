@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, maximum-scale=1">
+<meta name="description" content="Inertia7 is a platform for sharing data science projects.">
+<meta name="keywords" content="R, Python, SQL, HTML, CSS, JavaScript, Data Science, Statistical Learning">
+<meta name="author" content="David A. Campos, Raul Eulogio">
 
 <title>Inertia7: Data Science Projects</title>
 <link rel="icon" href="../favicon2.png" type="image/png">
@@ -41,24 +44,13 @@
 </head>
 <body>
 
-<!--main-nav-start-->
-<nav class="navbar navbar-fixed-top" role="navigation" style="background-color:white"><!--main-nav-start-->
-    <div class="container-fluid" style="box-shadow:5px 5px 5px #D3D3D3;">
-            <ul class="main-nav">
-                <li class="small-logo large-paragraph"><a href="../index.html"><img src="../img/data_logo.png" alt="" width="100px"> Inertia7</a></li>
-            </ul>
-    </div>
-</nav><!--main-nav-end-->
-
-
-
 <div style="overflow:hidden;">
-<header class="header" id="timeSeries_stockMarket"><!--header-start-->
+<header class="header" id="timeSeries_stockMarket">
     <div class="container"> 
-        <h1 class="animated fadeInDown delay-07s">PROJECT: FORECASTING THE STOCK MARKET</h1>
-        <ul class="we-create animated fadeInUp delay-1s">
-            <li><strong>Time-Series Analysis</strong> of the <strong>S&amp;P 500 Stock Index</strong> with <strong>R</strong></li>
-        </ul>
+            <h1 class="animated fadeInDown delay-07s">FORECASTING THE STOCK MARKET</h1>
+            <ul class="we-create animated fadeInUp delay-1s">
+                <li><strong>Time-Series Analysis</strong> of the <strong>S&amp;P 500 Stock Index</strong> with <strong>R</strong></li>
+            </ul>
     </div>
 </div>
 </header>
@@ -181,17 +173,16 @@
                 </p>
                 <br/>
                 <pre>
-                    <code>
-                        library(data.table)
-                        library(ggplot)
-                        library(astsa)
-                        library(car)
-                        library(caret)
-                        library(plotly)
-                        library(forecast)
-                    </code>
+                <code>
+                library(data.table)
+                library(ggplot)
+                library(astsa)
+                library(car)
+                library(caret)
+                library(plotly)
+                library(forecast)
+                </code>
                 </pre>
-                <br/>
                 <br/>
                 <p>
                     We encourage you to do a quick search on each of these packages to gain context on what they are useful for, and why we are using them here. Pay special attention to the packages <code>astsa</code> and <code>forecast</code>.
@@ -236,10 +227,10 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    dataMaster <- read.csv(" PATH_TO_WORKING_DIRECTORY /data.csv")
-                    attach(dataMaster)
-                </code>
+            <code>
+            dataMaster <- read.csv(" PATH_TO_WORKING_DIRECTORY /data.csv")
+            attach(dataMaster)
+            </code>
             </pre>
             <br/>
             <p>
@@ -272,9 +263,9 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
-                </code>
+            <code>
+            sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
+            </code>
             </pre>
             <br/>
             <p>
@@ -282,9 +273,9 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    sp_500
-                </code>
+            <code>
+            sp_500
+            </code>
             </pre>
             <br/>
             <div align="center">
@@ -324,9 +315,9 @@
                 </p>
             <br/>
             <pre>
-                <code>
-                    plot.ts(sp_500)
-                </code>
+            <code>
+            plot.ts(sp_500)
+            </code>
             </pre>
             <br/>
             <div align="center">
@@ -364,9 +355,9 @@
         <!-- CODE -->
             <br/>
             <pre>
-                <code>
-                    plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
-                </code>
+            <code>
+            plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
+            </code>
             </pre>
             <br/>
         <!-- IMG -->
@@ -404,9 +395,9 @@
         <!-- CODE -->
             <br/>
             <pre>
-                <code>
-                    acf2(sp_500)
-                </code>
+            <code>
+            acf2(sp_500)
+            </code>
             </pre>
         <!-- IMG -->
             <br/>
@@ -436,9 +427,9 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    diff1 <- diff(sp_500)
-                </code>
+            <code>
+            diff1 <- diff(sp_500)
+            </code>
             </pre>
             <br/>
             <p>
@@ -446,9 +437,9 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    plot.ts(diff1, main = "Time Series Plot of First Diff")
-                </code>
+            <code>
+            plot.ts(diff1, main = "Time Series Plot of First Diff")
+            </code>
             </pre>
             <br/>
             <div align="center">
@@ -476,9 +467,9 @@
         <!-- CODE -->
             <br/>
             <pre>
-                <code>
-                    acf2(diff1)
-                </code>
+            <code>
+            acf2(diff1)
+            </code>
             </pre>
             <br/>
         <!-- IMG -->
@@ -522,13 +513,13 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    dataMaster_TS <- dataMaster[-c(1:240),]
-                    dataMaster_2014df <- dataMaster[-c(241:252),]
-                    dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
-                    sp500_TR <- dataMaster_TR[, 'sp_500']
-                    sp500_TR
-                </code>
+            <code>
+            dataMaster_TS <- dataMaster[-c(1:240),]
+            dataMaster_2014df <- dataMaster[-c(241:252),]
+            dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
+            sp500_TR <- dataMaster_TR[, 'sp_500']
+            sp500_TR
+            </code>
             </pre>
             <br/>
             <p>
@@ -536,9 +527,9 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
-                </code>
+            <code>
+            fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
+            </code>
             </pre>
             <br/>
             <p>
@@ -546,9 +537,9 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    tsdisplay(residuals(fit))
-                </code>
+            <code>
+            tsdisplay(residuals(fit))
+            </code>
             </pre>
         <!-- IMG -->
             <br/>
@@ -562,10 +553,10 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    hist(residuals(fit), prob = TRUE)
-                    lines(density(residuals(fit))
-                </code>
+            <code>
+            hist(residuals(fit), prob = TRUE)
+            lines(density(residuals(fit))
+            </code>
             </pre>
         <!-- IMG -->
             <br/>
@@ -595,10 +586,10 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
-                    act_sp500_2015_ts
-                </code>
+            <code>
+            act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
+            act_sp500_2015_ts
+            </code>
             </pre>
             <br/>
             <p>
@@ -606,10 +597,10 @@
             </p>
             <br/>
             <pre>
-                <code>
-                    plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
-                    lines(act_sp500_2015_ts, col = “red”)
-                </code>
+            <code>
+            plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
+            lines(act_sp500_2015_ts, col = “red”)
+            </code>
             </pre>
             <!-- IMG -->
                 <br/>
@@ -623,12 +614,11 @@
                 Although this plot does tell us a lot we can barely see the values so the beauty of R is that we can change our x and y limits to get a better view of the actual vs predicted values for 2015! We may be repeating ourselves but there is another version with ggplot on the second iteration of the project! Thus we input this to get a closer view.
             </p>
             <br/>
-            <pre>
-                <code>
-                    plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
-
-                    lines(act_sp500_2015_ts, col = "red")
-                </code>
+            <pre style="font-size:small;">
+            <code>
+            plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
+            lines(act_sp500_2015_ts, col = "red")
+            </code>
             </pre>
             <!-- IMG -->
                 <br/>
@@ -729,18 +719,110 @@
         <section class="main-section xlarge-paragraph">
             <div class="container">
                 <p>
-                    Congratulations for getting this far! We hope you enjoyed following this project! Please reach out to us if you have any feedback or would like to publish your own project!
+                    Congratulations for getting this far! We hope you enjoyed following this project. Please reach out to us if you have any feedback or would like to publish your own project.
                 </p>
             </div>
-            <progress id="progressbar" value="0" max="100"></progress>
+        </section>
+
+
+
+
+        <section class="main-section">
+            <div class="container" style="text-align:center;">
+                <p>FORK THIS PROJECT ON GITHUB</p>
+                <br/>
+                <a href="https://github.com/dcamposliz/timeSeries_sp500" target="_blank">
+                    <img src="../img/github_2.png" alt="forecast_2.pn" height="42" width="42">
+                </a>
+            </div>
+        </section>
+
+        <section class="main-section large-paragraph">
+            <div class="container" style="text-align:center;">
+                <a href="#">Back to top</a>
+            </div>
         </section>
 
     <footer class="footer">
+        <progress id="progressbar" value="0" max="100"></progress>
         <div class="container">
-            <div class="footer-logo"><a href="#"><img src="../img/data_logo.png" alt=""></a></div>
-            <span class="copyright">Copyright © 2016 | <a href="#">INERTIA7</a></span>
+            <div class="footer-logo"><a href="../index.html"><img src="../img/data_logo.png" alt=""></a></div>
+            <span class="copyright">Copyright © 2016 | <a href="../index.html">INERTIA7</a></span>
         </div>
     </footer>
+
+
+    <script>
+    wow = new WOW(
+      {
+        animateClass: 'animated',
+        offset:       100
+      }
+    );
+    wow.init();
+    </script>
+
+    <script type="text/javascript">
+        $(window).load(function(){
+            
+            $('.main-nav li a').bind('click',function(event){
+                var $anchor = $(this);
+                
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top - 102
+                }, 1500,'easeInOutExpo');
+                /*
+                if you don't want to use the easing effects:
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top
+                }, 1000);
+                */
+                event.preventDefault();
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+    $(window).load(function(){
+      
+      var $container = $('.portfolioContainer'),
+          $body = $('body'),
+          colW = 375,
+          columns = null;
+     
+      $container.isotope({
+        // disable window resizing
+        resizable: true,
+        masonry: {
+          columnWidth: colW
+        }
+      });
+      
+      $(window).smartresize(function(){
+        // check if columns has changed
+        var currentColumns = Math.floor( ( $body.width() -30 ) / colW );
+        if ( currentColumns !== columns ) {
+          // set new column count
+          columns = currentColumns;
+          // apply width to container manually, then trigger relayout
+          $container.width( columns * colW )
+            .isotope('reLayout');
+        }
+        
+      }).smartresize(); // trigger resize to set container width
+      $('.portfolioFilter a').click(function(){
+            $('.portfolioFilter .current').removeClass('current');
+            $(this).addClass('current');
+     
+            var selector = $(this).attr('data-filter');
+            $container.isotope({
+                
+                filter: selector,
+             });
+             return false;
+        });
+    });
+    </script>
 
 <!-- GOOGLE ANALYTICS -->
 <script>

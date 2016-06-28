@@ -862,40 +862,29 @@ border: 2px solid #fff;
 */
 
 #timeSeries_stockMarket{
-	text-align:center;
 	background:url(../img/wallStreet_2.png);
-	padding-top: 350px;
-	padding-bottom: 350px;
-	color:white;
 }
-
-#timeSeries_stockMarket h1{
-	font-size:72px;
-}
-
-#timeSeries_stockMarket p{
-	font-size:30px;
-}
-
 
 /*
 	CODE
-*/
 
-code { 
+code {	 
 }
 
+*/
+
 pre {
-    width: 100%;
-    font-size: large;
-    font-family: 'Courier New', Courier, monospace;
-    background-color: black;
-    color: green;
-   	white-space: pre-wrap; //css3
-   	white-space: moz-pre-wrap; //firefox
-   	white-space: -pre-wrap; //opera 4-6
-   	white-space: -o-pre-wrap; //opera 7
-   	word-wrap: break-word; //internet explorer
+	padding-left: 0px;
+	width: 100%;
+	font-family: 'Courier New', Courier, monospace;
+	color: green;
+	font-size: medium;
+	background-color: black;
+	white-space: pre-wrap; //css3
+	white-space: moz-pre-wrap; //firefox
+	white-space: -pre-wrap; //opera 4-6
+	white-space: -o-pre-wrap; //opera 7
+	word-wrap: break-word; //internet explorer
 }
 
 progress {
@@ -903,3 +892,7 @@ progress {
     bottom:0px;
     width: 100%;
     height:10px;}
+
+/*
+	PROJECT NAV BAR
+*/
