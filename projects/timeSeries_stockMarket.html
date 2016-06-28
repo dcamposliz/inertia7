@@ -188,13 +188,13 @@
                 <br/>
                 <pre>
                 <code>
-                library(data.table)
-                library(ggplot)
-                library(astsa)
-                library(car)
-                library(caret)
-                library(plotly)
-                library(forecast)
+library(data.table)
+library(ggplot)
+library(astsa)
+library(car)
+library(caret)
+library(plotly)
+library(forecast)
                 </code>
                 </pre>
                 <br/>
@@ -242,8 +242,8 @@
             <br/>
             <pre>
             <code>
-            dataMaster <- read.csv(" PATH_TO_WORKING_DIRECTORY /data.csv")
-            attach(dataMaster)
+dataMaster <- read.csv(" PATH_TO_WORKING_DIRECTORY /data.csv")
+attach(dataMaster)
             </code>
             </pre>
             <br/>
@@ -278,7 +278,7 @@
             <br/>
             <pre>
             <code>
-            sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
+sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
             </code>
             </pre>
             <br/>
@@ -288,7 +288,7 @@
             <br/>
             <pre>
             <code>
-            sp_500
+sp_500
             </code>
             </pre>
             <br/>
@@ -330,7 +330,7 @@
             <br/>
             <pre>
             <code>
-            plot.ts(sp_500)
+plot.ts(sp_500)
             </code>
             </pre>
             <br/>
@@ -370,7 +370,7 @@
             <br/>
             <pre>
             <code>
-            plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
+plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
             </code>
             </pre>
             <br/>
@@ -410,7 +410,7 @@
             <br/>
             <pre>
             <code>
-            acf2(sp_500)
+acf2(sp_500)
             </code>
             </pre>
         <!-- IMG -->
@@ -442,7 +442,7 @@
             <br/>
             <pre>
             <code>
-            diff1 <- diff(sp_500)
+diff1 <- diff(sp_500)
             </code>
             </pre>
             <br/>
@@ -452,7 +452,7 @@
             <br/>
             <pre>
             <code>
-            plot.ts(diff1, main = "Time Series Plot of First Diff")
+plot.ts(diff1, main = "Time Series Plot of First Diff")
             </code>
             </pre>
             <br/>
@@ -482,7 +482,7 @@
             <br/>
             <pre>
             <code>
-            acf2(diff1)
+acf2(diff1)
             </code>
             </pre>
             <br/>
@@ -528,11 +528,11 @@
             <br/>
             <pre>
             <code>
-            dataMaster_TS <- dataMaster[-c(1:240),]
-            dataMaster_2014df <- dataMaster[-c(241:252),]
-            dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
-            sp500_TR <- dataMaster_TR[, 'sp_500']
-            sp500_TR
+dataMaster_TS <- dataMaster[-c(1:240),]
+dataMaster_2014df <- dataMaster[-c(241:252),]
+dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
+sp500_TR <- dataMaster_TR[, 'sp_500']
+sp500_TR
             </code>
             </pre>
             <br/>
@@ -542,7 +542,7 @@
             <br/>
             <pre>
             <code>
-            fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
+fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
             </code>
             </pre>
             <br/>
@@ -552,7 +552,7 @@
             <br/>
             <pre>
             <code>
-            tsdisplay(residuals(fit))
+tsdisplay(residuals(fit))
             </code>
             </pre>
         <!-- IMG -->
@@ -568,8 +568,8 @@
             <br/>
             <pre>
             <code>
-            hist(residuals(fit), prob = TRUE)
-            lines(density(residuals(fit))
+hist(residuals(fit), prob = TRUE)
+lines(density(residuals(fit))
             </code>
             </pre>
         <!-- IMG -->
@@ -601,8 +601,8 @@
             <br/>
             <pre>
             <code>
-            act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
-            act_sp500_2015_ts
+act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
+act_sp500_2015_ts
             </code>
             </pre>
             <br/>
@@ -612,8 +612,8 @@
             <br/>
             <pre>
             <code>
-            plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
-            lines(act_sp500_2015_ts, col = “red”)
+plot(forecast(fit, h = 12), xlab = “Years”, ylab = “S&amp;P Values”)
+lines(act_sp500_2015_ts, col = “red”)
             </code>
             </pre>
             <!-- IMG -->
@@ -628,10 +628,10 @@
                 Although this plot does tell us a lot we can barely see the values so the beauty of R is that we can change our x and y limits to get a better view of the actual vs predicted values for 2015! We may be repeating ourselves but there is another version with ggplot on the second iteration of the project! Thus we input this to get a closer view.
             </p>
             <br/>
-            <pre style="font-size:small;">
+            <pre>
             <code>
-            plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
-            lines(act_sp500_2015_ts, col = "red")
+plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = “Years”, ylab = “S&amp;P Values”)
+lines(act_sp500_2015_ts, col = "red")
             </code>
             </pre>
             <!-- IMG -->

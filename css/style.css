@@ -865,6 +865,10 @@ border: 2px solid #fff;
 	background:url(../img/wallStreet_2.png);
 }
 
+#regression_bostonHousing{
+	background:url(../img/regression_bostonHousing/bostonHousing_2.png);
+}
+
 /*
 	CODE
 
@@ -874,7 +878,8 @@ code {
 */
 
 pre {
-	padding-left: 0px;
+	padding-left: 3%;
+	padding-right: 3%;
 	width: 100%;
 	font-family: 'Courier New', Courier, monospace;
 	color: green;
