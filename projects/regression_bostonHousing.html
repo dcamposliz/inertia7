@@ -8,18 +8,18 @@
 <meta name="keywords" content="R, Python, SQL, HTML, CSS, JavaScript, Data Science, Statistical Learning">
 <meta name="author" content="David A. Campos, Raul Eulogio">
 
-<meta property=”og:title” content=”Inertia7: Data Science Projects”/>
-<meta property=”og:image” content=”http://www.inertia7.com//img/neuralNetork_purple_100_black_75.jpg”/>
-<meta property=”og:url” content=”http://www.inertia7.com”/>
-<meta property=”og:description” content=”Inertia7 is a platform for sharing data science projects."/>
+<meta property="og:title" content="Inertia7: Data Science Projects"/>
+<meta property="og:image" content="http://www.inertia7.com//img/neuralNetork_purple_100_black_75.jpg"/>
+<meta property="og:url" content="http://www.inertia7.com"/>
+<meta property="og:description" content="Inertia7 is a platform for sharing data science projects."/>
 
-<meta name=”twitter:card” content=”summary”>
-<meta name=”twitter:url” content=”http://www.inertia7.com”>
-<meta name=”twitter:title” content="Inertia7: Data Science Projects">
-<meta name=”twitter:description” content=”Inertia7 is a platform for sharing data science projects.”>
-<meta name=”twitter:image” content=”http://www.inertia7.com//img/neuralNetork_purple_100_black_75.jpg”>
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="http://www.inertia7.com">
+<meta name="twitter:title" content="Inertia7: Data Science Projects">
+<meta name="twitter:description" content="Inertia7 is a platform for sharing data science projects.">
+<meta name="twitter:image" content="http://www.inertia7.com//img/neuralNetork_purple_100_black_75.jpg">
 
-<link rel=”publisher” href=”https://www.davidacampos.com”/>
+<link rel="publisher" href="https://www.davidacampos.com"/>
 
 <title>Inertia7: Data Science Projects</title>
 <link rel="icon" href="../favicon2.png" type="image/png">
@@ -172,6 +172,11 @@
                     ...
                 </p>
                 <br/>
+<!-- CODE HERE -->
+                <h3>
+                    Setting Working Directory and Output Files
+                </h3>
+                <br/>
                 <pre>
                 <code>
 # setting working directory
@@ -180,22 +185,48 @@ setwd("/home/dc/myProjects/inertia7_projects/regression_bostonHousing/")
 sink("output/output.txt")
 # setting pdf_output file
 pdf("output/output.pdf")
-
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Loading Data
+                </h3>
+                <br/>
+                <pre>
+                <code>
 # loading data
 boston <- read.csv("data/boston_housing_data.csv", header = TRUE, sep = ",")
 # attaching dimension names from data
 attach(boston)
 # creating data.frame for easier data_wrangling
 boston_df <- data.frame(CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, MEDV)
-
-
-# installing missing packages
-    list.of.packages <- c("usdm", "car", "MASS", "DAAG")
-    new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-    if(length(new.packages)) install.packages(new.packages, repos = "https://cran.cnr.berkeley.edu/")
-    # source:   http://stackoverflow.com/questions/4090169/elegant-way-to-check-for-missing-packages-and-install-them
                 </code>
                 </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Installing Missing Packages
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# installing missing packages
+list.of.packages <- c("usdm", "car", "MASS", "DAAG")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages, repos = "https://cran.cnr.berkeley.edu/")
+# source:   http://stackoverflow.com/questions/4090169/elegant-way-to-check-for-missing-packages-and-install-them
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+
+
+
+
+
+
                 <br/>
                 <p>
                    ...
@@ -217,6 +248,11 @@ boston_df <- data.frame(CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRA
                     ...
                 </p>
                 <br/>
+<!-- CODE HERE -->
+                <h3>
+                    Getting a feel for our data
+                </h3>
+                <br/>
                 <pre>
                 <code>
 # structure
@@ -227,25 +263,47 @@ head(boston_df)
 tail(boston_df)
 # getting a descriptive stats summary of our data
 summary(boston_df)
-
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Getting Scatterplot Matrix
+                </h3>
+                <br/>
+                <pre>
+                <code>
 # getting scatterplot of all data vectors
 # outputting image_file
 png(filename="output/pairs_all.png")
 pairs( ~ MEDV + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT +  CRIM)
 # turning off png()
 dev.off()
-
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Checking Colinearity
+                </h3>
+                <br/>
+                <pre>
+                <code>
 library(usdm)
 
 vif(boston_df)
                 </code>
                 </pre>
+<!-- [END] CODE HERE -->
                 <br/>
                 <p>
                    ...
                 </p>
             </div>
         </section>
+
 <!-- 3. Modeling-->
         <section id="step3" class="main-section xlarge-paragraph">
             <div class="container">
@@ -261,29 +319,109 @@ vif(boston_df)
                     ...
                 </p>
                 <br/>
+<!-- CODE HERE -->
+                <h3>
+                    Backward Elimination of Non-Significant Variables, Models 1 - 3
+                </h3>
+                <br/>
                 <pre>
                 <code>
-# structure
-str(boston_df)
-# scoping out first rows of data
-head(boston_df)
-# scoping out last rows of data
-tail(boston_df)
-# getting a descriptive stats summary of our data
-summary(boston_df)
+fit_1 <- lm(MEDV ~ ., data = boston_df)
+fit_1
+summary(fit_1)
 
-# getting scatterplot of all data vectors
-# outputting image_file
-png(filename="output/pairs_all.png")
-pairs( ~ MEDV + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT +  CRIM)
-# turning off png()
-dev.off()
+n <- nrow(boston_df)
+drop1(fit_1, k=log(n))
 
-library(usdm)
+# AGE has both the highest p-value as well as lowest AIC value, so we drop it
 
-vif(boston_df)
+fit_2 <- update(fit_1, ~ . - AGE)
+fit_2
+summary(fit_2)
+drop1(fit_2, k=log(n))
+
+# now INDUS has both the highest p-value as well as lowest AIC value, so we drop it 
+
+fit_3 <- update(fit_2, ~ . - INDUS)
+fit_3
+summary(fit_3)
+drop1(fit_3, k=log(n))
                 </code>
                 </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Checking Multicolinearity Again with Slimmer DataSet
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# creating new data.frame with relevant variables
+boston_df_2 <- data.frame(MEDV, CRIM, ZN, CHAS, NOX, RM, DIS, RAD, TAX, PTRATIO, B, LSTAT)
+# checking colinearity of new data.frame
+vif(boston_df_2)
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Working Model 4 After Removing Highly Colinear Variable
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# now we drop TAX to see what happens 
+
+fit_4 <- update(fit_3, ~ . - TAX)
+fit_4
+summary(fit_4)
+drop1(fit_4, k=log(n))
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Checking Multicolinearity yet again, 
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# creating new data.frame with relevant variables
+boston_df_3 <- data.frame(MEDV, CRIM, ZN, CHAS, NOX, RM, DIS, RAD, PTRATIO, B, LSTAT)
+# checking colinearity of new data.frame
+vif(boston_df_3)
+
+# outputting image_file
+png(filename="output/outlierTest_fit_4.png")
+pairs(~ MEDV + CRIM + ZN + CHAS + NOX + RM + DIS + RAD + PTRATIO + B + LSTAT)
+dev.off()
+# turning off png()
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Adding non-linear components
+                </h3>
+                <br/>
+                <pre>
+                <code>
+fit_5 <- lm(MEDV ~ . + I(LSTAT^2), data = boston_df_3)
+fit_5
+summary(fit_5)
+drop1(fit_5, k=log(n))
+
+fit_6 <- lm(MEDV ~ . + poly(LSTAT ,5), data = boston_df_3)
+fit_6
+summary(fit_6)
+drop1(fit_6, k=log(n))
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
                 <br/>
                 <p>
                    ...
@@ -305,29 +443,50 @@ vif(boston_df)
                     ...
                 </p>
                 <br/>
+<!-- CODE HERE -->
+                <h3>
+                    Assessing Outliers and Getting Plot of Residuals
+                </h3>
+                <br/>
                 <pre>
                 <code>
-# structure
-str(boston_df)
-# scoping out first rows of data
-head(boston_df)
-# scoping out last rows of data
-tail(boston_df)
-# getting a descriptive stats summary of our data
-summary(boston_df)
+library(car)
 
-# getting scatterplot of all data vectors
+# assessing outliers
+outlierTest(fit_6) # Bonferonni p-value for most extreme obs
+
+#qq plot for studentized resid
 # outputting image_file
-png(filename="output/pairs_all.png")
-pairs( ~ MEDV + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT +  CRIM)
-# turning off png()
+png(filename="output/qqPlot_fit_6.png")
+qqPlot(fit_6, main="QQ Plot")
 dev.off()
-
-library(usdm)
-
-vif(boston_df)
+# turning off png()
                 </code>
                 </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Getting Distribution of Residuals
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# normality of residuals
+# distribution of studentized residuals
+library(MASS)
+sresid_fit_6 <- studres(fit_6)  
+# outputting image_file
+png(filename="output/hist_sresid_fit_6.png")
+hist(sresid_fit_6, freq=FALSE, main="Distribution of Studentized Residuals for Model 6")
+xfit_6<-seq(min(sresid_fit_6),max(sresid_fit_6),length=40) 
+yfit_6<-dnorm(xfit_6)
+lines(xfit_6, yfit_6)
+# turning off png()
+dev.off()
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
                 <br/>
                 <p>
                    ...
@@ -349,29 +508,70 @@ vif(boston_df)
                     ...
                 </p>
                 <br/>
+<!-- CODE HERE -->
+                <h3>
+                    Cross Validation for Model 4
+                </h3>
+                <br/>
                 <pre>
                 <code>
-# structure
-str(boston_df)
-# scoping out first rows of data
-head(boston_df)
-# scoping out last rows of data
-tail(boston_df)
-# getting a descriptive stats summary of our data
-summary(boston_df)
+library(DAAG)
 
-# getting scatterplot of all data vectors
-# outputting image_file
-png(filename="output/pairs_all.png")
-pairs( ~ MEDV + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT +  CRIM)
-# turning off png()
+print("CROSS VALIDATION FOR MODEL 4")
+
+# outputting image
+png(filename="output/CV_f4.png")
+f4_CV <- CVlm(data = boston_df_2, form.lm = formula(fit_4), m = 10, dots = FALSE, seed = 1, plotit = c("Observed", "Residual"), main = "Cross-validation for fit_4", legend.pos="topleft", printit = TRUE)
 dev.off()
-
-library(usdm)
-
-vif(boston_df)
+# turning off png()
+summary(f4_CV)
+attributes(f4_CV)
+# mean squared: 24.2
                 </code>
                 </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Cross Validation for Model 5
+                </h3>
+                <br/>
+                <pre>
+                <code>
+print("CROSS VALIDATION FOR MODEL 5")
+
+# outputting image
+png(filename="output/CV_f5.png")
+f5_CV <- CVlm(data = boston_df_3, form.lm = formula(fit_5), m = 10, dots = FALSE, seed = 1, plotit = c("Observed", "Residual"), main = "Cross-validation for fit_5", legend.pos="topleft", printit = TRUE)
+dev.off()
+# turning off png()
+summary(f5_CV)
+attributes(f5_CV)
+# mean squared: 19.8
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <br/>
+                <h3>
+                    Cross Validation for Model 6 
+                </h3>
+                <br/>
+                <pre>
+                <code>
+print("CROSS VALIDATION FOR MODEL 6")
+
+# outputting image
+png(filename="output/CV_f6.png")
+f6_CV <- CVlm(data = boston_df_3, form.lm = formula(fit_6), m = 10, dots = FALSE, seed = 1, plotit = c("Observed", "Residual"), main = "Cross-validation for fit_6", legend.pos="topleft", printit = TRUE)
+dev.off()
+# turning off png()
+summary(f6_CV)
+attributes(f6_CV)
+# mean squared: 18.4
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
                 <br/>
                 <p>
                    ...
@@ -393,66 +593,20 @@ vif(boston_df)
                     ...
                 </p>
                 <br/>
-                <pre>
-                <code>
-library(DAAG)
-
-print("CROSS VALIDATION FOR MODEL 4")
-
-# outputting image
-png(filename="output/CV_f4.png")
-f4_CV <- CVlm(data = boston_df_2, form.lm = formula(fit_4), m = 10, dots = FALSE, seed = 1, plotit = c("Observed", "Residual"), main = "Cross-validation for fit_4", legend.pos="topleft", printit = TRUE)
-dev.off()
-# turning off png()
-summary(f4_CV)
-attributes(f4_CV)
-# mean squared: 24.2
-
-#####################################################################################################################################################
-
-print("CROSS VALIDATION FOR MODEL 5")
-
-# outputting image
-png(filename="output/CV_f5.png")
-f5_CV <- CVlm(data = boston_df_3, form.lm = formula(fit_5), m = 10, dots = FALSE, seed = 1, plotit = c("Observed", "Residual"), main = "Cross-validation for fit_5", legend.pos="topleft", printit = TRUE)
-# turning off png()
-dev.off()
-
-summary(f5_CV)
-attributes(f5_CV)
-# mean squared: 19.8
-
-#####################################################################################################################################################
-
-print("CROSS VALIDATION FOR MODEL 6")
-
-# outputting image
-png(filename="output/CV_f6.png")
-f6_CV <- CVlm(data = boston_df_3, form.lm = formula(fit_6), m = 10, dots = FALSE, seed = 1, plotit = c("Observed", "Residual"), main = "Cross-validation for fit_6", legend.pos="topleft", printit = TRUE)
-dev.off()
-# turning off png()
-summary(f6_CV)
-attributes(f6_CV)
-# mean squared: 18.4
-                </code>
-                </pre>
-                <br/>
                 <p>
                    ...
                 </p>
             </div>
         </section>
-
-
+        <!--CONGRATS-->
         <section class="main-section xlarge-paragraph">
             <div class="container">
                 <p>
-                    Congratulations for getting this far! We hope you enjoyed following this project. Please reach out to us if you have any feedback or would like to publish your own project.
+                    Congratulations for getting this far! We hope you enjoyed this project. Please reach out to us <a href="../index.html#sayHi">here</a> if you have any feedback or would like to publish your own project.
                 </p>
             </div>
         </section>
-
-
+        <!--GITHUB FORK LINK-->
         <section class="main-section">
             <div class="container" style="text-align:center;">
                 <p>FORK THIS PROJECT ON GITHUB</p>
@@ -462,22 +616,21 @@ attributes(f6_CV)
                 </a>
             </div>
         </section>
-
+        <!--BACK TO TOP-->
         <section class="main-section large-paragraph">
             <div class="container" style="text-align:center;">
                 <a href="#">Back to top</a>
             </div>
         </section>
-
+    <!--FOOTER-->
     <footer class="footer">
         <progress id="progressbar" value="0" max="100"></progress>
         <div class="container">
-            <div class="footer-logo"><a href="../index.html"><img src="../img/data_logo.png" alt=""></a></div>
+            <div class="footer-logo"><a href="../index.html"><img src="../img/data_logo.png" alt="data_logo"></a></div>
             <span class="copyright">Copyright © 2016 | <a href="../index.html">INERTIA7</a></span>
         </div>
     </footer>
-
-
+    <!--SCRIPTS-->
     <script>
     wow = new WOW(
       {
@@ -487,7 +640,6 @@ attributes(f6_CV)
     );
     wow.init();
     </script>
-
     <script type="text/javascript">
         $(window).load(function(){
             
@@ -507,15 +659,12 @@ attributes(f6_CV)
             });
         })
     </script>
-
     <script type="text/javascript">
     $(window).load(function(){
-      
       var $container = $('.portfolioContainer'),
           $body = $('body'),
           colW = 375,
           columns = null;
-     
       $container.isotope({
         // disable window resizing
         resizable: true,
@@ -523,7 +672,6 @@ attributes(f6_CV)
           columnWidth: colW
         }
       });
-      
       $(window).smartresize(function(){
         // check if columns has changed
         var currentColumns = Math.floor( ( $body.width() -30 ) / colW );
@@ -534,22 +682,18 @@ attributes(f6_CV)
           $container.width( columns * colW )
             .isotope('reLayout');
         }
-        
       }).smartresize(); // trigger resize to set container width
       $('.portfolioFilter a').click(function(){
             $('.portfolioFilter .current').removeClass('current');
             $(this).addClass('current');
-     
             var selector = $(this).attr('data-filter');
             $container.isotope({
-                
                 filter: selector,
              });
              return false;
         });
     });
     </script>
-
 <!-- GOOGLE ANALYTICS -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -560,8 +704,8 @@ attributes(f6_CV)
   ga('create', 'UA-54935029-2', 'auto');
   ga('send', 'pageview');
 </script>
-<!-- [END] GOOGLE ANALYTICS -->
-
+    <!-- [END] GOOGLE ANALYTICS -->
+<!--PROGRESS BAR-->
 <script type="text/javascript">
     $(window).scroll(function () {
       var s = $(window).scrollTop(),
@@ -571,9 +715,7 @@ attributes(f6_CV)
             var position = scrollPercent;
 
        $("#progressbar").attr('value', position);
-
     });
 </script>
-
 </body>
 </html>
