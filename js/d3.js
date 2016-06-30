@@ -4,8 +4,6 @@ var margin = {top: 20, right: 20, bottom: 30, left: 50},
 
 var formatDate = d3.time.format("%d-%b-%y");
 
-var cock = "cock!";
-
 var x = d3.time.scale()
     .range([0, width]);
 
