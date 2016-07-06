@@ -80,15 +80,23 @@
             </h3>
             <br/>
             <p>
-                ...
+                This project focuses on finding the linear regression model to estimate the median value (in $1000's) of owner-occupied homes in the Suburbs of Boston.
             </p>
             <br/>
             <p>
-                this project is in progress
+                This project is interesting because understanding house prices (and other related variables) is relevant to economists and policy-makers when allocating budgets for domestic purposes, broadly speaking. Linear regression is a fundamental concept in statistical-learning from which other <em>more sophisticated</em> methods arise. For this reason, although it is not the most precise, it is useful to understand.
             </p>
             <br/>
             <p>
-                ...
+                For this project we leverage the horse-power of R and deliver, where appropriate, gorgeous data visualizations using d3.js and plotly.js
+            </p>
+            <br/>
+            <p>
+                The data used is available at the <a href="https://archive.ics.uci.edu/ml/datasets/Housing" target="_blank">UCI Machine Learning Repository</a>, and this modeling problem is referenced in the 2014 version of the book <a href="https://web.stanford.edu/~hastie/local.ftp/Springer/ISLR_print1.pdf">An Introduction to Statistical Learning</a> by Gareth Games, Daniela Witten, Trevor Hastie, and Robert Tibshinari.
+            </p>
+            <br/>
+            <p>
+                We encourage you to try replicating this project and make your own contributions! You can fork this project on <a href="https://github.com/dcamposliz/regression_bostonHousing" target="_blank">GitHub</a>.
             </p>
         </div>
         <br/>
@@ -165,71 +173,53 @@
                 <h2>Environment Setup</h2>
                 <hr/>
                 <p>
-                    ...
-                </p>
-                <br/>
-                <p>
-                    ...
+                    First we load the necessary packages into our R environment using the <code>library()</code> method. We will need the packages <code>usdm</code> to test for multicollinearity, <code>car</code> to diagnose for outliers, <code>MASS</code> to diagnose studentized residuals, <code>DAAG</code> to cross validate, and <code>lmtest</code> to check for heteroskedasticity / homoskedasticity. It is important that you first install these packages using <code>install.packages()</code> if haven't done so already!
                 </p>
                 <br/>
 <!-- CODE HERE -->
                 <h3>
-                    Setting Working Directory and Output Files
+                    Loading Packages
                 </h3>
                 <br/>
                 <pre>
                 <code>
-# setting working directory
-setwd("/home/dc/myProjects/inertia7_projects/regression_bostonHousing/")
-# setting terminal_output file
-sink("output/output.txt")
-# setting pdf_output file
-pdf("output/output.pdf")
+library(usdm) # for testing collinearity
+library(car) # for testing outliers
+library(MASS) # for testing studentized residuals
+library(DAAG) # for cross validation of model
+library(lmtest) # for checking homoskedasticity / heteroskedasticity
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
 <!-- CODE HERE -->
                 <br/>
                 <h3>
-                    Loading Data
+                    Setting Working Directory and Loading Data
                 </h3>
+                <br/>
+                <p>
+                    Then we set up our working directory, and use the <code>read.csv()</code> method to load our data. We attach the dataset's variable names using <code>attach()</code>. The variable <code>CHAS</code> only takes two values (0 or 1) so we turn it into a factor using the <code>as.factor()</code> method. Finally, we create our data frame using the <code>data.frame()</code> for use in the rest of our project.
+                </p>
                 <br/>
                 <pre>
                 <code>
-# loading data
+setwd("  ...{PATH TO WORKING DIRECTORY}...  ")
+
 boston <- read.csv("data/boston_housing_data.csv", header = TRUE, sep = ",")
-# attaching dimension names from data
 attach(boston)
-# creating data.frame for easier data_wrangling
-boston_df <- data.frame(CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, MEDV)
+
+str(boston)
+
+# turning CHAS into factor variable as it only can only take two values
+CHAS <- as.factor(CHAS)
+
+boston.df <- data.frame(CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, MEDV)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
-<!-- CODE HERE -->
-                <br/>
-                <h3>
-                    Installing Missing Packages
-                </h3>
-                <br/>
-                <pre>
-                <code>
-# installing missing packages
-list.of.packages <- c("usdm", "car", "MASS", "DAAG")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages, repos = "https://cran.cnr.berkeley.edu/")
-# source:   http://stackoverflow.com/questions/4090169/elegant-way-to-check-for-missing-packages-and-install-them
-                </code>
-                </pre>
-<!-- [END] CODE HERE -->
-
-
-
-
-
-
                 <br/>
                 <p>
-                   ...
+                   Now we are ready for some exploratory analysis.
                 </p>
             </div>
         </section>
@@ -240,80 +230,76 @@ if(length(new.packages)) install.packages(new.packages, repos = "https://cran.cn
                 <hr/>
                 <h2>Exploratory Analysis</h2>
                 <hr/>
-                <p>
-                    ...
-                </p>
-                <br/>
-                <p>
-                    ...
-                </p>
-                <br/>
 <!-- CODE HERE -->
                 <h3>
-                    Getting a feel for our data
+                    Data Structure
                 </h3>
+                <br/>
+                <p>
+                    Here we run our data frame through the <code>str()</code> method to get a rough feeling for how it is structured. 
+
+                </p>
                 <br/>
                 <pre>
                 <code>
-# structure
-str(boston_df)
-# scoping out first rows of data
-head(boston_df)
-# scoping out last rows of data
-tail(boston_df)
-# getting a descriptive stats summary of our data
-summary(boston_df)
+str(boston.df)
                 </code>
                 </pre>
+                <br/>
+                <p>
+                    We can see that we have a total of 14 variables and 506 observations. We can also see the data types for the different variables, as well as sample values.
+                </p>
+                <br/>
 <!-- [END] CODE HERE -->
+                <pre style="color:white">
+                <samp>
+> str(boston)
+'data.frame':   506 obs. of  14 variables:
+ $ CRIM   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
+ $ ZN     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
+ $ INDUS  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
+ $ CHAS   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ NOX    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
+ $ RM     : num  6.58 6.42 7.18 7 7.15 ...
+ $ AGE    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
+ $ DIS    : num  4.09 4.97 4.97 6.06 6.06 ...
+ $ RAD    : int  1 2 2 3 3 3 5 5 5 5 ...
+ $ TAX    : num  296 242 242 222 222 222 311 311 311 311 ...
+ $ PTRATIO: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
+ $ B      : num  397 397 393 395 397 ...
+ $ LSTAT  : num  4.98 9.14 4.03 2.94 5.33 ...
+ $ MEDV   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...                    
+                </samp>
+                </pre>
 <!-- CODE HERE -->
                 <br/>
                 <h3>
                     Getting Scatterplot Matrix
                 </h3>
                 <br/>
+                <p>
+                    Here we run our data frame through the <code>pairs()</code> method to get a feel for how our variables might be related to each other.
+                </p>
+                <br/>
                 <pre>
                 <code>
-# getting scatterplot of all data vectors
-# outputting image_file
-png(filename="output/pairs_all.png")
-pairs( ~ MEDV + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT +  CRIM)
-# turning off png()
-dev.off()
+pairs(boston.df)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
             <!-- IMG [GETTING SCATTERPLOT MATRIX] -->
                 <br/>
                 <div align="center">
-                    <img src="../img/regression_bostonHousing/pairs_all.png" alt=""> 
+                    <img src="../img/regression_bostonHousing/pairs_all.png" alt="" width="80%"> 
                 </div>
                 <br/>
                 <!-- IMG INTERPRETATION -->
                 <p>
-                    Image interpretation.
+                    Here we are looking for linear relationships between our reponse variable <code>MEDV</code> and the rest of the variables in our data frame. We can roughly infer that <code>RM</code>, <code>PTRATIO</code>, and <code>LSTAT</code> might be most relevant in estimating <code>MEDV</code>.
                 </p>
                 <br/>
                 <br/>
-            <!-- IMG [END] -->
-<!-- CODE HERE -->
-                <br/>
-                <h3>
-                    Checking Colinearity
-                </h3>
-                <br/>
-                <pre>
-                <code>
-library(usdm)
-
-vif(boston_df)
-                </code>
-                </pre>
-<!-- [END] CODE HERE -->
-                <br/>
-                <p>
-                   ...
-                </p>
+                <!-- IMG [END] -->
             </div>
         </section>
 
@@ -325,126 +311,93 @@ vif(boston_df)
                 <h2>Modeling</h2>
                 <hr/>
                 <p>
-                    ...
+                    Now comes the fun part: finding a linear regression model that best fits our data.
                 </p>
+                <br/>
+<!-- CODE HERE -->
+                <h3>
+                    Model 1: All In
+                </h3>
                 <br/>
                 <p>
-                    ...
+                    Going all in with the data.
                 </p>
                 <br/>
-<!-- CODE HERE -->
-                <h3>
-                    Backward Elimination of Non-Significant Variables, Models 1 - 3
-                </h3>
-                <br/>
                 <pre>
                 <code>
-fit_1 <- lm(MEDV ~ ., data = boston_df)
-fit_1
-summary(fit_1)
+fit1 <- lm(MEDV ~ ., data = boston.df)
+summary(fit1)
 
-n <- nrow(boston_df)
-drop1(fit_1, k=log(n))
+bptest(fit1) # checking for homoskedasticity
+# p-value is very small so our assumption for homoskedasticity is valid
 
-# AGE has both the highest p-value as well as lowest AIC value, so we drop it
-
-fit_2 <- update(fit_1, ~ . - AGE)
-fit_2
-summary(fit_2)
-drop1(fit_2, k=log(n))
-
-# now INDUS has both the highest p-value as well as lowest AIC value, so we drop it 
-
-fit_3 <- update(fit_2, ~ . - INDUS)
-fit_3
-summary(fit_3)
-drop1(fit_3, k=log(n))
+vif(fit1) # checking multicollinearity
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
 <!-- CODE HERE -->
                 <br/>
                 <h3>
-                    Checking Multicolinearity Again with Slimmer DataSet
+                    Model 2: Removing Collinear Variable (TAX)
                 </h3>
                 <br/>
                 <pre>
                 <code>
-# creating new data.frame with relevant variables
-boston_df_2 <- data.frame(MEDV, CRIM, ZN, CHAS, NOX, RM, DIS, RAD, TAX, PTRATIO, B, LSTAT)
-# checking colinearity of new data.frame
-vif(boston_df_2)
+fit2 <- update(fit1, ~ . - TAX)
+vif(fit2) # collinearity seems to no longer be an issue
+summary(fit2)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
 <!-- CODE HERE -->
                 <br/>
                 <h3>
-                    Working Model 4 After Removing Highly Colinear Variable
+                    Model 3: Removing Non-Significant Variables (AGE, INDUS, RAD)
                 </h3>
                 <br/>
                 <pre>
                 <code>
-# now we drop TAX to see what happens 
-
-fit_4 <- update(fit_3, ~ . - TAX)
-fit_4
-summary(fit_4)
-drop1(fit_4, k=log(n))
+fit3 <- update(fit2, ~ . - AGE - INDUS - RAD)
+summary(fit3)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
 <!-- CODE HERE -->
                 <br/>
                 <h3>
-                    Checking Multicolinearity yet again, 
+                    Model 4: Removing Outliers and High-Leverage Points
                 </h3>
                 <br/>
                 <pre>
                 <code>
-# creating new data.frame with relevant variables
-boston_df_3 <- data.frame(MEDV, CRIM, ZN, CHAS, NOX, RM, DIS, RAD, PTRATIO, B, LSTAT)
-# checking colinearity of new data.frame
-vif(boston_df_3)
+outlierTest(fit3, cutoff = Inf, n.max = 15)
 
-# outputting image_file
-png(filename="output/outlierTest_fit_4.png")
-pairs(~ MEDV + CRIM + ZN + CHAS + NOX + RM + DIS + RAD + PTRATIO + B + LSTAT)
-dev.off()
-# turning off png()
+# removing rows with outliers and high-leverage points
+
+boston.df <- boston.df[-c(369, 372, 373, 370, 413, 365, 371, 366, 187, 375),]
+
+# model 4
+
+fit4 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD, data = boston.df)
+summary(fit4)
+par(mfrow = c(2,2))
+plot(fit4)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
-                <!-- IMG [CHECKING MULTICOLINEARITY YET AGAIN] -->
-                    <br/>
-                    <div align="center">
-                        <img src="../img/regression_bostonHousing/outlierTest_fit_4.png" alt=""> 
-                    </div>
-                    <br/>
-                    <!-- IMG INTERPRETATION -->
-                    <p>
-                        Image interpretation.
-                    </p>
-                    <br/>
-                    <br/>
-                <!-- IMG [END] -->
-<!-- CODE HERE -->
                 <br/>
                 <h3>
-                    Adding non-linear components
+                    Diagnosing Residuals (Checking for Normality of Residuals)
                 </h3>
                 <br/>
                 <pre>
                 <code>
-fit_5 <- lm(MEDV ~ . + I(LSTAT^2), data = boston_df_3)
-fit_5
-summary(fit_5)
-drop1(fit_5, k=log(n))
-
-fit_6 <- lm(MEDV ~ . + poly(LSTAT ,5), data = boston_df_3)
-fit_6
-summary(fit_6)
-drop1(fit_6, k=log(n))
+studentizedResiduals <- studres(fit4)
+par(mfrow = c(1,1))
+hist(studentizedResiduals, freq = FALSE, main = "Distribution of Studentized Residuals")
+xfit <- seq(min(studentizedResiduals), max(studentizedResiduals), length = 40)
+yfit <- dnorm(xfit)
+lines(xfit, yfit)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
@@ -452,99 +405,51 @@ drop1(fit_6, k=log(n))
                 <p>
                    ...
                 </p>
-            </div>
-        </section>
-<!-- 4. Residue Diagnostics-->
-        <section id="step4" class="main-section xlarge-paragraph">
-            <div class="container">
-                <h1>4.</h1>
-                <hr/>
-                <h2>Residue Diagnostics</h2>
-                <hr/>
-                <p>
-                    ...
-                </p>
                 <br/>
-                <p>
-                    ...
-                </p>
-                <br/>
-<!-- CODE HERE -->
                 <h3>
-                    Assessing Outliers and Getting Plot of Residuals
+                    Model 5: Adding Non-Linear Terms
                 </h3>
                 <br/>
                 <pre>
                 <code>
-library(car)
+par(mfrow = c(1,1))
+plot(MEDV ~ LSTAT)
+  
+# fiting exponential term to our model
 
-# assessing outliers
-outlierTest(fit_6) # Bonferonni p-value for most extreme obs
-
-#qq plot for studentized resid
-# outputting image_file
-png(filename="output/qqPlot_fit_6.png")
-qqPlot(fit_6, main="QQ Plot")
-dev.off()
-# turning off png()
+fit5 <- lm(MEDV ~ . - TAX - AGE - INDUS + I(LSTAT^2), data = boston.df)
+summary(fit5)
+par(mfrow = c(2,2))
+plot(fit5)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
-                <!-- IMG [ASSESSING OUTLIERS AND GETTING PLOT OF RESIDUALS] -->
-                    <br/>
-                    <div align="center">
-                        <img src="../img/regression_bostonHousing/qqPlot_fit_6.png" alt=""> 
-                    </div>
-                    <br/>
-                    <!-- IMG INTERPRETATION -->
-                    <p>
-                        Image interpretation.
-                    </p>
-                    <br/>
-                    <br/>
-                <!-- IMG [END] -->
-<!-- CODE HERE -->
-                <br/>
-                <h3>
-                    Getting Distribution of Residuals
-                </h3>
-                <br/>
-                <pre>
-                <code>
-# normality of residuals
-# distribution of studentized residuals
-library(MASS)
-sresid_fit_6 <- studres(fit_6)  
-# outputting image_file
-png(filename="output/hist_sresid_fit_6.png")
-hist(sresid_fit_6, freq=FALSE, main="Distribution of Studentized Residuals for Model 6")
-xfit_6<-seq(min(sresid_fit_6),max(sresid_fit_6),length=40) 
-yfit_6<-dnorm(xfit_6)
-lines(xfit_6, yfit_6)
-# turning off png()
-dev.off()
-                </code>
-                </pre>
-<!-- [END] CODE HERE -->
-                <!-- IMG [GETTING DISTRIBUTION OF RESIDUALS] -->
-                    <br/>
-                    <div align="center">
-                        <img src="../img/regression_bostonHousing/hist_sresid_fit_6.png" alt=""> 
-                    </div>
-                    <br/>
-                    <!-- IMG INTERPRETATION -->
-                    <p>
-                        Image interpretation.
-                    </p>
-                    <br/>
-                    <br/>
-                <!-- IMG [END] -->
                 <br/>
                 <p>
                    ...
                 </p>
+                <br/>
+                <h3>
+                    Model 6: More Non-Linearity
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# lstat to the third-power
+
+fit6 <- lm(MEDV ~ . - TAX - AGE - INDUS + I(LSTAT^2) + I(LSTAT^3), data = boston.df)
+summary(fit6)
+                </code>
+                </pre>
+<!-- [END] CODE HERE -->
+                <br/>
+                <p>
+                   ...
+                </p>
+
             </div>
         </section>
+
 <!-- 5. Cross validation-->
         <section id="step5" class="main-section xlarge-paragraph">
             <div class="container">
