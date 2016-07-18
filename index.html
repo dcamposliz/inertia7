@@ -34,6 +34,7 @@
 <link href="css/responsive.css" rel="stylesheet" type="text/css">
 <link href="css/animate.css" rel="stylesheet" type="text/css">
 <link href="css/d3_style.css" rel="stylesheet" type="text/css">
+<link href="css/particles.css" rel="stylesheet" type="text/css">
 <!--[if IE]><style type="text/css">.pie {behavior:url(PIE.htc);}</style><![endif]-->
 
 <script type="text/javascript" src="js/jquery.1.8.3.min.js"></script>
@@ -45,6 +46,7 @@
 <script type="text/javascript" src="js/classie.js"></script>
 
 
+
 <!--[if lt IE 9]>
     <script src="js/respond-1.1.0.min.js"></script>
     <script src="js/html5shiv.js"></script>
@@ -53,16 +55,19 @@
 </head>
 <body>
 <div style="overflow:hidden;">
+<div id="particles-js"></div>
 <header class="header" id="header"><!--header-start-->
     <div class="container">
-        <figure class="logo animated fadeInDown delay-07s">
-            <a href="#"><img src="img/data_logo.png" alt=""></a>    
-        </figure>   
-        <h1 class="animated fadeInDown delay-07s">WELCOME TO INERTIA7</h1>
-        <ul class="we-create animated fadeInUp delay-1s">
-            <li>We code <strong>data science</strong> projects, and publish them so you can learn too!</li>
-        </ul>
-        <a class="link animated fadeInUp delay-1s" href="#test">LEARN NOW</a>
+            <div id="welcome">
+                <figure class="logo animated fadeInDown delay-07s">
+                    <a href="#"><img src="img/data_logo.png" alt=""></a>    
+                </figure>   
+                <h1 class="animated fadeInDown delay-07s">WELCOME TO INERTIA7</h1>
+                <ul class="we-create animated fadeInUp delay-1s">
+                    <li>We code <strong>data science</strong> projects, and publish them so you can learn too!</li>
+                </ul>
+                <a class="link animated fadeInUp delay-1s" href="#test">LEARN NOW</a>
+            </div>
     </div>
 </div>
 </header><!--header-end-->
@@ -322,6 +327,8 @@ $(window).load(function(){
     });
 });
 </script>
+
+<script type="text/javascript" src="js/particles.js"></script>
 
 
 <!-- GOOGLE ANALYTICS -->
