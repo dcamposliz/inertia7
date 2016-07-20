@@ -80,7 +80,7 @@
     <div class="container"> 
             <h1 class="animated fadeInDown delay-07s">IRIS FLOWERS CLASSIFICATION</h1>
             <ul class="we-create animated fadeInUp delay-1s">
-                <li><strong>K Nearest Neighbors</strong> of <strong>Iris Flowers</strong> with <strong>R</strong></li>
+                <li><strong>Data Mining Analysis</strong> of <strong>Iris Flowers</strong> with <strong>R</strong></li>
             </ul>
     </div>
 </div>
@@ -190,75 +190,73 @@
                 <code>
 # install necessary packages first
 
-# install.packages("data.table")
-# install.packages("ggplot2")
-# install.packages("ggfortify")
-# install.packages("caret")
-# install.packages("class")
-# install.packages("gridExtra")
-# install.packages("scales")
-# install.packages("tree")
-# install.packages("GGally")
-# install.packages("RGraphics")
-# install.packages("grid")
-# install.packages("ROCR")
+    # install.packages("data.table")
+    # install.packages("ggplot2")
+    # install.packages("ggfortify")
+    # install.packages("caret")
+    # install.packages("class")
+    # install.packages("gridExtra")
+    # install.packages("scales")
+    # install.packages("tree")
+    # install.packages("GGally")
+    # install.packages("RGraphics")
+    # install.packages("grid")
+    # install.packages("ROCR")
 
 # load packages into session
 
-library(data.table)
-library(ggplot2)
-library(ggfortify)
-library(caret)
-library(class)
-library(gridExtra)
-library(scales)
-library(tree)
-library(GGally)
-library(RGraphics)
-library(grid)
-library(ROCR)
-
+    library(data.table)
+    library(ggplot2)
+    library(ggfortify)
+    library(caret)
+    library(class)
+    library(gridExtra)
+    library(scales)
+    library(tree)
+    library(GGally)
+    library(RGraphics)
+    library(grid)
+    library(ROCR)
 
 # load data and dimension names
 
-attach(iris)
-data(iris) 
-
-# exploratory analysis
-
-head(iris)
-gg1<-ggplot(iris,aes(x=Sepal.Width,y=Sepal.Length, shape=Species, color=Species))+geom_point(size=2)
-gg2<-ggplot(iris,aes(x=Petal.Width,y=Petal.Length, shape=Species, color=Species))+geom_point(size=2)
-
-grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
+    attach(iris)
+    data(iris) 
+    # exploratory analysis
+    head(iris)
+    gg1<-ggplot(iris,aes(x=Sepal.Width,y=Sepal.Length, shape=Species, color=Species))+geom_point(size=2)
+    gg2<-ggplot(iris,aes(x=Petal.Width,y=Petal.Length, shape=Species, color=Species))+geom_point(size=2)
+    grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
 
 # knn analysis
 
-set.seed(1)
-samp.size <- floor(nrow(iris) * .75)
-samp.size
-set.seed(1)
-train.ind <- sample(seq_len(nrow(iris)), size = samp.size) 
-train.ind 
-train <- iris[train.ind, ] 
-head(train) 
+    set.seed(123)
+    samp.size <- floor(nrow(iris) * .75)
+    samp.size
+    set.seed(123)
 
-train.set <- subset(train, select = -c(Species)) 
-head(train.set) 
-test <- iris[-train.ind, ]
-head(test) 
-test.set <- subset(test, select = -c(Species))
-head(test.set) 
-class <- train[, "Species"]
+    train.ind <- sample(seq_len(nrow(iris)), size = samp.size) 
+    train.ind 
+    train <- iris[train.ind, ] 
+    head(train) 
+    train.set <- subset(train, select = -c(Species)) 
+    head(train.set) 
+    test <- iris[-train.ind, ]
+    head(test) 
+    test.set <- subset(test, select = -c(Species))
 
-set.seed(400)
-contrl <- trainControl(method="repeatedcv",repeats = 3)
-knn.K <- train(Species ~ ., data = train, method = "knn", trControl = contrl, preProcess = c("center","scale"),tuneLength = 20)
-knn.K
-
-knn.iris <- knn(train = train.set, test = test.set, cl = class, k = 9, prob = T)
-
-table(test.set, knn.iris)
+    head(test.set) 
+    class <- train[,"Species"]
+    test.class <- test [,"Species"]
+    set.seed(123)
+    contrl <- trainControl(method="repeatedcv",repeats = 3)
+    knn.K <- train(Species ~ ., data = train, method = "knn", trControl = contrl, preProcess = c("center","scale"),tuneLength = 20)
+    knn.K
+    knn.iris <- knn(train = train.set, test = test.set, cl = class, k = 9, prob = T)
+    dim(train)
+    dim(class)
+    length(class)
+    table(test.class, knn.iris)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
