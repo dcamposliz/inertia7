@@ -59,7 +59,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-size:14px;
 	font-weight:normal;
-	color:#888888;
+	color:#737373;
 	margin:0;
 }
 h2{
@@ -125,7 +125,7 @@ p{
 .we-create li{
 	display:inline-block;
 	font-family: 'Montserrat',sans-serif;
-	font-size:14px;
+	font-size:18px;
 	color: #bcbcbc;
 	text-transform: uppercase;
 	font-weight: 400;
@@ -707,7 +707,7 @@ border: 2px solid #fff;
 	display:block;
 	border-radius:4px;
 	font-size:15px;
-	color:#aaa;
+	color:#4e4e4e;
 	font-family: 'Open Sans', sans-serif;
 	margin:0 0 15px 0;
 	transition:all 0.3s ease-in-out;
@@ -861,6 +861,9 @@ border: 2px solid #fff;
 /*
 	PROJECT ATTRIBUTES
 */
+#recommendedResources{
+	background:url(../img/recommendedResources.png);
+}
 
 #timeSeries_stockMarket{
 	background:url(../img/wallStreet_2.png);
@@ -873,6 +876,7 @@ border: 2px solid #fff;
 #classification_iris{
 	background:url(../img/classification_iris/iris_3.png);
 }
+
 
 /*
 	CODE
