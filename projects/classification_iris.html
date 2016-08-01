@@ -288,18 +288,22 @@
                 <code>
 # exploratory analysis
 
-    head(iris)
-    gg1<-ggplot(iris,aes(x=Sepal.Width,y=Sepal.Length, shape=Species, color=Species))+geom_point(size=2)
-    gg2<-ggplot(iris,aes(x=Petal.Width,y=Petal.Length, shape=Species, color=Species))+geom_point(size=2)
-    grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
+gg1<-ggplot(iris,aes(x=Sepal.Width,y=Sepal.Length, shape=Species, color=Species))+geom_point(size=2)
+
+gg2<-ggplot(iris,aes(x=Petal.Width,y=Petal.Length, shape=Species, color=Species))+geom_point(size=2)
+
+grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
-
                 <br/>
                 <p>
                    We can see that one can distinguish the setosa species really well when comparing the dimensions of the petals. So this an indication that when predicting species the setosa will be the most distinguishable and produce the least prediction errors, while the other two species will most likely encounter wrong predictions in that the versicolor will be wrongly predicted as virginica and vice versa. So the first method we will use will help us understand what variables will be useful in our modeling!
                 </p>
+                <br/>
+                <div align="center">
+                    <img src="../img/classification_iris/scatterPlots.png" alt="" width="80%"> 
+                </div>
                 <br/>
                 <p>
                    Our next visual is similar to the pairs function used in linear model regression analysis, here we utilize ggplot to grab and plot pairwise matrices. It gives us a larger visual of the different relationships the independent variables with respect to each other. 
