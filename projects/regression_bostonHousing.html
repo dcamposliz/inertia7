@@ -118,7 +118,7 @@
                     Basic working knowledge of the R programming language, statistics, and economics. If you need context in R we recommend that you visit <a href="https://www.datacamp.com/">DataCamp</a>.
                 </li>
                 <li>
-                    R environment. <a href="https://www.r-project.org/">Download R</a>. <a href="https://www.rstudio.com/home/">Download R Studio</a>
+                    R environment. <a href="https://www.r-project.org/">Download R</a>. <a href="https://www.rstudio.com/home/">Download R Studio</a>.
                 </li>
             </ul>
         </div>
@@ -311,7 +311,7 @@ str(boston.df)
                 </h3>
                 <br/>
                 <p>
-                    Here we run our data frame through the <code>pairs()</code> method to get a feel for how our variables might be related to each other. To learn more scatterplot matrices, visit this <a href="https://www.r-bloggers.com/scatterplot-matrices/">r-bloggers article</a> .
+                    Here we run our data frame through the <code>pairs()</code> method to get a feel for how our variables might be related to each other. To learn more scatterplot matrices, visit this <a href="https://www.r-bloggers.com/scatterplot-matrices/">r-bloggers article</a>.
                 </p>
                 <br/>
                 <pre>
@@ -377,7 +377,7 @@ vif(fit1)
                 </pre>
                 <br/>
                 <p>
-                    Below is our terminal output. Here we see the summary of our first model. Notice the <strong>Multiple R-squared</strong> of <strong>0.7406</strong>. In multiple regression, the R-squared is the square of the correlation between the response and fitted (predicted) linear model. This means that the higher our R-squared the better job our model is doing at predicting the response variable. We will need to run some diagnostics on our model before believing our R-squared value.
+                    Below is our terminal output. Here we see the summary of our first model. To learn more about model summaries, visit this <a href="https://www.r-bloggers.com/interpreting-regression-coefficient-in-r/">r-bloggers article</a>. Notice the <strong>Multiple R-squared</strong> of <strong>0.7406</strong>. In multiple regression, the R-squared is the square of the correlation between the response and fitted (predicted) linear model. This means that the higher our R-squared the better job our model is doing at predicting the response variable. We will need to run some diagnostics on our model before believing our R-squared value.
                 </p>
                 <br/>
                 <pre style="color:white">
@@ -455,7 +455,7 @@ BP = 65.045, df = 13, p-value = 6.47e-09
                 </h3>
                 <br/>
                 <p>
-                    Now onto our second model; this time without the <code>tax</code> variable (we removed it because of high multicollinearity). We use the <code>update()</code> method to recycle our first model while removing <code>tax</code>. Use <code>vif()</code> and <code>summary()</code> again to diagnose.
+                    Now onto our second model; this time we are removing the <code>tax</code> variable (because of high multicollinearity). We use the <code>update()</code> method to recycle our first model while removing <code>tax</code>. Use <code>vif()</code> and <code>summary()</code> again to diagnose.
                 </p>
                 <br/>
                 <pre>
@@ -482,7 +482,7 @@ summary(fit2)
                 </pre>
                 <br/>
                 <p>
-                    Now we drop variables that are not significant statistically. By convention, variables with a p-value larger than <strong>.05</strong> are considered <strong>not</strong> to be statistically significant. Let's start by dropping <code>age</code>, <code>indus</code>. <code>rad</code> will also prove <strong>not</strong> to be significant later in the project, so we will go ahead and drop it now as well.
+                    Below we get a summary of our second model. This time we are looking for variables that are not statistically significant to remove them. By convention, variables with a p-value larger than <strong>.05</strong> are considered <strong>not</strong> to be statistically significant. Notice the p-value in the terminal output below listed as <code>Pr(>|t|)</code> for each variable. Let's start by dropping <code>age</code>, <code>indus</code>. <code>rad</code> will also prove <strong>not</strong> to be significant later in the project, so we will go ahead and drop it now as well.
                 </p>
                 <br/>
                 <pre style="color:white">
@@ -627,7 +627,7 @@ outlierTest(fit3, cutoff = Inf, n.max = 15)
                 </h3>
                 <br/>
                 <p>
-                    Next we update our data frame by removing the outlier observations, declare our fourth model, and get some residual diagnostics.
+                    Next we update our data frame by removing the outlier observations, declare our fourth model, and get residual diagnostics plots using the <code>par()</code> and <code>plot()</code> methods to test our model.
                 </p>
                 <br/>
                 <pre>
@@ -701,7 +701,7 @@ F-statistic:  228 on 9 and 486 DF,  p-value: < 2e-16
                 </h3>
                 <br/>
                 <p>
-                    Another assumption for linear regression is normality of residual terms. For this we use the <code>studres()</code> and <code>hist()</code> methods. We also fit a curve using the <code>lines()</code> method.
+                    Another assumption for linear regression is normality of residual terms. We test normality of residuals using the <code>studres()</code> and <code>hist()</code> methods. We also fit a curve using the <code>lines()</code> method.
                 </p>
                 <br/>
                 <pre>
@@ -1234,7 +1234,9 @@ F-statistic:  242 on 10 and 485 DF,  p-value: < 2e-16
     <footer class="footer">
         <progress id="progressbar" value="0" max="100"></progress>
         <div class="container" style="text-align:center">
-                <a href="../resources.html" target="_blank">RECOMMENDED RESOURCES</a>
+                <a href="https://www.r-project.org/" target="_blank">DOWNLOAD R</a> | 
+                <a href="https://www.rstudio.com/home/" target="_blank">DOWNLOAD R STUDIO</a> |
+                <a href="../resources.html" target="_blank">MORE RESOURCES</a>
             </div>
             <br/><br/><br/>
         <div class="container">
