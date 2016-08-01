@@ -115,10 +115,10 @@
             <br/>
             <ul>
                 <li>
-                    Basic working knowledge of the R programming language, statistics, and economics.
+                    Basic working knowledge of the R programming language, statistics, and economics. If you need context in R we recommend that you visit <a href="https://www.datacamp.com/">DataCamp</a>.
                 </li>
                 <li>
-                    R software environment.
+                    R environment. <a href="https://www.r-project.org/">Download R</a>. <a href="https://www.rstudio.com/home/">Download R Studio</a>
                 </li>
             </ul>
         </div>
@@ -185,6 +185,24 @@
                 <br/>
 <!-- CODE HERE -->
                 <h3>
+                    Installing Packages
+                </h3>
+                <br/>
+                <pre>
+                <code>
+# RUN EACH OF THESE ON YOUR TERMINAL:
+
+install.packages("usdm")
+install.packages("car")
+install.packages("MASS")
+install.packages("DAAG")
+install.packages("lmtest")
+                </code>
+                </pre>
+                <br/>
+<!-- [END] CODE HERE -->
+<!-- CODE HERE -->
+                <h3>
                     Loading Packages
                 </h3>
                 <br/>
@@ -201,25 +219,28 @@ library(lmtest) # for checking homoskedasticity / heteroskedasticity
 <!-- CODE HERE -->
                 <br/>
                 <h3>
-                    Setting Working Directory and Loading Data
+                    Loading Data
                 </h3>
                 <br/>
                 <p>
-                    Then we set up our working directory using <code>setwd()</code>, and use the <code>read.csv()</code> method to load our data. We attach the names of our data set variables using the <code>attach()</code> method. The variable <code>CHAS</code> only takes two values (0 and 1) so we turn it into a factor variable using the <code>as.factor()</code> method. Finally, we create our data frame using the <code>data.frame()</code> for use in the rest of our project.
+                    The Boston Housing dataset is very popular in the R community, and is easily accessible through the <code>MASS</code> package. To call this data we simply use the <code>data()</code> method. We use the <code>help()</code> method to get context on our data, and the <code>attach()</code> method to include our variable names. 
+                </p>
+                <br/>
+                <p>
+                    The variable <code>chas</code> only takes two values (0 and 1) so we turn it into a factor variable using the <code>as.factor()</code> method. Finally, we create our data frame using the <code>data.frame()</code> for use in the rest of our project.
                 </p>
                 <br/>
                 <pre>
                 <code>
-setwd("  ...{PATH TO WORKING DIRECTORY}...  ")
+data(Boston) 
+help(Boston)
+attach(Boston)
 
-boston <- read.csv("data/boston_housing_data.csv", header = TRUE, sep = ",")
-attach(boston)
+chas <- as.factor(chas)
 
-str(boston)
+boston.df <- data.frame(crim, zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, black, lstat, medv)
 
-CHAS <- as.factor(CHAS)
-
-boston.df <- data.frame(CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, MEDV)
+str(boston.df)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
@@ -237,7 +258,7 @@ boston.df <- data.frame(CRIM, ZN, INDUS, CHAS, NOX, RM, AGE, DIS, RAD, TAX, PTRA
                 <h2>Exploratory Analysis</h2>
                 <hr/>
                 <p>
-                    Now we want to get a feel for our data to get an intuition for which explanatory variables might be most relevant in estimating for <code>MEDV</code>, our response variable.
+                    Now we want to get a feel for our data to get an intuition for which explanatory variables might be most relevant in estimating for <code>medv</code>, our response variable.
                 </p>
                 <br/>
                 <br/>
@@ -266,20 +287,20 @@ str(boston.df)
                 <samp>
 > str(boston)
 'data.frame':   506 obs. of  14 variables:
- $ CRIM   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
- $ ZN     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
- $ INDUS  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
- $ CHAS   : int  0 0 0 0 0 0 0 0 0 0 ...
- $ NOX    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
- $ RM     : num  6.58 6.42 7.18 7 7.15 ...
- $ AGE    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
- $ DIS    : num  4.09 4.97 4.97 6.06 6.06 ...
- $ RAD    : int  1 2 2 3 3 3 5 5 5 5 ...
- $ TAX    : num  296 242 242 222 222 222 311 311 311 311 ...
- $ PTRATIO: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
- $ B      : num  397 397 393 395 397 ...
- $ LSTAT  : num  4.98 9.14 4.03 2.94 5.33 ...
- $ MEDV   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...                    
+ $ crim   : num  0.00632 0.02731 0.02729 0.03237 0.06905 ...
+ $ zn     : num  18 0 0 0 0 0 12.5 12.5 12.5 12.5 ...
+ $ indus  : num  2.31 7.07 7.07 2.18 2.18 2.18 7.87 7.87 7.87 7.87 ...
+ $ chas   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ nox    : num  0.538 0.469 0.469 0.458 0.458 0.458 0.524 0.524 0.524 0.524 ...
+ $ rm     : num  6.58 6.42 7.18 7 7.15 ...
+ $ age    : num  65.2 78.9 61.1 45.8 54.2 58.7 66.6 96.1 100 85.9 ...
+ $ dis    : num  4.09 4.97 4.97 6.06 6.06 ...
+ $ rad    : int  1 2 2 3 3 3 5 5 5 5 ...
+ $ tax    : num  296 242 242 222 222 222 311 311 311 311 ...
+ $ ptratio: num  15.3 17.8 17.8 18.7 18.7 18.7 15.2 15.2 15.2 15.2 ...
+ $ black  : num  397 397 393 395 397 ...
+ $ lstat  : num  4.98 9.14 4.03 2.94 5.33 ...
+ $ medv   : num  24 21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 ...                    
                 </samp>
                 </pre>
 <!-- CODE HERE -->
@@ -290,7 +311,7 @@ str(boston.df)
                 </h3>
                 <br/>
                 <p>
-                    Here we run our data frame through the <code>pairs()</code> method to get a feel for how our variables might be related to each other.
+                    Here we run our data frame through the <code>pairs()</code> method to get a feel for how our variables might be related to each other. To learn more scatterplot matrices, visit this <a href="https://www.r-bloggers.com/scatterplot-matrices/">r-bloggers article</a> .
                 </p>
                 <br/>
                 <pre>
@@ -307,7 +328,7 @@ pairs(boston.df)
                 <br/>
                 <!-- IMG INTERPRETATION -->
                 <p>
-                    Here we are looking for linear relationships between our reponse variable <code>MEDV</code> and the rest of the variables in our data frame. We can roughly infer that <code>RM</code>, <code>PTRATIO</code>, and <code>LSTAT</code> might be most relevant in estimating <code>MEDV</code>.
+                    Here we are looking for linear relationships between our reponse variable <code>medv</code> and the rest of the variables in our data frame. We can roughly infer that <code>rm</code>, <code>ptratio</code>, and <code>lstat</code> might be most relevant in estimating <code>medv</code>.
                 </p>
                 <br/>
                 <br/>
@@ -333,7 +354,7 @@ pairs(boston.df)
                 </h3>
                 <br/>
                 <p>
-                    For our first model we will go <strong><em>all in</em></strong> with our entire data set. That is, we will use all of our variables and observations in our data frame to predict <code>MEDV</code> using linear regression with the <code>lm()</code> method. Throughout the modeling phase we will fine-tune our working data set using <strong><em>backward selection</em></strong>, which means that we will eliminate variables that are the least statistically significant. 
+                    For our first model we will go <strong><em>all in</em></strong> with our entire data set. That is, we will use all of our variables and observations in our data frame to predict <code>medv</code> using linear regression with the <code>lm()</code> method. Throughout the modeling phase we will fine-tune our working data set using <strong><em>backward selection</em></strong>, which means that we will eliminate variables that are the least statistically significant. 
                 </p>
                 <br/>
                 <p>
@@ -346,7 +367,7 @@ pairs(boston.df)
                 <br/>
                 <pre>
                 <code>
-fit1 <- lm(MEDV ~ ., data = boston.df)
+fit1 <- lm(medv ~ ., data = boston.df)
 summary(fit1)
 
 bptest(fit1)
@@ -362,11 +383,11 @@ vif(fit1)
                 <pre style="color:white">
                 <samp>
 > # model 1
-> fit1 <- lm(MEDV ~ ., data = boston.df)
+> fit1 <- lm(medv ~ ., data = boston.df)
 > summary(fit1)
 
 Call:
-lm(formula = MEDV ~ ., data = boston.df)
+lm(formula = medv ~ ., data = boston.df)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
@@ -375,19 +396,19 @@ Residuals:
 Coefficients:
               Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  3.648e+01  5.105e+00   7.147 3.23e-12 ***
-CRIM        -1.071e-01  3.277e-02  -3.268 0.001159 ** 
-ZN           4.636e-02  1.373e-02   3.377 0.000791 ***
-INDUS        2.090e-02  6.150e-02   0.340 0.734161    
-CHAS1        2.690e+00  8.617e-01   3.122 0.001905 ** 
-NOX         -1.780e+01  3.821e+00  -4.658 4.12e-06 ***
-RM           3.809e+00  4.180e-01   9.113  < 2e-16 ***
-AGE          7.256e-04  1.321e-02   0.055 0.956225    
-DIS         -1.475e+00  1.995e-01  -7.396 6.11e-13 ***
-RAD          3.053e-01  6.632e-02   4.604 5.29e-06 ***
-TAX         -1.233e-02  3.761e-03  -3.278 0.001120 ** 
-PTRATIO     -9.531e-01  1.308e-01  -7.284 1.29e-12 ***
-B            9.330e-03  2.686e-03   3.474 0.000558 ***
-LSTAT       -5.253e-01  5.070e-02 -10.361  < 2e-16 ***
+crim        -1.071e-01  3.277e-02  -3.268 0.001159 ** 
+zn           4.636e-02  1.373e-02   3.377 0.000791 ***
+indus        2.090e-02  6.150e-02   0.340 0.734161    
+chas1        2.690e+00  8.617e-01   3.122 0.001905 ** 
+nox         -1.780e+01  3.821e+00  -4.658 4.12e-06 ***
+rm           3.809e+00  4.180e-01   9.113  < 2e-16 ***
+age          7.256e-04  1.321e-02   0.055 0.956225    
+dis         -1.475e+00  1.995e-01  -7.396 6.11e-13 ***
+rad          3.053e-01  6.632e-02   4.604 5.29e-06 ***
+tax         -1.233e-02  3.761e-03  -3.278 0.001120 ** 
+ptratio     -9.531e-01  1.308e-01  -7.284 1.29e-12 ***
+black        9.330e-03  2.686e-03   3.474 0.000558 ***
+lstat       -5.253e-01  5.070e-02 -10.361  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -413,15 +434,15 @@ BP = 65.045, df = 13, p-value = 6.47e-09
                 </pre>
                 <br/>
                 <p>
-                    Below we see the terminal output from our <code>vif(fit1)</code> script, which tells us about the multicollinearity of our model. VIF values higher than 5 are considered to be problematic, so we drop them from the model. <code>TAX</code> has the highest VIF value at 9.0085, so we drop it first.
+                    Below we see the terminal output from our <code>vif(fit1)</code> script, which tells us about the multicollinearity of our model. VIF values higher than 5 are considered to be problematic, so we drop them from the model. <code>tax</code> has the highest VIF value at 9.0085, so we drop it first.
                 </p>
                 <br/>
                 <pre style="color:white">
                     <samp>
 > vif(fit1)
-   CRIM      ZN   INDUS   CHAS1     NOX      RM     AGE     DIS     RAD     TAX PTRATIO       B 
+   crim      zn   indus   chas1     nox      rm     age     dis     rad     tax ptratio       black 
  1.7776  2.2984  3.9912  1.0739  4.3951  1.9338  3.1008  3.9562  7.4769  9.0085  1.7992  1.3481 
-  LSTAT 
+  lstat 
  2.9391                 
                     </samp>
                 </pre>
@@ -430,16 +451,16 @@ BP = 65.045, df = 13, p-value = 6.47e-09
                 <br/>
                 <br/>
                 <h3>
-                    Model 2: Removing Collinear Variable (TAX)
+                    Model 2: Removing Collinear Variable (tax)
                 </h3>
                 <br/>
                 <p>
-                    Now onto our second model; this time without the <code>TAX</code> variable (we removed it because of high multicollinearity). We use the <code>update()</code> method to recycle our first model while removing <code>TAX</code>. Use <code>vif()</code> and <code>summary()</code> again to diagnose.
+                    Now onto our second model; this time without the <code>tax</code> variable (we removed it because of high multicollinearity). We use the <code>update()</code> method to recycle our first model while removing <code>tax</code>. Use <code>vif()</code> and <code>summary()</code> again to diagnose.
                 </p>
                 <br/>
                 <pre>
                 <code>
-fit2 <- update(fit1, ~ . - TAX)
+fit2 <- update(fit1, ~ . - tax)
 vif(fit2)
 summary(fit2)
                 </code>
@@ -447,21 +468,21 @@ summary(fit2)
 <!-- [END] CODE HERE -->
                 <br/>
                 <p>
-                    We can see below that none of our variables exhibit VIF values above 5. Dropping <code>TAX</code> above addressed the issue of collinearity.
+                    We can see below that none of our variables exhibit VIF values above 5. Dropping <code>tax</code> above addressed the issue of multicollinearity.
                 </p>
                 <br/>
 <!-- CODE HERE -->
                 <pre style="color:white">
                 <samp>
-> fit2 <- update(fit1, ~ . - TAX)
+> fit2 <- update(fit1, ~ . - tax)
 > vif(fit2) # collinearity seems to no longer be an issue
-   CRIM      ZN   INDUS   CHAS1     NOX      RM     AGE     DIS     RAD PTRATIO       B   LSTAT 
+   crim      zn   indus   chas1     nox      rm     age     dis     rad ptratio       black   lstat 
  1.7773  2.1840  3.2255  1.0581  4.3707  1.9232  3.0981  3.9547  2.8316  1.7889  1.3471  2.9384
                 </samp>
                 </pre>
                 <br/>
                 <p>
-                    Now we drop variables that are not significant statistically. Based on their p-values <code>AGE</code>, <code>INDUS</code> are the least statistically significant variables, so we drop them. <code>RAD</code> will also prove <strong>not</strong> to be significant later in the project, so we will go ahead and drop in now as well.
+                    Now we drop variables that are not significant statistically. By convention, variables with a p-value larger than <strong>.05</strong> are considered <strong>not</strong> to be statistically significant. Let's start by dropping <code>age</code>, <code>indus</code>. <code>rad</code> will also prove <strong>not</strong> to be significant later in the project, so we will go ahead and drop it now as well.
                 </p>
                 <br/>
                 <pre style="color:white">
@@ -469,8 +490,8 @@ summary(fit2)
 > summary(fit2)
 
 Call:
-lm(formula = MEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + 
-    DIS + RAD + PTRATIO + B + LSTAT, data = boston.df)
+lm(formula = medv ~ crim + zn + indus + chas + nox + rm + age + 
+    dis + rad + ptratio + black + lstat, data = boston.df)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
@@ -479,18 +500,18 @@ Residuals:
 Coefficients:
               Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  3.465e+01  5.124e+00   6.763 3.85e-11 ***
-CRIM        -1.059e-01  3.309e-02  -3.199 0.001466 ** 
-ZN           3.632e-02  1.351e-02   2.688 0.007441 ** 
-INDUS       -6.740e-02  5.583e-02  -1.207 0.227909    
-CHAS1        3.032e+00  8.637e-01   3.510 0.000489 ***
-NOX         -1.873e+01  3.848e+00  -4.868 1.52e-06 ***
-RM           3.911e+00  4.209e-01   9.291  < 2e-16 ***
-AGE         -5.717e-04  1.334e-02  -0.043 0.965820    
-DIS         -1.488e+00  2.014e-01  -7.388 6.40e-13 ***
-RAD          1.340e-01  4.121e-02   3.250 0.001232 ** 
-PTRATIO     -9.855e-01  1.318e-01  -7.479 3.45e-13 ***
-B            9.564e-03  2.711e-03   3.528 0.000459 ***
-LSTAT       -5.228e-01  5.119e-02 -10.212  < 2e-16 ***
+crim        -1.059e-01  3.309e-02  -3.199 0.001466 ** 
+zn           3.632e-02  1.351e-02   2.688 0.007441 ** 
+indus       -6.740e-02  5.583e-02  -1.207 0.227909    
+chas1        3.032e+00  8.637e-01   3.510 0.000489 ***
+nox         -1.873e+01  3.848e+00  -4.868 1.52e-06 ***
+rm           3.911e+00  4.209e-01   9.291  < 2e-16 ***
+age         -5.717e-04  1.334e-02  -0.043 0.965820    
+dis         -1.488e+00  2.014e-01  -7.388 6.40e-13 ***
+rad          1.340e-01  4.121e-02   3.250 0.001232 ** 
+ptratio     -9.855e-01  1.318e-01  -7.479 3.45e-13 ***
+black        9.564e-03  2.711e-03   3.528 0.000459 ***
+lstat       -5.228e-01  5.119e-02 -10.212  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -502,22 +523,22 @@ F-statistic: 113.9 on 12 and 493 DF,  p-value: < 2.2e-16
                 <br/>
                 <br/>
                 <h3>
-                    Model 3: Removing Non-Significant Variables (AGE, INDUS, RAD)
+                    Model 3: Removing Non-Significant Variables (age, indus, rad)
                 </h3>
                 <br/>
                 <p>
-                    Now we run our third model. For this iteration we have removed the <code>TAX</code>, <code>AGE</code>, <code>INDUS</code>, and <code>RAD</code> variables.
+                    Now we run our third model. For this iteration we have removed the <code>tax</code>, <code>age</code>, <code>indus</code>, and <code>rad</code> variables.
                 </p>
                 <br/>
                 <pre>
                 <code>
-fit3 <- update(fit2, ~ . - AGE - INDUS - RAD)
+fit3 <- update(fit2, ~ . - age - indus - rad)
 summary(fit3)
                 </code>
                 </pre>
                 <br/>
                 <p>
-                    The summary of our model tells us that our least significant variable, <code>CRIM</code>, is somewhat significant with a p-value of 0.045211. We can now stop dropping variables. We can now move to another set of diagnostics.
+                    The summary of our model tells us that our least significant variable, <code>crim</code>, is somewhat significant with a p-value of 0.045211. We can now stop dropping variables. We can now move to another set of diagnostics.
                 </p>
                 <br/>
                 <pre style="color:white">
@@ -525,8 +546,8 @@ summary(fit3)
 > summary(fit3)
 
 Call:
-lm(formula = MEDV ~ CRIM + ZN + CHAS + NOX + RM + DIS + PTRATIO + 
-    B + LSTAT, data = boston.df)
+lm(formula = medv ~ crim + zn + chas + nox + rm + dis + ptratio + 
+    black + lstat, data = boston.df)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
@@ -535,15 +556,15 @@ Residuals:
 Coefficients:
               Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  29.532746   4.871753   6.062 2.66e-09 ***
-CRIM         -0.060875   0.030320  -2.008 0.045211 *  
-ZN            0.041990   0.013420   3.129 0.001858 ** 
-CHAS1         3.031435   0.868341   3.491 0.000524 ***
-NOX         -16.108765   3.231948  -4.984 8.61e-07 ***
-RM            4.148616   0.407676  10.176  < 2e-16 ***
-DIS          -1.431863   0.188629  -7.591 1.59e-13 ***
-PTRATIO      -0.839130   0.117312  -7.153 3.07e-12 ***
-B             0.008304   0.002687   3.090 0.002115 ** 
-LSTAT        -0.525271   0.048333 -10.868  < 2e-16 ***
+crim         -0.060875   0.030320  -2.008 0.045211 *  
+zn            0.041990   0.013420   3.129 0.001858 ** 
+chas1         3.031435   0.868341   3.491 0.000524 ***
+nox         -16.108765   3.231948  -4.984 8.61e-07 ***
+rm            4.148616   0.407676  10.176  < 2e-16 ***
+dis          -1.431863   0.188629  -7.591 1.59e-13 ***
+ptratio      -0.839130   0.117312  -7.153 3.07e-12 ***
+black         0.008304   0.002687   3.090 0.002115 ** 
+lstat        -0.525271   0.048333 -10.868  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -613,7 +634,7 @@ outlierTest(fit3, cutoff = Inf, n.max = 15)
                     <code>
 boston.df <- boston.df[-c(369, 372, 373, 370, 413, 365, 371, 366, 187, 375),]
 
-fit4 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD, data = boston.df)
+fit4 <- lm(medv ~ . - tax - age - indus - rad, data = boston.df)
 summary(fit4)
 par(mfrow = c(2,2))
 plot(fit4)
@@ -622,16 +643,16 @@ plot(fit4)
                 </pre>
                 <br/>
                 <p>
-                    Here we get the summary of our model. It looks like <code>LSTAT</code> is our most significant variable along with <code>RM</code>. Our R-squared is 0.808, and since it is close to 1, we can say that our model explains a large part of our response variable. Our <strong>residual standard error</strong> (RSE) is fairly small at 3.87, which is good. Let's see if we can do better. 
+                    Here we get the summary of our model. It looks like <code>lstat</code> is our most significant variable along with <code>rm</code>. Our R-squared is 0.808, and since it is close to 1, we can say that our model explains a large part of our response variable. Our <strong>residual standard error</strong> (RSE) is fairly small at 3.87, which is good. Let's see if we can do better. 
                 </p>
                 <br/>
                 <pre style="color:white">
                     <code>
-> fit4 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD, data = boston.df)
+> fit4 <- lm(medv ~ . - tax - age - indus - rad, data = boston.df)
 > summary(fit4)
 
 Call:
-lm(formula = MEDV ~ . - TAX - AGE - INDUS - RAD, data = boston.df)
+lm(formula = medv ~ . - tax - age - indus - rad, data = boston.df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -640,15 +661,15 @@ Residuals:
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  17.97862    4.07449    4.41  1.3e-05 ***
-CRIM         -0.08140    0.02434   -3.34  0.00089 ***
-ZN            0.02476    0.01083    2.29  0.02272 *  
-CHAS1         1.73848    0.73476    2.37  0.01837 *  
-NOX         -15.08921    2.63351   -5.73  1.8e-08 ***
-RM            5.60147    0.35264   15.88  < 2e-16 ***
-DIS          -0.99624    0.15342   -6.49  2.1e-10 ***
-PTRATIO      -0.95159    0.09566   -9.95  < 2e-16 ***
-B             0.00928    0.00218    4.25  2.5e-05 ***
-LSTAT        -0.37237    0.04154   -8.96  < 2e-16 ***
+crim         -0.08140    0.02434   -3.34  0.00089 ***
+zn            0.02476    0.01083    2.29  0.02272 *  
+chas1         1.73848    0.73476    2.37  0.01837 *  
+nox         -15.08921    2.63351   -5.73  1.8e-08 ***
+rm            5.60147    0.35264   15.88  < 2e-16 ***
+dis          -0.99624    0.15342   -6.49  2.1e-10 ***
+ptratio      -0.95159    0.09566   -9.95  < 2e-16 ***
+black         0.00928    0.00218    4.25  2.5e-05 ***
+lstat        -0.37237    0.04154   -8.96  < 2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -659,7 +680,7 @@ F-statistic:  228 on 9 and 486 DF,  p-value: < 2e-16
                 </pre>
                 <br/>
                 <p>
-                    But first, let's take a look at a few residual diagnostics plots for our fourth model. Given the curve in our <strong>Residuals vs Fitted</strong> plot below we can infer that there is non-linearity in our data.
+                    But first, let's take a look at a few residual diagnostics plots for our fourth model. To learn more residual diagnostics, visit this <a href="https://www.r-bloggers.com/model-validation-interpreting-residual-plots/">r-bloggers article</a>. Given the curve in our <strong>Residuals vs Fitted</strong> plot below we can infer that there is non-linearity in our data.
                 </p>
             <!-- IMG [GETTING SCATTERPLOT MATRIX] -->
                 <br/>
@@ -680,24 +701,20 @@ F-statistic:  228 on 9 and 486 DF,  p-value: < 2e-16
                 </h3>
                 <br/>
                 <p>
-                    Another assumption for linear regression is normality of residual terms. For this we use the <code>studres()</code> and <code>hist()</code> methods.
+                    Another assumption for linear regression is normality of residual terms. For this we use the <code>studres()</code> and <code>hist()</code> methods. We also fit a curve using the <code>lines()</code> method.
                 </p>
                 <br/>
                 <pre>
                 <code>
 studentizedResiduals <- studres(fit4)
 par(mfrow = c(1,1))
-hist(studentizedResiduals, freq = FALSE, main = "Distribution of Studentized Residuals")
+hist(studentizedResiduals, freq = FALSE, main = "distribution of Studentized Residuals")
 xfit <- seq(min(studentizedResiduals), max(studentizedResiduals), length = 40)
 yfit <- dnorm(xfit)
 lines(xfit, yfit)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
-                <br/>
-                <p>
-                    We also fit a curve using the <code>lines()</code> method.
-                </p>
             <!-- IMG [GETTING SCATTERPLOT MATRIX] -->
                 <br/>
                 <div align="center">
@@ -716,12 +733,12 @@ lines(xfit, yfit)
                 </h3>
                 <br/>
                 <p>
-                    Now onto the fifth iteration of our model with non-linear terms. Here we include an <code>LSTAT</code>-squared by adding <code>I(LSTAT^2)</code> to the model. We can infer a non-linear relationship between the response variable and our model in the residual diagnostics for model 4. Furthermore, we can sense a non-linear relationship between <code>LSTAT</code> and <code>MEDV</code> from the exploratory analysis phase.
+                    Now onto the fifth iteration of our model with non-linear terms. Here we include an <code>lstat</code>-squared by adding <code>I(lstat^2)</code> to the model. We can infer a non-linear relationship between the response variable and our model in the residual diagnostics for model 4. Furthermore, we can sense a non-linear relationship between <code>lstat</code> and <code>medv</code> from the exploratory analysis phase.
                 </p>
                 <br/>
                 <pre>
                 <code>
-fit5 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2), data = boston.df)
+fit5 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2), data = boston.df)
 summary(fit5)
 par(mfrow = c(2,2))
 plot(fit5)
@@ -729,17 +746,17 @@ plot(fit5)
                 </pre>
                 <br/>
                 <p>
-                    In our model summary below we see that <code>I(LSTAT^2)</code> is indeed statistically significant, more so than most other explanatory variables. Our <strong>R-squared</strong> has increased to 0.833 (which is good) and our RSE has decreased to 3.62 (which is also good).
+                    In our model summary below we see that <code>I(lstat^2)</code> is indeed statistically significant, more so than most other explanatory variables. Our <strong>R-squared</strong> has increased to 0.833 (which is good) and our RSE has decreased to 3.62 (which is also good).
                 </p>
                 <br/>
 <!-- [END] CODE HERE -->
                 <pre style="color:white">
                     <samp>
-> fit5 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2), data = boston.df)
+> fit5 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2), data = boston.df)
 > summary(fit5)
 
 Call:
-lm(formula = MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2), 
+lm(formula = medv ~ . - tax - age - indus - rad + I(lstat^2), 
     data = boston.df)
 
 Residuals:
@@ -749,16 +766,16 @@ Residuals:
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  24.23908    3.87861    6.25  9.0e-10 ***
-CRIM         -0.10742    0.02295   -4.68  3.7e-06 ***
-ZN            0.01082    0.01026    1.06   0.2917    
-CHAS1         1.85177    0.68672    2.70   0.0073 ** 
-NOX         -12.22305    2.48406   -4.92  1.2e-06 ***
-RM            4.94750    0.33846   14.62  < 2e-16 ***
-DIS          -0.97208    0.14339   -6.78  3.5e-11 ***
-PTRATIO      -0.80859    0.09098   -8.89  < 2e-16 ***
-B             0.00821    0.00204    4.02  6.8e-05 ***
-LSTAT        -1.24614    0.11033  -11.30  < 2e-16 ***
-I(LSTAT^2)    0.02503    0.00296    8.46  3.2e-16 ***
+crim         -0.10742    0.02295   -4.68  3.7e-06 ***
+zn            0.01082    0.01026    1.06   0.2917    
+chas1         1.85177    0.68672    2.70   0.0073 ** 
+nox         -12.22305    2.48406   -4.92  1.2e-06 ***
+rm            4.94750    0.33846   14.62  < 2e-16 ***
+dis          -0.97208    0.14339   -6.78  3.5e-11 ***
+ptratio      -0.80859    0.09098   -8.89  < 2e-16 ***
+black         0.00821    0.00204    4.02  6.8e-05 ***
+lstat        -1.24614    0.11033  -11.30  < 2e-16 ***
+I(lstat^2)    0.02503    0.00296    8.46  3.2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -769,7 +786,7 @@ F-statistic:  242 on 10 and 485 DF,  p-value: < 2e-16
                 </pre>
                 <br/>
                 <p>
-                    Given the significance of <code>I(LSTAT^2)</code> it may make sense to include a third-level polynomial for <code>LSTAT</code>. Let's try that in the next model. But first, let's take a look at our <strong>Residuals vs Fitted</strong> plot.
+                    Given the significance of <code>I(lstat^2)</code> it may make sense to include a third-level polynomial for <code>lstat</code>. Let's try that in the next model. But first, let's take a look at our <strong>Residuals vs Fitted</strong> plot.
                 </p>
             <!-- IMG [GETTING SCATTERPLOT MATRIX] -->
                 <br/>
@@ -789,29 +806,29 @@ F-statistic:  242 on 10 and 485 DF,  p-value: < 2e-16
                 </h3>
                 <br/>
                 <p>
-                    Now onto model 6. Here we are adding <code>I(LSTAT^3)</code> to our model given the statistical significance of <code>I(LSTAT^2)</code>. We'll run some diagnostics to see if this makes sense or if we have gone too far.
+                    Now onto model 6. Here we are adding <code>I(lstat^3)</code> to our model given the statistical significance of <code>I(lstat^2)</code>. We'll run some diagnostics to see if this makes sense or if we have gone too far.
                 </p>
                 <br/>
                 <pre>
                 <code>
-fit6 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2) + I(LSTAT^3), data = boston.df)
+fit6 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2) + I(lstat^3), data = boston.df)
 summary(fit6)
                 </code>
                 </pre>
                 <br/>
                 <p>
-                    Given its p-value, it looks like <code>I(LSTAT^3)</code> does not add much to the model. We do notice a slight increase in the R-squared value to 0.834 and a slight decrease in the MSE value to 3.61. We are not sure this might be an improvement, however, as we have traded simplicity (or interpretability) in the model for little accuracy improvement.
+                    Given its p-value, it looks like <code>I(lstat^3)</code> does not add much to the model. We do notice a slight increase in the R-squared value to 0.834 and a slight decrease in the MSE value to 3.61. We are not sure this might be an improvement, however, as we have traded simplicity (or interpretability) in the model for little accuracy improvement.
                 </p>
                 <br/>
 <!-- [END] CODE HERE -->
                 <pre style="color:white">
                     <samp>
-> fit6 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2) + I(LSTAT^3), data = boston.df)
+> fit6 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2) + I(lstat^3), data = boston.df)
 > summary(fit6)
 
 Call:
-lm(formula = MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2) + 
-    I(LSTAT^3), data = boston.df)
+lm(formula = medv ~ . - tax - age - indus - rad + I(lstat^2) + 
+    I(lstat^3), data = boston.df)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -820,17 +837,17 @@ Residuals:
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  2.82e+01   4.34e+00    6.50  2.0e-10 ***
-CRIM        -1.07e-01   2.29e-02   -4.69  3.6e-06 ***
-ZN           7.28e-03   1.04e-02    0.70  0.48302    
-CHAS1        1.77e+00   6.86e-01    2.57  0.01034 *  
-NOX         -1.25e+01   2.48e+00   -5.04  6.5e-07 ***
-RM           4.71e+00   3.58e-01   13.14  < 2e-16 ***
-DIS         -9.59e-01   1.43e-01   -6.70  5.7e-11 ***
-PTRATIO     -8.19e-01   9.08e-02   -9.02  < 2e-16 ***
-B            8.29e-03   2.04e-03    4.07  5.5e-05 ***
-LSTAT       -1.77e+00   2.82e-01   -6.27  7.8e-10 ***
-I(LSTAT^2)   5.98e-02   1.75e-02    3.41  0.00071 ***
-I(LSTAT^3)  -6.66e-04   3.31e-04   -2.01  0.04510 *  
+crim        -1.07e-01   2.29e-02   -4.69  3.6e-06 ***
+zn           7.28e-03   1.04e-02    0.70  0.48302    
+chas1        1.77e+00   6.86e-01    2.57  0.01034 *  
+nox         -1.25e+01   2.48e+00   -5.04  6.5e-07 ***
+rm           4.71e+00   3.58e-01   13.14  < 2e-16 ***
+dis         -9.59e-01   1.43e-01   -6.70  5.7e-11 ***
+ptratio     -8.19e-01   9.08e-02   -9.02  < 2e-16 ***
+black        8.29e-03   2.04e-03    4.07  5.5e-05 ***
+lstat       -1.77e+00   2.82e-01   -6.27  7.8e-10 ***
+I(lstat^2)   5.98e-02   1.75e-02    3.41  0.00071 ***
+I(lstat^3)  -6.66e-04   3.31e-04   -2.01  0.04510 *  
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -851,7 +868,7 @@ F-statistic:  222 on 11 and 484 DF,  p-value: < 2e-16
                 <br/>
                 <!-- IMG INTERPRETATION -->
                 <p>
-                    Now we are ready to move on to the model diagnostics stage, to which which of our models does best at estimating our response variable.
+                    Now we are ready to move on to the model diagnostics stage, to determine which of our models does best at estimating our response variable.
                 </p>
                 <br/>
                 <br/>
@@ -876,7 +893,7 @@ F-statistic:  222 on 11 and 484 DF,  p-value: < 2e-16
                 </h3>
                 <br/>
                 <p>
-                    First we run our fourth model thought the <code>CVlm()</code> method. We also get a set of attributes of our cross validation object.
+                    First we run our fourth model through the <code>CVlm()</code> method. We also get a set of attributes of our cross validation object.
                 </p>
                 <br/>
                 <pre>
@@ -932,8 +949,8 @@ $row.names
 [484] 494 495 496 497 498 499 500 501 502 503 504 505 506
 
 $names
- [1] "CRIM"      "ZN"        "INDUS"     "CHAS"      "NOX"       "RM"        "AGE"      
- [8] "DIS"       "RAD"       "TAX"       "PTRATIO"   "B"         "LSTAT"     "MEDV"     
+ [1] "crim"      "zn"        "indus"     "chas"      "nox"       "rm"        "age"      
+ [8] "dis"       "rad"       "tax"       "ptratio"   "black"         "lstat"     "medv"     
 [15] "Predicted" "cvpred"   
 
 $class
@@ -1015,8 +1032,8 @@ $row.names
 [484] 494 495 496 497 498 499 500 501 502 503 504 505 506
 
 $names
- [1] "CRIM"      "ZN"        "INDUS"     "CHAS"      "NOX"       "RM"        "AGE"      
- [8] "DIS"       "RAD"       "TAX"       "PTRATIO"   "B"         "LSTAT"     "MEDV"     
+ [1] "crim"      "zn"        "indus"     "chas"      "nox"       "rm"        "age"      
+ [8] "dis"       "rad"       "tax"       "ptratio"   "black"         "lstat"     "medv"     
 [15] "Predicted" "cvpred"   
 
 $class
@@ -1098,8 +1115,8 @@ $row.names
 [484] 494 495 496 497 498 499 500 501 502 503 504 505 506
 
 $names
- [1] "CRIM"      "ZN"        "INDUS"     "CHAS"      "NOX"       "RM"        "AGE"      
- [8] "DIS"       "RAD"       "TAX"       "PTRATIO"   "B"         "LSTAT"     "MEDV"     
+ [1] "crim"      "zn"        "indus"     "chas"      "nox"       "rm"        "age"      
+ [8] "dis"       "rad"       "tax"       "ptratio"   "black"         "lstat"     "medv"     
 [15] "Predicted" "cvpred"   
 
 $class
@@ -1134,11 +1151,11 @@ $df
                 <br/>
                 <pre style="color:white">
                     <samp>
-> fit5 <- lm(MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2), data = boston.df)
+> fit5 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2), data = boston.df)
 > summary(fit5)
 
 Call:
-lm(formula = MEDV ~ . - TAX - AGE - INDUS - RAD + I(LSTAT^2), 
+lm(formula = medv ~ . - tax - age - indus - rad + I(lstat^2), 
     data = boston.df)
 
 Residuals:
@@ -1148,16 +1165,16 @@ Residuals:
 Coefficients:
              Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  24.23908    3.87861    6.25  9.0e-10 ***
-CRIM         -0.10742    0.02295   -4.68  3.7e-06 ***
-ZN            0.01082    0.01026    1.06   0.2917    
-CHAS1         1.85177    0.68672    2.70   0.0073 ** 
-NOX         -12.22305    2.48406   -4.92  1.2e-06 ***
-RM            4.94750    0.33846   14.62  < 2e-16 ***
-DIS          -0.97208    0.14339   -6.78  3.5e-11 ***
-PTRATIO      -0.80859    0.09098   -8.89  < 2e-16 ***
-B             0.00821    0.00204    4.02  6.8e-05 ***
-LSTAT        -1.24614    0.11033  -11.30  < 2e-16 ***
-I(LSTAT^2)    0.02503    0.00296    8.46  3.2e-16 ***
+crim         -0.10742    0.02295   -4.68  3.7e-06 ***
+zn            0.01082    0.01026    1.06   0.2917    
+chas1         1.85177    0.68672    2.70   0.0073 ** 
+nox         -12.22305    2.48406   -4.92  1.2e-06 ***
+rm            4.94750    0.33846   14.62  < 2e-16 ***
+dis          -0.97208    0.14339   -6.78  3.5e-11 ***
+ptratio      -0.80859    0.09098   -8.89  < 2e-16 ***
+black         0.00821    0.00204    4.02  6.8e-05 ***
+lstat        -1.24614    0.11033  -11.30  < 2e-16 ***
+I(lstat^2)    0.02503    0.00296    8.46  3.2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
@@ -1168,7 +1185,7 @@ F-statistic:  242 on 10 and 485 DF,  p-value: < 2e-16
                 </pre>
                 <br/>
                 <p>
-                    Model 5 suggests that <code>LSTAT</code>, <code>I(LSTAT^2)</code>, <code>RM</code> and <code>PTRATIO</code> are most relevant explanatory variables in estimating <code>MEDV</code>. It is worth to say that our residual diagnostics suggested a certain amount of non-linearity that is not addressed by our model. This means that there might be other methods that do a better job at estimating <code>MEDV</code> than <code>lm()</code>.
+                    Model 5 suggests that <code>lstat</code>, <code>I(lstat^2)</code>, <code>rm</code> and <code>ptratio</code> are most relevant explanatory variables in estimating <code>medv</code>. It is worth mentioning that our residual diagnostics suggested a certain amount of non-linearity that is not addressed by our model. This means that there might be other methods that do a better job at estimating <code>medv</code> than <code>lm()</code>.
                 </p>
                 <br/>
                 <p>
