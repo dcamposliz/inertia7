@@ -46,14 +46,11 @@
 <script type="text/javascript" src="../engines/scripts.js"></script>
 <script src="http://cdn.plot.ly/plotly-latest.min.js"></script>
 
-
 <!--[if lt IE 9]>
     <script src="js/respond-1.1.0.min.js"></script>
     <script src="js/html5shiv.js"></script>
     <script src="js/html5element.js"></script>
 <![endif]-->
-
-
 
 </head>
 <body>
@@ -283,6 +280,7 @@ str(boston.df)
                 </p>
                 <br/>
 <!-- [END] CODE HERE -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                 <samp>
 > str(boston)
@@ -380,6 +378,7 @@ vif(fit1)
                     Below is our terminal output. Here we see the summary of our first model. To learn more about model summaries, visit this <a href="https://www.r-bloggers.com/interpreting-regression-coefficient-in-r/">r-bloggers article</a>. Notice the <strong>Multiple R-squared</strong> of <strong>0.7406</strong>. In multiple regression, the R-squared is the square of the correlation between the response and fitted (predicted) linear model. This means that the higher our R-squared the better job our model is doing at predicting the response variable. We will need to run some diagnostics on our model before believing our R-squared value.
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                 <samp>
 > # model 1
@@ -422,8 +421,9 @@ F-statistic:   108 on 13 and 492 DF,  p-value: < 2.2e-16
                     Below we see the terminal output from our <code>bptest(fit1)</code> script, which tells us about the heteroskedasticity of our model. The p-value that we obtain from this diagnostic is very small, which suggests that our data is homoskedastic (not heteroskedastic). This is good, because as we mentioned earlier, we need homoskesdastic data to run a linear regression model.
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
-                    <samp>
+                <samp>
 > bptest(fit1)
 
     studentized Breusch-Pagan test
@@ -437,8 +437,9 @@ BP = 65.045, df = 13, p-value = 6.47e-09
                     Below we see the terminal output from our <code>vif(fit1)</code> script, which tells us about the multicollinearity of our model. VIF values higher than 5 are considered to be problematic, so we drop them from the model. <code>tax</code> has the highest VIF value at 9.0085, so we drop it first.
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
-                    <samp>
+                <samp>
 > vif(fit1)
    crim      zn   indus   chas1     nox      rm     age     dis     rad     tax ptratio       black 
  1.7776  2.2984  3.9912  1.0739  4.3951  1.9338  3.1008  3.9562  7.4769  9.0085  1.7992  1.3481 
@@ -472,6 +473,7 @@ summary(fit2)
                 </p>
                 <br/>
 <!-- CODE HERE -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                 <samp>
 > fit2 <- update(fit1, ~ . - tax)
@@ -485,8 +487,9 @@ summary(fit2)
                     Below we get a summary of our second model. This time we are looking for variables that are not statistically significant to remove them. By convention, variables with a p-value larger than <strong>.05</strong> are considered <strong>not</strong> to be statistically significant. Notice the p-value in the terminal output below listed as <code>Pr(>|t|)</code> for each variable. Let's start by dropping <code>age</code>, <code>indus</code>. <code>rad</code> will also prove <strong>not</strong> to be significant later in the project, so we will go ahead and drop it now as well.
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
-                    <samp>
+                <samp>
 > summary(fit2)
 
 Call:
@@ -541,8 +544,9 @@ summary(fit3)
                     The summary of our model tells us that our least significant variable, <code>crim</code>, is somewhat significant with a p-value of 0.045211. We can now stop dropping variables. We can now move to another set of diagnostics.
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
-                    <samp>
+                <samp>
 > summary(fit3)
 
 Call:
@@ -571,7 +575,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 4.833 on 496 degrees of freedom
 Multiple R-squared:  0.7288,    Adjusted R-squared:  0.7239 
 F-statistic: 148.1 on 9 and 496 DF,  p-value: < 2.2e-16
-                    </samp>
+                </samp>
                 </pre>
 <!-- [END] CODE HERE -->
 <!-- CODE HERE -->
@@ -595,8 +599,9 @@ outlierTest(fit3, cutoff = Inf, n.max = 15)
                     Below we see the terminal output for the outliers' test. Observations with an absolute value greater than 3 for their studentized residuals are considered problematic, so we remove them from the model.
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
-                    <samp>
+                <samp>
 > outlierTest(fit3, cutoff = Inf, n.max = 15)
      rstudent unadjusted p-value Bonferonni p
 369  6.092529         2.2351e-09   1.1310e-06
@@ -614,7 +619,7 @@ outlierTest(fit3, cutoff = Inf, n.max = 15)
 254  2.642637         8.4869e-03           NA
 162  2.563096         1.0669e-02           NA
 229  2.466038         1.4000e-02           NA                  
-                    </samp>
+                </samp>
                 </pre>
                 <br/>
                 <p>
@@ -646,6 +651,7 @@ plot(fit4)
                     Here we get the summary of our model. It looks like <code>lstat</code> is our most significant variable along with <code>rm</code>. Our R-squared is 0.808, and since it is close to 1, we can say that our model explains a large part of our response variable. Our <strong>residual standard error</strong> (RSE) is fairly small at 3.87, which is good. Let's see if we can do better. 
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <code>
 > fit4 <- lm(medv ~ . - tax - age - indus - rad, data = boston.df)
@@ -750,6 +756,7 @@ plot(fit5)
                 </p>
                 <br/>
 <!-- [END] CODE HERE -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <samp>
 > fit5 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2), data = boston.df)
@@ -821,6 +828,7 @@ summary(fit6)
                 </p>
                 <br/>
 <!-- [END] CODE HERE -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <samp>
 > fit6 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2) + I(lstat^3), data = boston.df)
@@ -921,6 +929,7 @@ attributes(fit4_CV)
                     </p>
                     <br/>
                     <!-- IMG INTERPRETATION -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <samp>
 > attributes(fit4_CV)
@@ -1004,6 +1013,7 @@ attributes(fit5_CV)
                     </p>
                     <br/>
                     <!-- IMG INTERPRETATION -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <samp>
 > attributes(fit5_CV)
@@ -1087,6 +1097,7 @@ attributes(fit6_CV)
                     </p>
                     <br/>
                     <!-- IMG INTERPRETATION -->
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <samp>
 > attributes(fit6_CV)
@@ -1149,6 +1160,7 @@ $df
                     With an R-squared value of 0.833 (.001 smaller than model 6's) and a Mean Squared Error of 13.7 (equal as that of model 6's), model 5 is the winner. Let's take another look at a summary of model 5:
                 </p>
                 <br/>
+                TERMINAL OUTPUT:
                 <pre style="color:white">
                     <samp>
 > fit5 <- lm(medv ~ . - tax - age - indus - rad + I(lstat^2), data = boston.df)
@@ -1194,10 +1206,12 @@ F-statistic:  242 on 10 and 485 DF,  p-value: < 2e-16
             </div>
         </section>
         <!--CONGRATS-->
-        <section class="main-section xlarge-paragraph">
-            <div class="container">
+        <section class="main-section">
+            <div class="container" style="font-size:24px">
                 <p>
+                <em>
                     Congratulations for getting this far! We hope you enjoyed this project. Please reach out to us <a href="../index.html#sayHi">here</a> if you have any feedback or would like to publish your own project.
+                </em>
                 </p>
             </div>
         </section>

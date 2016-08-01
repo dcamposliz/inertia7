@@ -46,45 +46,36 @@
 <script type="text/javascript" src="../engines/scripts.js"></script>
 <script src="http://cdn.plot.ly/plotly-latest.min.js"></script>
 
-
 <!--[if lt IE 9]>
     <script src="js/respond-1.1.0.min.js"></script>
     <script src="js/html5shiv.js"></script>
     <script src="js/html5element.js"></script>
 <![endif]-->
 
-
-
 </head>
 <body>
 
-
-
 <div style="overflow:hidden;">
-
-<div style="float:left; margin-top:3%; margin-left:7%">
-    <a href="../index.html" style="color:white; font-family: 'Montserrat', sans-serif; font-size: 1.5em;">INERTIA7</a>
-</div>
-
-        
-<!-- working nav bar for projects -->
-        <!--
-        <nav class="main-nav">
-                <li class="small-logo large-paragraph"><a href="../index.html"><img src="../img/data_logo.png" alt="" width="100px">  Inertia7</a></li>
-        </nav>
-        -->
-
-<header class="header" id="classification_iris">
-<br />
-<br />
-    <div class="container"> 
+    <!--navbar-->
+    <div style="float:left; margin-top:3%; margin-left:7%">
+        <a href="../index.html" style="color:white; font-family: 'Montserrat', sans-serif; font-size: 1.5em;">
+            INERTIA7
+        </a>
+    </div>
+    <!--header-->
+    <header class="header" id="classification_iris">
+        <br />
+        <br />
+        <div class="container"> 
             <h1 class="animated fadeInDown delay-07s">IRIS FLOWERS CLASSIFICATION</h1>
             <ul class="we-create animated fadeInUp delay-1s">
-                <li><strong>KNN Analysis</strong> of <strong>Iris Flowers</strong> with <strong>R</strong></li>
+                <li>
+                    <strong>KNN Analysis</strong> of <strong>Iris Flowers</strong> with <strong>R</strong>
+                </li>
             </ul>
-    </div>
+        </div>
+    </header>
 </div>
-</header>
 
 
 <!-- PROJECT SUMMARY -->
@@ -181,7 +172,7 @@
                 <h2>Load Packages</h2>
                 <hr/>
                 <p>
-                    First, we want to load the appropriate packages into our R environment.
+                    First we create a file titled <strong>classification_iris.R</strong> and open it up in R Studio. Then we load the appropriate packages into our R environment.
                 </p>
                 <br/>
                 <p>
@@ -189,37 +180,45 @@
                 </p>
                 <br/>
 <!-- CODE HERE -->
+                <h5><strong>TERMINAL INPUT</strong></h5>
                 <pre>
                 <code>
-# install necessary packages first
+# --- install packages globally
 
-    # install.packages("data.table")
-    # install.packages("ggplot2")
-    # install.packages("ggfortify")
-    # install.packages("caret")
-    # install.packages("class")
-    # install.packages("gridExtra")
-    # install.packages("scales")
-    # install.packages("tree")
-    # install.packages("GGally")
-    # install.packages("RGraphics")
-    # install.packages("grid")
-    # install.packages("ROCR")
+install.packages("data.table")
+install.packages("ggplot2")
+install.packages("ggfortify")
+install.packages("caret")
+install.packages("class")
+install.packages("gridExtra")
+install.packages("scales")
+install.packages("tree")
+install.packages("GGally")
+install.packages("RGraphics")
+install.packages("grid")
+install.packages("ROCR")
+install.packages("gmodels")
+                </code>
+                </pre>
+                <br/>
+                <h5><strong>classification_iris.R</strong></h5>
+                <pre>
+                <code>
+# --- load packages into session
 
-# load packages into session
-
-    library(data.table)
-    library(ggplot2)
-    library(ggfortify)
-    library(caret)
-    library(class)
-    library(gridExtra)
-    library(scales)
-    library(tree)
-    library(GGally)
-    library(RGraphics)
-    library(grid)
-    library(ROCR)
+library(data.table)
+library(ggplot2)
+library(ggfortify)
+library(caret)
+library(class)
+library(gridExtra)
+library(scales)
+library(tree)
+library(GGally)
+library(RGraphics)
+library(grid)
+library(ROCR)
+library(gmodels)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
@@ -239,30 +238,37 @@
                 <h2>Get Data</h2>
                 <hr/>
                 <p>
-                    The <a href="https://archive.ics.uci.edu/ml/datasets/Iris">iris dataset</a> is a very popular dataset used in statistical learning, and is readily available in the R base. All we have to do is call it up using the <code>attach()</code> and <code>data()</code> methods. We also run <code>head()</code> on the dataset to get a sense for it.
+                    The <a href="https://archive.ics.uci.edu/ml/datasets/Iris">iris dataset</a> is very popular in statistical learning, and is readily available in the R base. To load this dataset all we have to do is call <code>iris</code> using the <code>attach()</code> and <code>data()</code> methods. We also run <code>head()</code> to get a quick grance at our data.
                 </p>
                 <br/>
 <!-- CODE HERE -->
+                <h5><strong>classification_iris.R</strong></h5>
                 <pre>
                 <code>
-# load data and dimension names
+# --- load data and dimension names
 
-    attach(iris)
-    data(iris)
-
-    head(iris)
+attach(iris)
+data(iris)
+head(iris)
                 </code>
                 </pre>
+                <br/>
+                <p>
+                    Our terminal output below shows six observations of our data. We can appreciate a total of five variables. The goal is to predict <em>species</em> as a function of the other four variables.
+                </p>
+                <br/>
+
+                <h5><strong>TERMINAL OUTPUT</strong></h5>
                 <pre style="color:white">
                 <samp>
 > head(iris)
   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-1       5.1         3.5         1.4         0.2  setosa
-2       4.9         3.0         1.4         0.2  setosa
-3       4.7         3.2         1.3         0.2  setosa
-4       4.6         3.1         1.5         0.2  setosa
-5       5.0         3.6         1.4         0.2  setosa
-6       5.4         3.9         1.7         0.4  setosa                
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa
+6          5.4         3.9          1.7         0.4  setosa           
                 </samp>
                 </pre>
 <!-- [END] CODE HERE -->
@@ -280,17 +286,18 @@
                 <h2>Exploratory Analysis</h2>
                 <hr/>
                 <p>
-                    We start by doing some exploratory analysis to see if there are relationships between variables and Species. So the first plots we included are scatter plots of the sepal length (y-axis) and sepal width (x-axis), and the petal length (y-axis) and petal width (x-axis) this was done through ggplot
+                    We begin our exploratory analysis by looking for relationships across our explanatory and predicted variables. For this, we use <code>ggplot()</code> and <code>grid.arrange()</code> to generate scatterplots of the sepal length (y-axis) and sepal width (x-axis), and the petal length (y-axis) and petal width (x-axis).
                 </p>
                 <br/>
 <!-- CODE HERE -->
+                <h5><strong>classification_iris.R</strong></h5>
                 <pre>
                 <code>
-# exploratory analysis
+# --- exploratory analysis
 
-gg1<-ggplot(iris,aes(x=Sepal.Width,y=Sepal.Length, shape=Species, color=Species))+geom_point(size=2)
+gg1 <- ggplot(iris,aes(x=Sepal.Width,y=Sepal.Length, shape=Species, color=Species))+ geom_point(size=2)
 
-gg2<-ggplot(iris,aes(x=Petal.Width,y=Petal.Length, shape=Species, color=Species))+geom_point(size=2)
+gg2 <- ggplot(iris,aes(x=Petal.Width,y=Petal.Length, shape=Species, color=Species))+ geom_point(size=2)
 
 grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
                 </code>
@@ -298,7 +305,7 @@ grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
 <!-- [END] CODE HERE -->
                 <br/>
                 <p>
-                   We can see that one can distinguish the setosa species really well when comparing the dimensions of the petals. So this an indication that when predicting species the setosa will be the most distinguishable and produce the least prediction errors, while the other two species will most likely encounter wrong predictions in that the versicolor will be wrongly predicted as virginica and vice versa. So the first method we will use will help us understand what variables will be useful in our modeling!
+                   The image below shows setosa to be most distinguisable of the three species with respect to both sepal and petal attributes. We can infer then that the setosa species will yield the least prediction errors, while the other two species, versicolor and virginica, might not.
                 </p>
                 <br/>
                 <div align="center">
@@ -306,8 +313,12 @@ grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
                 </div>
                 <br/>
                 <p>
-                   Our next visual is similar to the pairs function used in linear model regression analysis, here we utilize ggplot to grab and plot pairwise matrices. It gives us a larger visual of the different relationships the independent variables with respect to each other. 
+                   Below is a plot that shows the relationships across our various explanatory variables.
                 </p>
+                <br/>
+                <div align="center">
+                    <img src="../img/classification_iris/pairs.png" alt="" width="80%"> 
+                </div>
             </div>
         </section>
 
@@ -319,53 +330,207 @@ grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
                 <h2>KNN Modeling</h2>
                 <hr/>
                 <p>
-                    ...
+                    The K-Nearest Neighbor algorithm predicts based on majority votes, measuring a certain number of neighboring observation points (k) and classifies based on attribute prevalence using Euclidean distance. Here is <a href="https://stat.ethz.ch/R-manual/R-devel/library/class/html/knn.html">documentation</a> on the <code>knn()</code> method. Check the <a href="https://cran.r-project.org/web/packages/class/class.pdf">documentation</a> on its package<code>CLASS</code> as well. 
+                </p>
+                <br/>
+                <p>
+                    We begin this section by creating training and test sets with 75% and 25% of observations, respectively. Here is a nice <a href="http://stackoverflow.com/questions/17200114/how-to-split-data-into-training-testing-sets-using-sample-function-in-r-program">stack overflow post</a> on how to split data into training and testing sets.
                 </p>
                 <br/>
 <!-- CODE HERE -->
-                <h3>
-                    ...
-                </h3>
-                <br/>
+                <h5><strong>classification_iris.R</strong></h5>
                 <pre>
                 <code>
-# knn analysis
+# --- knn analysis
 
-    set.seed(123)
-    samp.size <- floor(nrow(iris) * .75)
-    samp.size
-    set.seed(123)
+set.seed(123)
+samp.size <- floor(nrow(iris) * .75)
+samp.size
+set.seed(123)
 
-    train.ind <- sample(seq_len(nrow(iris)), size = samp.size) 
-    train.ind 
-    train <- iris[train.ind, ] 
-    head(train) 
-    train.set <- subset(train, select = -c(Species)) 
-    head(train.set) 
-    test <- iris[-train.ind, ]
-    head(test) 
-    test.set <- subset(test, select = -c(Species))
+train.ind <- sample(seq_len(nrow(iris)), size = samp.size) 
+train.ind 
+train <- iris[train.ind, ] 
+head(train)
 
-    head(test.set) 
-    class <- train[,"Species"]
-    test.class <- test [,"Species"]
-    set.seed(123)
-    contrl <- trainControl(method="repeatedcv",repeats = 3)
-    knn.K <- train(Species ~ ., data = train, method = "knn", trControl = contrl, preProcess = c("center","scale"),tuneLength = 20)
-    knn.K
-    knn.iris <- knn(train = train.set, test = test.set, cl = class, k = 9, prob = T)
-    dim(train)
-    dim(class)
-    length(class)
-    table(test.class, knn.iris)
+train.set <- subset(train, select = -c(Species))
+head(train.set)
+
+test <- iris[-train.ind, ]
+head(test)
+
+test.set <- subset(test, select = -c(Species))
+head(test.set)
+
+class <- train[,"Species"]
+
+test.class <- test [,"Species"]
+                </code>
+                </pre>
+                <br/>
+                <p>
+                    Before entering parameter values into the <code>knn()</code> method we use cross validation to find the optimal value for <strong>k</strong>. This optimal <strong>k</strong> will help us produce the smallest test error rate. The <code>trainControl()</code> and <code>train()</code> methods help us with this task.
+                </p>
+                <br/>
+                <h5><strong>classification_iris.R</strong></h5>
+                <pre>
+                <code>
+set.seed(123)
+
+contrl <- trainControl(method="repeatedcv",repeats = 3)
+
+knn.K <- train(Species ~ ., data = train, method = "knn", trControl = contrl, preProcess = c("center","scale"),tuneLength = 20)
+
+knn.K
+                </code>
+                </pre>
+                <br/>
+                <p>
+                   The terminal output below shows that our optimal <strong>k = 11</strong> based on the <code>Accuracy</code> and <code>Kappa</code> values.
+                </p>
+                <br/>
+                <h5><strong>TERMINAL OUTPUT</strong></h5>
+                <pre style="color:white">
+                <samp>
+> knn.K
+k-Nearest Neighbors 
+
+112 samples
+  4 predictors
+  3 classes: 'setosa', 'versicolor', 'virginica' 
+
+Pre-processing: centered (4), scaled (4) 
+Resampling: Cross-Validated (10 fold, repeated 3 times) 
+Summary of sample sizes: 100, 101, 100, 100, 101, 101, ... 
+Resampling results across tuning parameters:
+
+  k   Accuracy   Kappa    
+   5  0.9496970  0.9242859
+   7  0.9438384  0.9155406
+   9  0.9590404  0.9386181
+  11  0.9654040  0.9481968
+  13  0.9623737  0.9435555
+  15  0.9505051  0.9256996
+  17  0.9438889  0.9159265
+  19  0.9380808  0.9074001
+  21  0.9320202  0.8983466
+  23  0.9289899  0.8939288
+  25  0.9004545  0.8512965
+  27  0.8791919  0.8191061
+  29  0.8738889  0.8110153
+  31  0.8620202  0.7928026
+  33  0.8586869  0.7877521
+  35  0.8581313  0.7866447
+  37  0.8492929  0.7734246
+  39  0.8486869  0.7725468
+  41  0.8492424  0.7734306
+  43  0.8434343  0.7646240
+
+Accuracy was used to select the optimal model using  the largest value.
+
+The final value used for the model was k = 11.      
+                </samp>
+                </pre>
+                <br/>
+                <p>
+                    Now we can plug in <strong>k = 11</strong> as one of the parameters into the <code>knn()</code> method. We also call our <code>knn.iris</code> model to see its output. Finally, we run the <code>CrossTable()</code> method to evaluate our model versus the test data.
+                </p>
+                <br/>
+                <h5><strong>classification_iris.R</strong></h5>
+                <pre>
+                <code>
+knn.iris <- knn(train = train.set, test = test.set, cl = class, k = 11, prob = T)
+
+dim(train)
+dim(class)
+length(class)
+table(test.class, knn.iris)
+
+knn.iris
+
+CrossTable(x = test.class, y = knn.iris, prop.chisq=FALSE)
                 </code>
                 </pre>
 <!-- [END] CODE HERE -->
 <!-- CODE HERE -->
                 <br/>
                 <p>
-                   ...
+                   Below we can see our results of our model.
                 </p>
+                <br/>
+                <h5><strong>TERMINAL OUTPUT</strong></h5>
+                <pre style="color:white">
+                <samp>
+> knn.iris <- knn(train = train.set, test = test.set, cl = class, k = 11, prob = T)
+
+> dim(train)
+[1] 112   5
+
+> dim(class)
+NULL
+
+> length(class)
+[1] 112
+
+> table(test.class, knn.iris)
+            knn.iris
+test.class   setosa versicolor virginica
+  setosa         11          0         0
+  versicolor      0         13         0
+  virginica       0          1        13
+
+> knn.iris
+ [1] setosa     setosa     setosa     setosa     setosa     setosa     setosa     setosa     setosa    
+[10] setosa     setosa     versicolor versicolor versicolor versicolor versicolor versicolor versicolor
+[19] versicolor versicolor versicolor versicolor versicolor versicolor virginica  virginica  virginica 
+[28] versicolor virginica  virginica  virginica  virginica  virginica  virginica  virginica  virginica 
+[37] virginica  virginica 
+attr(,"prob")
+ [1] 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+[11] 1.0000000 0.7692308 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+[21] 1.0000000 1.0000000 1.0000000 1.0000000 0.9090909 1.0000000 1.0000000 0.8181818 1.0000000 1.0000000
+[31] 0.6363636 1.0000000 1.0000000 1.0000000 1.0000000 0.9090909 1.0000000 1.0000000
+Levels: setosa versicolor virginica
+
+> CrossTable(x = test.class, y = knn.iris, prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  38 
+
+ 
+             | knn.iris 
+  test.class |     setosa | versicolor |  virginica |  Row Total | 
+-------------|------------|------------|------------|------------|
+      setosa |         11 |          0 |          0 |         11 | 
+             |      1.000 |      0.000 |      0.000 |      0.289 | 
+             |      1.000 |      0.000 |      0.000 |            | 
+             |      0.289 |      0.000 |      0.000 |            | 
+-------------|------------|------------|------------|------------|
+  versicolor |          0 |         13 |          0 |         13 | 
+             |      0.000 |      1.000 |      0.000 |      0.342 | 
+             |      0.000 |      0.929 |      0.000 |            | 
+             |      0.000 |      0.342 |      0.000 |            | 
+-------------|------------|------------|------------|------------|
+   virginica |          0 |          1 |         13 |         14 | 
+             |      0.000 |      0.071 |      0.929 |      0.368 | 
+             |      0.000 |      0.071 |      1.000 |            | 
+             |      0.000 |      0.026 |      0.342 |            | 
+-------------|------------|------------|------------|------------|
+Column Total |         11 |         14 |         13 |         38 | 
+             |      0.289 |      0.368 |      0.342 |            | 
+-------------|------------|------------|------------|------------|
+                </samp>
+                </pre>
+                <br/>
             </div>
         </section>
 
@@ -377,25 +542,18 @@ grid.arrange(gg1, gg2,nrow=1,ncol=2, top = "Scatter plots")
                 <h2>Conclusions</h2>
                 <hr/>
                 <p>
-                    ...
-                </p>
-                <br/>
-<!-- CODE HERE -->
-                <h3>
-                    ...
-                </h3>
-                <br/>
-                <p>
-                   ...
+                    Our model yielded <strong>test error rates below 0.1</strong> for the three different species, not bad! As this project shows, <strong>K-Nearest Neighbors</strong> modeling is fairly simple. For datasets with a small amount of variables <strong>KNN</strong> is a viable method, but for datasets with many variables we run into the <em>curse of dimensionality</em>. Check this <a href="http://stats.stackexchange.com/questions/65379/machine-learning-curse-of-dimensionality-explained">stack exchange</a> article for an explanation on the <em>curse of dimensionality</em>.
                 </p>
             </div>
         </section>
 
         <!--CONGRATS-->
-        <section class="main-section xlarge-paragraph">
-            <div class="container">
+        <section class="main-section">
+            <div class="container" style="font-size:24px">
                 <p>
+                <em>
                     Congratulations for getting this far! We hope you enjoyed this project. Please reach out to us <a href="../index.html#sayHi">here</a> if you have any feedback or would like to publish your own project.
+                </em>
                 </p>
             </div>
         </section>
