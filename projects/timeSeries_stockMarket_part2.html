@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, maximum-scale=1">
+<meta name="description" content="Inertia7 is a platform for sharing data science projects.">
+<meta name="keywords" content="R, Python, SQL, HTML, CSS, JavaScript, Data Science, Statistical Learning">
+<meta name="author" content="David A. Campos, Raul Eulogio">
+
+<meta property="og:title" content="Inertia7: Data Science Projects"/>
+<meta property="og:image" content="http://www.inertia7.com/img/neuralNetork_purple_100_black_75.jpg"/>
+<meta property="og:url" content="http://www.inertia7.com"/>
+<meta property="og:description" content="Inertia7 is a platform for sharing data science projects."/>
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="http://www.inertia7.com">
+<meta name="twitter:title" content="Inertia7: Data Science Projects">
+<meta name="twitter:description" content="Inertia7 is a platform for sharing data science projects.">
+<meta name="twitter:image" content="http://www.inertia7.com/img/neuralNetork_purple_100_black_75.jpg">
+
+<link rel="publisher" href="https://www.davidacampos.com"/>
+
+<title>Inertia7: Data Science Projects</title>
+<link rel="icon" href="../favicon2.png" type="image/png">
+<link rel="shortcut icon" href="../favicon2.ico" type="img/x-icon">
+
+<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,800italic,700italic,600italic,400italic,300italic,800,700,600' rel='stylesheet' type='text/css'>
+
+<link href="../css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+<link href="../css/responsive.css" rel="stylesheet" type="text/css">
+<link href="../css/animate.css" rel="stylesheet" type="text/css">
+<link href="../css/d3_style.css" rel="stylesheet" type="text/css">
+<!--[if IE]><style type="text/css">.pie {behavior:url(PIE.htc);}</style><![endif]-->
+
+<script type="text/javascript" src="../js/jquery.1.8.3.min.js"></script>
+<script type="text/javascript" src="../js/bootstrap.js"></script>
+<script type="text/javascript" src="../js/jquery-scrolltofixed.js"></script>
+<script type="text/javascript" src="../js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="../js/jquery.isotope.js"></script>
+<script type="text/javascript" src="../js/wow.js"></script>
+<script type="text/javascript" src="../js/classie.js"></script>
+<script type="text/javascript" src="../engines/scripts.js"></script>
+<script src="http://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+<!--[if lt IE 9]>
+    <script src="js/respond-1.1.0.min.js"></script>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/html5element.js"></script>
+<![endif]-->
+
+
+
+</head>
+<body>
+<div style="overflow:hidden;">
+
+<div style="float:left; margin-top:3%; margin-left:7%">
+    <a href="../index.html" style="color:white; font-family: 'Montserrat', sans-serif; font-size: 1.5em;">INERTIA7</a>
+</div>
+
+
+<header class="header" id="timeSeries_stockMarket">
+<br />
+<br />
+    <div class="container"> 
+            <h1 class="animated fadeInDown delay-07s">FORECASTING THE STOCK MARKET, PART II</h1>
+            <ul class="we-create animated fadeInUp delay-1s">
+                <li><strong>Time-Series Analysis</strong> of the <strong>S&amp;P 500 Stock Index</strong> with <strong>R</strong> and Visualizations with <strong>ggplot2</strong></li>
+            </ul>
+    </div>
+</div>
+</header>
+
+
+<!-- PROJECT SUMMARY -->
+    <section class="main-section xlarge-paragraph">
+        <div class="container">
+            <h2>Project Summary</h2>
+            <hr/>
+            <h3>
+                Abstract
+            </h3>
+            <br/>
+            <p>
+                This project focuses on finding the best statistical-learning model to predict future values for the <strong>S&amp;P 500 Stock Index</strong>.
+            </p>
+            <br/>
+            <p>
+                Understanding the <strong>S&amp;P 500 Stock Index</strong> is highly-relevant in understanding the health of the U.S. economy as it is highly-correlated (statistically) with other U.S. economic indicators such as other stock indices (e.g. the NASDAQ Stock Index and the NYSE Stock Exchange), the U.S. Housing Price Index, and the U.S. Gross Domestic Product (U.S. GDP).
+            </p>
+            <br/>
+            <p>
+                Time-series analysis is a basic concept within the field of statistical-learning, which is appropriate for the analysis of the <strong>S&amp;P 500 Stock Index</strong>. 
+            </p>
+            <br/>
+            <p>
+                For this project we leverage the horse-power of R and deliver, where appropriate, gorgeous data visualizations using d3.js and plotly.js
+            </p>
+            <br/>
+            <p>
+                We encourage you to try replicating this project and make your own contributions! You can fork this project on <a href="https://github.com/dcamposliz/timeSeries_sp500">GitHub</a>.
+            </p>
+        </div>
+        <br/>
+        <br/>
+        <div class="container xlarge-paragraph">
+            <h3>
+                Requirements:
+            </h3>
+            <br/>
+            <ul>
+                <li>
+                    Basic working knowledge of the R programming language, statistics, and economics.
+                </li>
+                <li>
+                    R environment. <a href="https://www.r-project.org/">Download R</a>. <a href="https://www.rstudio.com/home/">Download R Studio</a>.
+                </li>
+            </ul>
+        </div>
+        <br/>
+        <br/>
+        <div class="container xlarge-paragraph">
+            <h3>
+                Steps:
+            </h3>
+            <br/>
+            <ul>
+                <li>
+                    <a href="#step1">1. Load packages</a>
+                </li>
+                <li>
+                    <a href="#step2">2. Get Data</a>
+                </li>
+                <li>
+                    <a href="#step3">3. Do Exploratory Analysis</a>
+                </li>
+                <li>
+                    <a href="#step4">4. Build Models</a>
+                </li>
+                <li>
+                    <a href="#step5">5. Forecast</a>
+                </li>
+                <li>
+                    <a href="#step6">6. Derive Conclusions</a>
+                </li>
+            </ul>
+        </div>
+        <br/>
+        <br/>
+        <div class="container xlarge-paragraph">
+            <h3>
+                Contributors:
+            </h3>
+            <br/>
+            <ul>
+                <li>
+                    David A. Campos
+                </li>
+                <li>
+                    Raul Eulogio
+                </li>
+                <li>
+                    Kim Specht
+                </li>
+                <li>
+                    Nathan Fritter
+                </li>
+            </ul>
+            <br/>
+            <br/>
+            <h3>
+                Published: <strong>June 2016</strong> in <strong>Santa Barbara, CA</strong>.
+            </h3>
+        </div>
+    </section>
+        <div class="floatingQuestion">
+            <a href="https://www.facebook.com/inertia7" target="_blank">Ask a question!</a>
+        </div>
+<!-- 1. LOAD PACKAGES-->
+        <section id="step1" class="main-section xlarge-paragraph">
+            <div class="container">
+                <h1>1.</h1>
+                <hr/>
+                <h2>Load Packages</h2>
+                <hr/>
+                <p>
+                    First, we want to load the appropriate packages into our R environment.
+                </p>
+                <br/>
+                <p>
+                    For this we use the <code>library()</code> method and include the package names as arguments. Make sure to first install the packages using the <code>install.packages()</code> method if you haven't done so already.
+                </p>
+                <br/>
+                <pre>
+                <code>
+library(data.table)
+library(ggplot)
+library(astsa)
+library(car)
+library(caret)
+library(plotly)
+library(forecast)
+                </code>
+                </pre>
+                <br/>
+                <p>
+                    We encourage you to do a quick search on each of these packages to gain context on what they are useful for, and why we are using them here. Pay special attention to the packages <code>astsa</code> and <code>forecast</code>.
+                </p>
+            </div>
+        </section>
+<!-- 2. GET DATA -->
+    <section id="step2" class="main-section xlarge-paragraph">
+        <div class="container">
+            <h1>2.</h1>
+            <hr/>
+            <h2>Get Data</h2>
+            <hr/>
+            <h3>
+                Collecting Data
+            </h3>
+            <br/>
+            <p>
+                Now we collect our data. We want to use reliable sources of complete and accurate data. We collected 21 years (1995-2015) of S&amp;P 500 Stock Index data at a monthly frequency (a total of 252 observations) from <a href="https://finance.yahoo.com/q/hp?s=%5EGSPC+Historical+Prices">Yahoo Finance</a>. You can do the same too.
+            </p>
+            <br/>
+            <br/>
+            <h3>
+                Cleaning Data
+            </h3>
+            <br/>
+            <p>
+                We cleaned our data manually using <a href="https://docs.google.com/spreadsheets/d/1STR_wkkIUQVZT-PK0XAdEtmQQnjOzn0DkUPhTyWfolM/edit?usp=sharing">Google Sheets</a>. For this we made sure that all fields contained data (i.e. no missing values) and that the headers (i.e. column names) were labeled appropriately. This can be done programmatically with R, but this is outside of the scope of this project.
+            </p>
+            <br/>
+            <p>
+                 We also included a bunch of other variables (for exploratory analysis) such as the NASDAQ Stock Index, the NYSE Stock Exchange, the U.S. Housing Price Index, and the U.S. Gross Domestic Product. Here is our data in file <a href="https://github.com/dcamposliz/timeSeries_sp500/blob/master/data.csv">data.csv</a>, which is ready to be used with R.
+            </p>
+            <br/>
+            <br/>
+            <h3>
+                Loading Data
+            </h3>
+            <br/>
+            <p>
+                Then we must include our data set within our working R environment. For this we use:
+            </p>
+            <br/>
+            <pre>
+            <code>
+dataMaster <- read.csv(" PATH_TO_WORKING_DIRECTORY /data.csv")
+attach(dataMaster)
+            </code>
+            </pre>
+            <br/>
+            <p>
+                Now we can call our S&amp;P 500 Stock Index data by typing <code>dataMaster$sp_500</code> into our terminal.
+            </p>
+        </div>
+    </section>
+<!-- 3. DO EXPLORATORY ANALYSIS -->
+    <section id="step3" class="main-section xlarge-paragraph">
+        <div class="container">
+            <h1>3.</h1>
+            <hr/>
+            <h2>
+                Do exploratory analysis
+            </h2>
+            <hr/>
+            <p>
+                Now we want to get a feel for our data to get an intuition about the models that may be appropriate for our forecast. For this, we plot our data and diagnose for trend, seasonality, heteroskedasticity, and stationarity. We go over these concepts in further detail in this section.
+            </p>
+            <br/>
+            <br/>
+            <h3>
+                Creating time-series data object
+            </h3>
+            <br/>
+            <p>
+                Our S&amp;P 500 Stock Index data is in the form of time-series; this means that our data exists over a continuous time interval with equal spacing between every two consecutive measurements. In R we are able to create time-series objects for our data vectors using the <code>ts()</code> method. For this, we select the vector we would like to use as the first argument, and tune the <code>start</code> and <code>freq</code> (frequency) parameters. 
+
+                Then we output the time-series data to the terminal by calling our newly-created time-series object.
+            </p>
+            <br/>
+            <pre>
+            <code>
+sp_500 <- ts(dataMaster$sp_500, start=c(1995, 1), freq=12)
+            </code>
+            </pre>
+            <br/>
+            <p>
+                Then we output the time-series data to the terminal by calling our newly-created time-series object. Notice the nicely formatted data broken down into years and their respective months.
+            </p>
+            <br/>
+            <pre>
+            <code>
+sp_500
+            </code>
+            </pre>
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/timSeriesobject.png" alt=""> 
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <h3>
+                PLOTTING OUR TIME-SERIES
+            </h3>
+            <br/>
+            <p>
+                Plotting the data is arguably the most critical step in the exploratory analysis phase. This enables us to make inferences about important components of the time-series data, such as trend, seasonality, heteroskedasticity, and stationarity. Here is a quick summary of each:
+            </p>
+            <br/>
+            <ul>
+                <li>
+                    <strong>Trend</strong>: we say that a dataset has a trend when it has either a long-term increase or decrease.
+                </li>
+                <br/>
+                <li>
+                    <strong>Seasonality</strong>: we say that a dataset has seasonality when it has patterns that repeat over known, fixed periods of time (e.g. monthly, quarterly, yearly).
+                </li>
+                <br/>
+                <li>
+                    <strong>Heteroskedasticity</strong>: we say that a data is heteroskedastic when its variability is not constant (i.e. its variance increases or decreases as a function of the explanatory variable).
+                </li>
+                <br/>
+                <li>
+                    <strong>Stationarity</strong>: a stochastic process is called stationary if the mean and variance are constant (i.e. their joint distribution does not change over time).
+                </li>
+            </ul>
+            <br/>
+                <p>
+                    We can plot our <code>sp_500</code> data object in R using the <code>plot()</code> method.
+                </p>
+            <br/>
+            <pre>
+            <code>
+plot.ts(sp_500)
+            </code>
+            </pre>
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/plot_1.png" alt=""> 
+            </div>
+            <br/>
+            <p>
+                We can quickly see that over the long-term our time-series has a positive trend.
+            </p>
+            <br/>
+            <p>
+                Using <a href="https://plot.ly/javascript/">plotly.js</a> and a bit of JavaScript knowledge we can produce a gorgeous data visualization onto our browser.
+            </p>
+            <br/>
+            <div id="myDiv">
+                <script type="text/javascript">
+                    makeplot();
+                </script>
+            </div>
+           
+            <br/>
+            <br/>
+            <br/>
+            
+<!-- BEGINNING OF SUBSECTION -->
+        <!-- HEADING -->
+            <h3>
+                Decomposing our time-series
+            </h3>
+            <br/>
+        <!-- PARAGRAPH -->            
+            <p>
+                Beyond understanding the trend of our time-series, we want to further understand the anatomy of our data. For this reason we break-down our time-series into its seasonal component, trend, and residuals.
+            </p>
+        <!-- CODE -->
+            <br/>
+            <pre>
+            <code>
+plot(stl(sp_500, s.window = "periodic"), main = "Decomposition for S&amp;P 500")
+            </code>
+            </pre>
+            <br/>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/decomposition.png" alt=""> 
+            </div>
+            <br/>
+        <!-- IMG INTERPRETATION -->
+            <p>
+                This data decomposition allows us to extract and better understand the seasonal component of our time-series, as well as realize its volatility over time.
+            </p>
+<!-- END OF SUBSECTION -->
+            <br/>
+            <br/>
+            <br/>
+<!-- BEGINNING OF SUBSECTION -->
+        <!-- HEADING -->
+            <h3>
+                DIAGNOSING THE ACF AND PACF OF OUR TIME-SERIES
+            </h3>
+            <br/>
+        <!-- PARAGRAPH -->            
+            <p>
+                The ACF and PACF diagnosis is employed over a time-series to determine whether it has statistical stationarity. Loosely speaking, a time-series is stationary when its mean, variance, and autocorrelation remain constant over time. ACF stands for "autocorrelation function" and PACF stands for "partial autocorrelation function".
+            </p>
+            <br/>
+            <p>
+                These functions help us understand the correlation component of different data points at different time lags. Lag refers to the time difference between one observation and a previous observation in a dataset.
+            </p>
+            <br/>
+            <p>
+                To carry out our ACF and PACF diagnosis in R we use the <code>acf2()</code> method, which stems from the <code>astsa</code> package. We include our time-series object as the argument.
+            </p>
+        <!-- CODE -->
+            <br/>
+            <pre>
+            <code>
+acf2(sp_500)
+            </code>
+            </pre>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/acf2.png" alt=""> 
+            </div>
+            <br/>
+        <!-- IMG INTERPRETATION -->
+            <p>
+                These plots tell us that the data is not stationary and that we would should do a transformation to adjust this. For this, we do difference transformation to get rid of the trend present in our data.
+            </p>
+<!-- END OF SUBSECTION -->
+            <br/>
+            <br/>
+            <br/>
+<!-- BEGINNING OF SUBSECTION -->
+            <h3>
+                TRANSFORMING OUR DATA TO ADJUST FOR NON-STATIONARITY
+            </h3>
+            <br/>
+            <p>
+                A way to make a time-series stationary is to find the difference across its consecutive values. This helps stabilize the mean, thereby making the time-series object stationary.
+            </p>
+            <br/>
+            <p>
+                For this we use the <code>diff()</code> method.
+            </p>
+            <br/>
+            <pre>
+            <code>
+diff1 <- diff(sp_500)
+            </code>
+            </pre>
+            <br/>
+            <p>
+                Next we plot our transformed time-series using the <code>plot.ts()</code> method.
+            </p>
+            <br/>
+            <pre>
+            <code>
+plot.ts(diff1, main = "Time Series Plot of First Diff")
+            </code>
+            </pre>
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/plot_diff.png" alt=""> 
+            </div>
+            <br/>
+        <!-- IMG INTERPRETATION -->
+            <p>
+                This plot suggests that our working data is stationary. We want to confirm this running an ACF and PACF diagnostics over this data to find our if we can proceed to estimating a model.
+            </p>
+<!-- END OF SUBSECTION -->
+            <br/>
+            <br/>
+            <br/>
+<!-- BEGINNING OF SUBSECTION -->
+        <!-- HEADING -->
+            <h3>
+                DIAGNOSING THE ACF AND PACF OF OUR TRANSFORMED TIME-SERIES
+            </h3>
+            <br/>
+        <!-- PARAGRAPH -->            
+            <p>
+                The plot below helps us confirm that we have stationarity and also helps us deduce which model we will use. It is important to keep in mind that we have a difference parameter equal to one (i.e. <strong><em>d = 1</em></strong>) because of the previous transformation we carried out.
+            </p>
+        <!-- CODE -->
+            <br/>
+            <pre>
+            <code>
+acf2(diff1)
+            </code>
+            </pre>
+            <br/>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/acf2_diff.png" alt=""> 
+            </div>
+            <br/>
+        <!-- IMG INTERPRETATION -->
+            <p>
+                From the above plots we deduce that an <strong>MA(1)</strong> model (where MA stands for moving average) best fits our data because the ACF cuts off at one significant lag and the PACF shows geometric decay. 
+            </p>
+            <br/>
+            <p>
+                Recall that we are examining the differenced time-series so we have to use the combined model ARIMA (autoregressive integrated moving average), thus our model so far is <strong>ARIMA(0, 1, 1)</strong>.
+            </p>
+<!-- END OF SUBSECTION -->
+        </div>
+    </section>
+<!-- 4. BUILD MODELS -->
+    <section id="step4" class="main-section xlarge-paragraph">
+        <div class="container">
+            <h1>4.</h1>
+            <hr/>
+            <h2>Build models</h2>
+            <hr/>
+            <p>
+                Our findings in the exploratory analysis phase suggest that model <strong>ARIMA(0, 1, 1)</strong> might be best fit. Fortunately, there is a function in R that we can use to test our findings.
+            </p>
+            <br/>
+            <p>
+                The <code>auto.arima()</code> method, found within the <code>forecast</code> package, yields the <em>best</em> model for a time-series based on Akaike-Information-Criterion (AIC). The AIC is a measurement of quality used across various models to find the best fit. After running our original and differenced data sets through the <code>auto.arima()</code> method we confirmed that the <strong>ARIMA(0, 1, 1)</strong> is our best fit model.
+            </p>
+            <br/>
+            <p>
+            </p>
+            <br/>
+            <p>
+                To fit our model first we need to create <strong>training</strong> and <strong>test</strong> data sets.
+            </p>
+            <br/>
+            <pre>
+            <code>
+dataMaster_TS <- dataMaster[-c(1:240),]
+dataMaster_2014df <- dataMaster[-c(241:252),]
+dataMaster_TR <- ts(dataMaster_2014df, start = c(1995, 1), freq = 12)
+sp500_TR <- dataMaster_TR[, 'sp_500']
+sp500_TR
+            </code>
+            </pre>
+            <br/>
+            <p>
+                Then we fit the model using the <code>Arima()</code> method and include our training data set <code>sp500_TR</code> as the first argument. 
+            </p>
+            <br/>
+            <pre>
+            <code>
+fit <- Arima(sp500_TR, order = c(0,1,1), include.drift = TRUE)
+            </code>
+            </pre>
+            <br/>
+            <p>
+                Our next step is to run a residual diagnostics to ensure our residuals are white noise under our initial assumptions. For this we use the <code>tsdiplay()</code> method.
+            </p>
+            <br/>
+            <pre>
+            <code>
+tsdisplay(residuals(fit))
+            </code>
+            </pre>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/residual_Diagnostics.png" alt="RESIDUALS FIT"> 
+            </div>
+            <br/>
+        <!-- END - IMG -->
+            <p>
+                A histogram gives us another visualization of the normal distribution of our residuals.
+            </p>
+            <br/>
+            <pre>
+            <code>
+hist(residuals(fit), prob = TRUE)
+lines(density(residuals(fit))
+            </code>
+            </pre>
+        <!-- IMG -->
+            <br/>
+            <div align="center">
+                <img src="../img/timeSeries_stockMarket_img/hist_Residuals.png" alt="RESIDUALS FIT"> 
+            </div>
+            <br/>
+        <!-- END - IMG -->
+            <p>
+                Although not perfect we can see that the residuals do display a normal distribution. The outliers may be explained by the 2008 financial crisis.
+            </p>
+            <br/>
+            <p>
+                This model appears to confirm all of our assumptions, which means we can continue to the forecasting phase!
+            </p>
+    </section>
+
+<!-- 5. FORECAST -->
+
+    <section id="step5" class="main-section xlarge-paragraph">
+        <div class="container">
+            <h1>5.</h1>
+            <hr/>
+            <h2>Forecast</h2>
+            <hr/>
+            <p>
+                In this section we get to use our model to forecast the 2015 values for the S&amp;P 500 Stock Index. First we create a test data set with the actual values for 2015 so we can see how well our model performs against reality.
+            </p>
+            <br/>
+            <pre>
+            <code>
+act_sp500_2015_ts <- ts(dataMaster_TS$sp_500, start=c(2015, 1), freq=12)
+act_sp500_2015_ts
+            </code>
+            </pre>
+            <br/>
+            <p>
+                Now we proceed to forecasting using the <code>forecast()</code> method, and wrap it with the <code>plot()</code> method to get a visualization, where the predicted values are in blue. Finally, we include the actual values in red to see the comparison.
+            </p>
+            <br/>
+            <pre>
+            <code>
+plot(forecast(fit, h = 12), xlab = "Years", ylab = "S&amp;P Values")
+lines(act_sp500_2015_ts, col = "red")
+            </code>
+            </pre>
+            <!-- IMG -->
+                <br/>
+                <div align="center">
+                    <img src="../img/timeSeries_stockMarket_img/forecast.png" alt="FORECAST FROM ARIMA(0,1,1) WITH DRIFT"> 
+                </div>
+                <br/>
+            <!-- END - IMG -->
+            <br/>
+            <p>
+                By tuning the <code>xlim</code> and <code>ylim</code> parameters we can get a better view of the actual versus predicted values for 2015.
+            </p>
+            <br/>
+            <pre>
+            <code>
+plot(forecast(fit, h = 12), xlim = c(2015, 2016), ylim = c(1600, 2400), xlab = "Years", ylab = "S&amp;P Values")
+lines(act_sp500_2015_ts, col = "red")
+            </pre>
+            <!-- IMG -->
+            </code>
+                <br/>
+                <div align="center">
+                    <img src="../img/timeSeries_stockMarket_img/forecast_2.png" alt="forecast_2.pn"> 
+                </div>
+                <br/>
+            <!-- END - IMG -->
+            <br/>
+            <p>
+                We can see that the model performs well and within the 80% and 95% confidence intervals. You can forecast values even further into the future by tuning the appropriate parameters. Please not that this forecast project is for educational purposes and <strong>we do not recommend investing by using these predictions</strong> - remember that the stock market is very volatile.
+            </p>
+            <br/>
+            <p>
+                Below we include a plotly representation of the above forecast.
+            </p>
+        </div>
+
+        <!-- Forecasted vs Actual plot -->
+        <div class="container">            
+            <hr/>
+            <h3>
+                <strong>ARIMA Model</strong>: One-year Forecast vs. Actual Values of S&amp;P 500 (Jan 2015 - Dec 2015)
+            </h3>
+            <div>
+                <a href="https://plot.ly/~raviolli77/8/?share_key=iDp0M5HdBwbBobMHnQ8s1b" target="_blank" title="ACTUAL VS PREDICTED PLOT" style="display: block; text-align: center;"><img src="https://plot.ly/~raviolli77/8.png?share_key=iDp0M5HdBwbBobMHnQ8s1b" alt="ACTUAL VS PREDICTED PLOT" style="max-width: 100%;width: 1554px;"  width="1554" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+                <script data-plotly="raviolli77:8" sharekey-plotly="iDp0M5HdBwbBobMHnQ8s1b" src="https://plot.ly/embed.js" async></script>
+            </div>
+            <hr/>
+        </div>
+
+    </section>
+
+
+    <!-- 6. DERIVE CONCLUSIONS -->
+
+        <section id="step6" class="main-section xlarge-paragraph">
+            <div class="container">
+                <h1>6.</h1>
+                <hr/>
+                <h2>Derive Conclusions</h2>
+                <hr/>
+                <p>
+                    Given that our <strong>ARIMA(0,1,1)</strong> model gave us a good forecast of S&amp;P 500 Stock Index values we conclude that the Box-Jenkins method is appropriate for modeling these types of data sets. Again, we do not recommend investing by using these predictions as the stock market is very volatile.
+                </p>
+                <br/>
+                <p>
+                    If you are interested in learning more about time-series analysis with R we recommend taking a look at Rob J Hyndman's <a href="http://robjhyndman.com/hyndsight/melburntalk/" target="_blank">blog</a>.
+                </p>
+            </div>
+            <br/>
+            <div class="container">
+                <p>
+                    Below is another plotly visualization, now with a two-year forecast for 2014-2015.
+                </p>
+            </div>
+            <br/>
+            <!-- Forecasted vs Actual plot -->
+            <div class="container">            
+                <hr/>
+                <h3>
+                    <strong>ARIMA Model</strong>: Two-year Forecast vs. Actual Values of S&amp;P 500 (Jan 2014 - Dec 2015)
+                </h3>
+                <div>
+                    <a href="https://plot.ly/~raviolli77/11/" target="_blank" title="Forecasted Vs. Actual Values for 2014-2015" style="display: block; text-align: center;"><img src="https://plot.ly/~raviolli77/11.png" alt="Forecasted Vs. Actual Values for 2014-2015" style="max-width: 100%;width: 1554px;"  width="1554" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+                    <script data-plotly="raviolli77:11"  src="https://plot.ly/embed.js" async></script>
+                </div>
+                <hr/>
+            </div>
+        </section>
+        <!--CONGRATS-->
+        <section class="main-section">
+            <div class="container" style="font-size:24px">
+                <p>
+                <em>
+                    Congratulations for getting this far! We hope you enjoyed this project. Please reach out to us <a href="../index.html#sayHi">here</a> if you have any feedback or would like to publish your own project.
+                </em>
+                </p>
+            </div>
+        </section>
+        <section class="main-section">
+            <div class="container" style="text-align:center;">
+                <p>FORK THIS PROJECT ON GITHUB</p>
+                <br/>
+                <a href="https://github.com/dcamposliz/timeSeries_sp500" target="_blank">
+                    <img src="../img/github_2.png" alt="github_2.pn" height="42" width="42">
+                </a>
+            </div>
+        </section>
+        <section class="main-section">
+            <div class="container" style="text-align:center;">
+            <h3>Try this project next:</h3>
+            <hr/>
+            <div class="wow fadeInUp delay-04s">
+                    <a href="regression_bostonHousing.html"><img src="../img/regression_bostonHousing/bostonHousing.png" alt="" height="200px" width="300px"></a>
+                    <br/>
+                    <br/>
+                    <h3>Modeling Home Prices</h3>
+                    <p>Regression Analysis of Boston Home Prices with <strong>R</strong></p>
+            </div>
+            </div>
+        </section>
+        <section class="main-section large-paragraph">
+            <div class="container" style="text-align:center;">
+                <a href="#">Back to top</a>
+            </div>
+        </section>
+    <footer class="footer">
+        <progress id="progressbar" value="0" max="100"></progress>
+        <div class="container" style="text-align:center">
+                <a href="../index.html">Back to Home</a>
+                <br/>
+                <br/>
+                <br/>
+                <a href="https://www.r-project.org/" target="_blank">DOWNLOAD R</a> | 
+                <a href="https://www.rstudio.com/home/" target="_blank">DOWNLOAD R STUDIO</a> |
+                <a href="../resources.html" target="_blank">MORE RESOURCES</a>
+            </div>
+            <br/><br/><br/>
+        <div class="container">
+            <div class="footer-logo"><a href="../index.html"><img src="../img/data_logo.png" alt=""></a></div>
+            <span class="copyright">Copyright © 2016 | <a href="../index.html">INERTIA7</a></span>
+        </div>
+    </footer>
+
+
+    <script>
+    wow = new WOW(
+      {
+        animateClass: 'animated',
+        offset:       100
+      }
+    );
+    wow.init();
+    </script>
+
+    <script type="text/javascript">
+        $(window).load(function(){
+            
+            $('.main-nav li a').bind('click',function(event){
+                var $anchor = $(this);
+                
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top - 102
+                }, 1500,'easeInOutExpo');
+                /*
+                if you don't want to use the easing effects:
+                $('html, body').stop().animate({
+                    scrollTop: $($anchor.attr('href')).offset().top
+                }, 1000);
+                */
+                event.preventDefault();
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+    $(window).load(function(){
+      
+      var $container = $('.portfolioContainer'),
+          $body = $('body'),
+          colW = 375,
+          columns = null;
+     
+      $container.isotope({
+        // disable window resizing
+        resizable: true,
+        masonry: {
+          columnWidth: colW
+        }
+      });
+      
+      $(window).smartresize(function(){
+        // check if columns has changed
+        var currentColumns = Math.floor( ( $body.width() -30 ) / colW );
+        if ( currentColumns !== columns ) {
+          // set new column count
+          columns = currentColumns;
+          // apply width to container manually, then trigger relayout
+          $container.width( columns * colW )
+            .isotope('reLayout');
+        }
+        
+      }).smartresize(); // trigger resize to set container width
+      $('.portfolioFilter a').click(function(){
+            $('.portfolioFilter .current').removeClass('current');
+            $(this).addClass('current');
+     
+            var selector = $(this).attr('data-filter');
+            $container.isotope({
+                
+                filter: selector,
+             });
+             return false;
+        });
+    });
+    </script>
+
+<!-- GOOGLE ANALYTICS -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-54935029-2', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- [END] GOOGLE ANALYTICS -->
+
+<script type="text/javascript">
+    $(window).scroll(function () {
+      var s = $(window).scrollTop(),
+            d = $(document).height(),
+            c = $(window).height();
+            scrollPercent = (s / (d-c)) * 100;
+            var position = scrollPercent;
+
+       $("#progressbar").attr('value', position);
+
+    });
+</script>
+
+</body>
+</html>
